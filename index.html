@@ -2,39 +2,46 @@
 <html>
   <body class = "back">
     <head>
-        <link rel="stylesheet" href="style.css">
-        <link rel="stylesheet2" href="style2.css">
-        <title>Waste Water</title>
+      <!-- style sheets linked here-->
+      <link rel="stylesheet" href="style.css">
+      <link rel="stylesheet2" href="style2.css">
     </head>
     <body>
-      <h1 class = "Myname">Waste Water Modeling</h1>
-        <p> 
-          Items go here 
-        <p>              
+      <!-- Title at the top of the page-->
+      <h1 class = "Myname">Waste Water Modeling: Sponsored by LANL </h1>
+      <!-- starting the tabs section-->
+      <div class = "tabs">
+        <!-- class is active showing current page -->
+        <a class = "active" href="index.html">Home</a>
+        <!-- rest of the tab bars with the name and linked to the html pages-->
+        <a href="data.html">Data</a>
+        <a href="graphs.html">Graphs</a>
+        
+        <div class="tabs2">
+        <!-- tamu image here linked to the website to rep the university-->
+        <a href="https://tamu.edu">
+          <img alt="Qries" src="tamu.png"
+          width="20px" height="20px">
+        </a>
+        <!-- git hub image here linked to our repo-->
+        <a href="https://github.com/wastewatermodeling">
+          <img alt="Qries" src="GitHub-Mark.png"
+          width="20px" height="20px">
+        </a>
+      </div>
+      </div>
     </body>
 
-    <!-- Tab links -->
-    <div class="tab">
-      <button class="tablinks" onclick="openCity(event, 'Item1')">London</button>
-      <button class="tablinks" onclick="openCity(event, 'Item2')">Paris</button>
-      <button class="tablinks" onclick="openCity(event, 'Item3')">Tokyo</button>
+    <div class = "intro">
+      <header style="font-size:25px; padding-top: 10px">Introduction</header>
+      <hr size="5" width="100%" color= green> 
     </div>
-
-    <!-- Tab content -->
-    <div id="Item1" class="tabcontent">
-      <h3>Title1</h3>
-      <p>Description1.</p>
+    <!--This is for the introdcution box and content inside of it-->  
+    <div class = "introduction">
+      <p>
+        This document is an introduction to wastewater modeling, using the virus levels in a county's wastewater as a predictive measure to the correlating reported cases of the virus. In this instance, the virus in focus is SARS-CoV-2 (COVID-19) but this can be outreached to deal with other viruses, such as the flu. COVID-19 wastewater modeling will serve as a measure for LANL management to take precautionary measures for their company along with their families if the trend between COVID-19 wastewater levels correlates with the number of reported cases. 
+      </p>
     </div>
-
-    <div id="Item2" class="tabcontent">
-      <h3>Title2</h3>
-      <p>Description2.</p>
-    </div>
-
-    <div id="Item3" class="tabcontent">
-      <h3>Title3</h3>
-      <p>Description3.</p>
-    </div>
+    <!--Add more contents inside here to add to the home page-->
   </body>
 </html>
-
