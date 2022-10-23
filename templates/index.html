@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  <body class = "back">
+    <head>
+      <!-- style sheets linked here-->
+      <link id="style" rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/style.css') }}"></link>
+      <!--<link rel="stylesheet" href="style.css">
+      <link rel="stylesheet2" href="style2.css">-->
+      <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
+    </head>
+    <body>
+      <!-- Title at the top of the page-->
+      <h1 class = "Myname">Waste Water Modeling: Sponsored by LANL </h1>
+      <!-- starting the tabs section-->
+      <div class = "tabs">
+        <!-- class is active showing current page -->
+        <a class = "active" href="index.html">Home</a>
+        <!-- rest of the tab bars with the name and linked to the html pages-->
+        <a href="data.html">Data</a>
+        <a href="graphs.html">Graphs</a>
+        
+        <div class="tabs2">
+        <!-- tamu image here linked to the website to rep the university-->
+        <a href="https://tamu.edu">
+          <img alt="Qries" src="{{ url_for('static',filename='images/tamu.png') }}"
+          width="20px" height="20px">
+        </a>
+        <!-- git hub image here linked to our repo-->
+        <a href="https://github.com/wastewatermodeling">
+          <img alt="Qries" src="{{ url_for('static',filename='images/Github-Mark.png') }}"
+          width="20px" height="20px">
+        </a>
+      </div>
+      </div>
+    </body>
+
+    <div class = "intro">
+      <header style="font-size:25px; padding-top: 10px">Introduction</header>
+      <hr size="5" width="100%" color= green> 
+    </div>
+    <!--This is for the introdcution box and content inside of it-->  
+    <div class = "introduction">
+      <p>
+        This document is an introduction to wastewater modeling, using the virus levels in a county's wastewater as a predictive measure to the correlating reported cases of the virus. In this instance, the virus in focus is SARS-CoV-2 (COVID-19) but this can be outreached to deal with other viruses, such as the flu. COVID-19 wastewater modeling will serve as a measure for LANL management to take precautionary measures for their company along with their families if the trend between COVID-19 wastewater levels correlates with the number of reported cases. 
+      </p>
+    </div>
+    <canvas id="testChart" width="900" height="400"></canvas>
+    <script>
+        var ctx = document.getElementById("testChart").getContext("2d");
+        var testChart = new Chart(ctx, {
+            type: "line",
+            data: {
+                labels: {{ labels | safe }},
+                datasets: [
+                    {
+                        label: "Data Points",
+                        data: {{ values | safe }},
+                        fill: false,
+                        borderColor: "rgb(75, 192, 192)",
+                        lineTension: 0.1
+                    }
+                ]
+            },
+            options: {
+                responsive: false
+            }
+        });
+    </script>
+
+    <!--Add more contents inside here to add to the home page-->
+  </body>
+</html>
