@@ -1,0 +1,99 @@
+.tabs 
+{
+    background-color: rgb(25, 25, 155);
+    overflow: hidden;
+    border-style: solid;
+}
+
+.tabs a 
+{
+    float: left;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 25px;
+    width: 14.375%;
+    height: 35px;
+    border-style: solid;
+    border-width: 1px;
+    border-color:rgb(255, 255, 255);
+}
+
+.tabs a:hover 
+{
+    background-color: rgb(115, 155, 250);
+    color: black;
+}
+
+.tabs a.active 
+{
+    background-color: rgb(65, 110, 200);
+    color: rgb(0, 0, 0);
+}
+
+.introduction
+{
+    overflow:auto;
+    font-size: 30px;
+    align-items: left;
+    justify-content: center;
+    background-color:rgb(225, 225, 225);
+    height:440px;
+    border: 3px solid rgb(25, 25, 155);
+    margin: 5px;
+}
+
+.file_upload
+{
+    overflow:auto;
+    font-size: 30px;
+    align-items: left;
+    justify-content: center;
+    background-color:rgb(225, 225, 225);
+    height:235px;
+    border: 3px solid rgb(25, 25, 155);
+    margin: 10px;
+}
+
+.graphs_data
+{
+    overflow:auto;
+    font-size: 30px;
+    align-items: left;
+    justify-content: center;
+    background-color:rgb(225, 225, 225);
+    height:235px;
+    border: 3px solid rgb(25, 25, 155);
+    margin: 10px;
+}
+
+.history
+{
+    overflow:auto;
+    font-size: 30px;
+    align-items: left;
+    justify-content: center;
+    background-color:rgb(225, 225, 225);
+    height:235px;
+    border: 3px solid rgb(25, 25, 155);
+    margin: 10px;
+}
+
+.title
+{
+    font-size: 60px;
+    line-height: 0.5;
+}
+
+.subtitle
+{
+    font-size: 35px;
+    line-height: 0.05;
+}
+
+.names
+{
+    font-size: 20px;
+    line-height: 0.05;
+}
