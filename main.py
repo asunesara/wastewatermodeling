@@ -33,5 +33,13 @@ covid_levels = df["Covid Level"].values.tolist()
 def about():
     return render_template("index.html", labels=dates, values=covid_levels)
 
+@app.route('/graphs.html')
+def graph_page():
+    return render_template("graphs.html")
+
+@app.route('/data.html')
+def data_page():
+    return render_template("data.html")
+
 if __name__ == "__main__":
     app.run(debug= True, port=5000)
