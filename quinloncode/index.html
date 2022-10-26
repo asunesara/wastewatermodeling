@@ -5,8 +5,9 @@
   <body class="back">
     <head>
       <!-- style sheets linked here-->
-      <link rel="stylesheet" href="style.css" />
-      <link rel="stylesheet2" href="style2.css" />
+      <link id="style" rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/style.css') }}"></link>
+      <!--<link rel="stylesheet2" href="style2.css" />-->
+      <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
     </head>
     <body>
       <!-- Title at the top of the page-->
@@ -39,11 +40,11 @@
         <div class="tabs2">
           <!-- git hub image here linked to our repo-->
           <a href="https://github.com/wastewatermodeling">
-            <img alt="Qries" src="GitHub-Mark.png" width="35px" height="35px" />
+            <img alt="Qries" src="{{ url_for('static',filename='images/GitHub-Mark.png') }}" width="35px" height="35px" />
           </a>
           <!-- tamu image here linked to the website to rep the university-->
           <a href="https://tamu.edu">
-            <img alt="Qries" src="tamu.png" width="35px" height="35px" />
+            <img alt="Qries" src="{{ url_for('static',filename='images/tamu.png') }}" width="35px" height="35px" />
           </a>
         </div>
       </div>
@@ -75,5 +76,27 @@
       </p>
     </div>
     <!--Add more contents inside here to add to the home page-->
+    <canvas id="testChart" width="900" height="400"></canvas>
+    <script>
+        var ctx = document.getElementById("testChart").getContext("2d");
+        var testChart = new Chart(ctx, {
+            type: "line",
+            data: {
+                labels: {{ labels | safe }},
+                datasets: [
+                    {
+                        label: "Data Points",
+                        data: {{ values | safe }},
+                        fill: false,
+                        borderColor: "rgb(75, 192, 192)",
+                        lineTension: 0.1
+                    }
+                ]
+            },
+            options: {
+                responsive: false
+            }
+        });
+    </script>
   </body>
 </html>
