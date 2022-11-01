@@ -39,7 +39,7 @@ def about():
 
 @app.route('/index.html')
 def home_page():
-    return render_template("index.html", labels_all=dates_all, values_all=covid_levels_all)
+    return render_template("index.html")
 
 @app.route('/file_upload.html')
 def file_page():
@@ -47,7 +47,7 @@ def file_page():
 
 @app.route('/graphs_data.html')
 def graph_page():
-    return render_template("graphs_data.html")
+    return render_template("graphs_data.html", labels_all=dates_all, values_all=covid_levels_all)
 
 @app.route('/history.html')
 def history_page():
