@@ -21,21 +21,25 @@ client = boto3.client('s3', aws_access_key_id = access_key,
 
 bucket_name = 'mattdtest'
 object_key = 'testdata.csv'
-
-csv_obj = client.get_object(Bucket=bucket_name, Key=object_key)
-body = csv_obj['Body']
-csv_string = body.read().decode('utf-8')
-df = pd.read_csv(StringIO(csv_string))
-dates = df["Date"].values.tolist()
-covid_levels = df["Covid Level"].values.tolist()
+object_keys = []
+object_keys.extend(["testdata.csv", "testdata_2.csv"])
+dates_all = []
+covid_levels_all = []
+for x in object_keys:
+    csv_obj = client.get_object(Bucket=bucket_name, Key=x)
+    body = csv_obj['Body']
+    csv_string = body.read().decode('utf-8')
+    df = pd.read_csv(StringIO(csv_string))
+    dates_all.append(df["Date"].values.tolist())
+    covid_levels_all.append(df["Covid Level"].values.tolist())
 
 @app.route('/')
 def about():
-    return render_template("index.html", labels=dates, values=covid_levels)
+    return render_template("index.html", labels_all=dates_all, values_all=covid_levels_all)
 
 @app.route('/index.html')
 def home_page():
-    return render_template("index.html", labels=dates, values=covid_levels)
+    return render_template("index.html", labels_all=dates_all, values_all=covid_levels_all)
 
 @app.route('/file_upload.html')
 def file_page():
