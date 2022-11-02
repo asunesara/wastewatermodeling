@@ -22,6 +22,7 @@
           />
         </a>-->
       </h1>
+      <a class="subtitle"> TAMU ECEN Senior Design Project </a>
       <!--<a class="subtitle"> Sponsored by Los Alamos National Labratories </a>-->
       <br> </br>
       <a class="names"> Matthew Delorenzo, Quinlon Horndasch, Grace Salau & Ayaan Sunesara </a>
@@ -55,14 +56,15 @@
       <header style="font-size: 40px; padding-top: 10px">File Upload</header>
       <hr size="4" width="100%" color="black" />
     </div>
-    <!--This is for the introdcution box and content inside of it-->
+    <!--This is for the box and content inside of it-->
     <div class="file_upload">
-      <p>Click on the "Choose File" button to upload a file:</p>
-      <form action="/action_page.php">
-        <input type="file" id="myFile" name="filename" />
-        <input type="submit" />
+      <p>&nbsp Click on the "Choose File" button to upload a file:</p>
+      <form action="/upload" method="POST" enctype="multipart/form-data">
+        <input type="file" id="file" name="file">
+        <input type="submit" name="upload" value="Upload" class="btn btn-success">
       </form>
+      {{msg}}
     </div>
-    <!--Add more contents inside here to add to the home page-->
+    <!--Add more contents inside here to add to the file upload page-->
   </body>
 </html>
