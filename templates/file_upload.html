@@ -59,10 +59,11 @@
     <!--This is for the box and content inside of it-->
     <div class="file_upload">
       <p>&nbsp Click on the "Choose File" button to upload a file:</p>
-      <form action="/action_page.php">
-        <input type="file" id="myFile" name="filename" />
-        <input type="submit" />
+      <form action="/upload" method="POST" enctype="multipart/form-data">
+        <input type="file" id="file" name="file">
+        <input type="submit" name="upload" value="Upload" class="btn btn-success">
       </form>
+      {{msg}}
     </div>
     <!--Add more contents inside here to add to the file upload page-->
   </body>

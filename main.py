@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 import boto
 import boto.s3.connection
 
@@ -6,6 +6,7 @@ import boto3
 import pandas as pd
 import sys
 from io import StringIO
+from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
 
@@ -44,6 +45,27 @@ def home_page():
 @app.route('/file_upload.html')
 def file_page():
     return render_template("file_upload.html")
+
+@app.route('/upload',methods=['POST'])
+def upload():
+    if request.method == 'POST':
+        img = request.files['file']
+        if img:
+                filename = secure_filename(img.filename)
+                try:
+                    client.upload_fileobj(
+                        img,
+                        bucket_name,
+                        img.filename,
+                        ExtraArgs={"ACL":"public-read",
+                                    "ContentType": img.content_type}
+                    )
+                except Exception as e:
+                    print("Error", e)
+                msg = "Upload Done ! "
+
+    return render_template("/file_upload.html",msg =msg)
+
 
 @app.route('/graphs_data.html')
 def graph_page():

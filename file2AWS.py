@@ -22,18 +22,28 @@ BUCKET_NAME= "mattdtest"
 def home():
     return render_template("html2AWS.html")
 
-@app.route('/upload',methods=['post'])
+@app.route('/upload',methods=['POST'])
 def upload():
     if request.method == 'POST':
         img = request.files['file']
         if img:
                 filename = secure_filename(img.filename)
-                img.save(filename)
-                client.upload_file(
-                    Bucket = BUCKET_NAME,
-                    Filename=filename,
-                    Key = filename
-                )
+                #img.save(filename)
+                #client.upload_file(
+                #    Bucket = BUCKET_NAME,
+                #    Filename=filename,
+                #    Key = filename
+                #)
+                try:
+                    client.upload_fileobj(
+                        img,
+                        BUCKET_NAME,
+                        img.filename,
+                        ExtraArgs={"ACL":"public-read",
+                                    "ContentType": img.content_type}
+                    )
+                except Exception as e:
+                    print("Error", e)
                 msg = "Upload Done ! "
 
     return render_template("html2AWS.html",msg =msg)
