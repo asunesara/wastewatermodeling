@@ -70,27 +70,37 @@
             type: "line",
             data: {
                 labels: {{ labels_all[0] | safe }},
-                datasets: [
-                    {
+                datasets: []},
+                    /*{
                         label: "Covid Cases",
                         data: {{ values_all[0] | safe }},
                         fill: false,
                         borderColor: "rgb(75, 192, 192)",
                         lineTension: 0.1
-                    },
-                    {
+                    }*
+
+                    /*{
                         label: "Predictivive Algo",
                         data: {{ values_all[1] | safe }},
                         fill: false,
                         borderColor: "rgb(136, 8, 8)",
                         lineTension: 0.1
-                    }
-                ]
-            },      
+                    }*/
+                //const val_array = {{values_all | safe}};
             options: {
                 responsive: false
             }
         });
+        {% for item in values_all %}
+          testChart.data.datasets.push({
+            label: "Covid Cases",
+            data: {{ item | safe }},
+            fill: false,
+            borderColor: "rgb(75, 192, 192)",
+            lineTension: 0.1
+          });
+          testChart.update();
+        {% endfor %}
     </script>
 <!--End of Graph Code-->
   </body>

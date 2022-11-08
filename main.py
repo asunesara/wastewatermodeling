@@ -21,18 +21,34 @@ client = boto3.client('s3', aws_access_key_id = access_key,
                     aws_secret_access_key = secret_key)
 
 bucket_name = 'mattdtest'
-object_key = 'testdata.csv'
-object_keys = []
-object_keys.extend(["testdata.csv", "testdata_2.csv"])
+
+#object_key = 'testdata.csv'
+#object_keys = []
+#object_keys.extend(["testdata.csv", "testdata_2.csv"])
 dates_all = []
 covid_levels_all = []
-for x in object_keys:
-    csv_obj = client.get_object(Bucket=bucket_name, Key=x)
+#for x in object_keys:
+#    csv_obj = client.get_object(Bucket=bucket_name, Key=x)
+#    body = csv_obj['Body']
+#    csv_string = body.read().decode('utf-8')
+#    df = pd.read_csv(StringIO(csv_string))
+#    dates_all.append(df["Date"].values.tolist())
+#    covid_levels_all.append(df["Covid Level"].values.tolist())
+
+def generate_data(new_filename):
+    dates_all.clear()
+    covid_levels_all.clear()
+    csv_obj = client.get_object(Bucket=bucket_name, Key=new_filename)
     body = csv_obj['Body']
     csv_string = body.read().decode('utf-8')
     df = pd.read_csv(StringIO(csv_string))
     dates_all.append(df["Date"].values.tolist())
     covid_levels_all.append(df["Covid Level"].values.tolist())
+    #print(dates_all)
+    #print(covid_levels_all)
+
+#def generate_prediction():
+
 
 @app.route('/')
 def about():
@@ -63,7 +79,8 @@ def upload():
                 except Exception as e:
                     print("Error", e)
                 msg = "Upload Done ! "
-
+        #print("Testing: " + img.filename)
+        generate_data(img.filename)
     return render_template("/file_upload.html",msg =msg)
 
 
