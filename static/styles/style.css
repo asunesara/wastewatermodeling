@@ -48,12 +48,43 @@
 {
     overflow:auto;
     font-size: 30px;
-    align-items: left;
-    justify-content: center;
     background-color:rgb(225, 225, 225);
-    height:235px;
+    height:100px;
     border: 3px solid rgb(25, 25, 155);
-    margin: 10px;
+    margin-top: 10px;
+    margin-left: 50px;
+    margin-right: 50px;
+}
+
+.upload_desc {
+    font-size: 28px;
+    margin-top: -15px;
+    margin-bottom: -22px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.upload_button {
+    margin-top: -15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.file_upload_desc_title {
+    margin-top: -20px;
+    margin-bottom: -28px;
+    font-size: 30px;
+    margin-left: 50px;
+    margin-right: 50px;
+    text-decoration: underline;
+}
+
+.file_upload_desc {
+    font-size: 20px;
+    margin-left: 50px;
+    margin-right: 50px;
 }
 
 .graphs_data
