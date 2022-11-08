@@ -27,13 +27,6 @@ bucket_name = 'mattdtest'
 #object_keys.extend(["testdata.csv", "testdata_2.csv"])
 dates_all = []
 covid_levels_all = []
-#for x in object_keys:
-#    csv_obj = client.get_object(Bucket=bucket_name, Key=x)
-#    body = csv_obj['Body']
-#    csv_string = body.read().decode('utf-8')
-#    df = pd.read_csv(StringIO(csv_string))
-#    dates_all.append(df["Date"].values.tolist())
-#    covid_levels_all.append(df["Covid Level"].values.tolist())
 
 def data_clear():
     dates_all.clear()
@@ -46,10 +39,7 @@ def generate_data(new_filename):
     df = pd.read_csv(StringIO(csv_string))
     dates_all.append(df["Date"].values.tolist())
     covid_levels_all.append(df["Covid Level"].values.tolist())
-    #print(dates_all)
-    #print(covid_levels_all)
 
-#def generate_prediction():
 
 @app.route('/')
 def about():
@@ -87,7 +77,7 @@ def upload():
 
 @app.route('/update_graph', methods=['POST'])
 def update_graph():
-    #this will eventually route to graces output first
+    #this will eventually call graces output first
     generate_data("testdata_2.csv")
     return render_template("graphs_data.html", labels_all=dates_all, values_all=covid_levels_all)
 @app.route('/graphs_data.html')
