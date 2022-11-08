@@ -35,9 +35,11 @@ covid_levels_all = []
 #    dates_all.append(df["Date"].values.tolist())
 #    covid_levels_all.append(df["Covid Level"].values.tolist())
 
-def generate_data(new_filename):
+def data_clear():
     dates_all.clear()
     covid_levels_all.clear()
+
+def generate_data(new_filename):
     csv_obj = client.get_object(Bucket=bucket_name, Key=new_filename)
     body = csv_obj['Body']
     csv_string = body.read().decode('utf-8')
@@ -48,7 +50,6 @@ def generate_data(new_filename):
     #print(covid_levels_all)
 
 #def generate_prediction():
-
 
 @app.route('/')
 def about():
@@ -80,10 +81,15 @@ def upload():
                     print("Error", e)
                 msg = "Upload Done ! "
         #print("Testing: " + img.filename)
+        data_clear()
         generate_data(img.filename)
     return render_template("/file_upload.html",msg =msg)
 
-
+@app.route('/update_graph', methods=['POST'])
+def update_graph():
+    #this will eventually route to graces output first
+    generate_data("testdata_2.csv")
+    return render_template("graphs_data.html", labels_all=dates_all, values_all=covid_levels_all)
 @app.route('/graphs_data.html')
 def graph_page():
     return render_template("graphs_data.html", labels_all=dates_all, values_all=covid_levels_all)

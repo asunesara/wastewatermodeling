@@ -58,8 +58,11 @@
       <hr size="4" width="100%" color="black" />
     </div>
     <!--This is for the introdcution box and content inside of it-->
-    <div class="graphs_data">
-      <!--CODE FOR HEADER ABOVE GRAPHS-->
+    <div class="container">
+      <h2>Button Pressed: {{ButtonPressed}}</h2>
+        <form action="/update_graph" method="POST">
+          <input type="submit" value="Click Me">
+      </form>
     </div>
     <!--Add more contents inside here to add to the home page-->
     <!--Start of Graph Code-->
@@ -102,6 +105,5 @@
           testChart.update();
         {% endfor %}
     </script>
-<!--End of Graph Code-->
   </body>
 </html>
