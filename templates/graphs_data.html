@@ -83,11 +83,13 @@
           var pred_len = 0;
           var reg_len = 0;
           var offset = 0;
+          var border_col = "rgb(75, 192, 192)";
           var data_array = [];
           {% if loop.index0 > 0 %}
             reg_len = {{ data[0][0]|length }};
             pred_len = {{ item|length }};
             offset = reg_len - pred_len;
+            border_col = "rgb(255, 0, 0)";
             data_array = Array(offset).fill(null);
           {% endif %}
           console.log("Item length:" + {{ item|length }});
@@ -95,11 +97,12 @@
           data_array = data_array.concat({{ item }});
           /*const data_string = JSON.stringify(data_array);*/
           /*console.log(data_string);*/
+
           testChart.data.datasets.push({
             label: "Covid Cases",
             data: data_array,
             fill: false,
-            borderColor: "rgb(75, 192, 192)",
+            borderColor: border_col,
             lineTension: 0.1,
             radius: 0
           });         
