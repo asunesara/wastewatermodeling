@@ -1,13 +1,15 @@
 from flask import Flask, render_template, request
 import boto
 import boto.s3.connection
+import os
 
 import boto3
 import pandas as pd
 import sys
 from io import StringIO
 from werkzeug.utils import secure_filename
-
+from predalgo4 import *
+from sklearn.preprocessing import MinMaxScaler
 app = Flask(__name__)
 
 access_key = 'AKIA2BUHV4R2RS54PBTY'
@@ -21,24 +23,55 @@ client = boto3.client('s3', aws_access_key_id = access_key,
                     aws_secret_access_key = secret_key)
 
 bucket_name = 'mattdtest'
-
+file_name = ""
 #object_key = 'testdata.csv'
 #object_keys = []
 #object_keys.extend(["testdata.csv", "testdata_2.csv"])
 dates_all = []
 covid_levels_all = []
 
+new_dates = []
+new_covid = []
+final_graph = []
 def data_clear():
     dates_all.clear()
     covid_levels_all.clear()
+    new_dates.clear()
+    new_covid.clear()
+    final_graph.clear()
 
 def generate_data(new_filename):
+    
     csv_obj = client.get_object(Bucket=bucket_name, Key=new_filename)
     body = csv_obj['Body']
     csv_string = body.read().decode('utf-8')
     df = pd.read_csv(StringIO(csv_string))
     dates_all.append(df["Date"].values.tolist())
     covid_levels_all.append(df["Covid Level"].values.tolist())
+
+
+def new_generate(file_name):
+    csv_obj = client.get_object(Bucket=bucket_name, Key=file_name)
+    body = csv_obj['Body']
+    csv_string = body.read().decode('utf-8')
+    df = pd.read_csv(StringIO(csv_string))
+    close_data = df.filter(['actual.cases'])
+    dataset = close_data.values
+    data_list = dataset.reshape(1,dataset.size)[0].tolist()
+    date_list = list(range(0,len(dataset)))
+    new_covid.append(data_list)
+    new_dates.append(date_list)
+    final_graph.append(new_covid)
+    final_graph.append(new_dates)
+
+
+def new_update(file_name):
+    new_data = generate_results(file_name)
+    new_dates.append(new_data[2])
+    new_covid.append(new_data[0])
+    final_graph.clear()
+    final_graph.append(new_covid)
+    final_graph.append(new_dates)
 
 
 @app.route('/')
@@ -57,7 +90,9 @@ def file_page():
 def upload():
     if request.method == 'POST':
         img = request.files['file']
-        if img:
+        split_tup = os.path.splitext(img.filename)
+        file_extension = split_tup[1]
+        if file_extension==".csv":
                 filename = secure_filename(img.filename)
                 try:
                     client.upload_fileobj(
@@ -70,19 +105,23 @@ def upload():
                 except Exception as e:
                     print("Error", e)
                 msg = "Upload Done ! "
-        #print("Testing: " + img.filename)
+        else:
+            msg = "Enter correct file format (.csv)"
+            return render_template("/file_upload.html",msg = msg)
         data_clear()
-        generate_data(img.filename)
-    return render_template("/file_upload.html",msg =msg)
+        file_name = img.filename
+        new_generate(file_name)
+    return render_template("/file_upload.html",msg = msg)
 
 @app.route('/update_graph', methods=['POST'])
 def update_graph():
     #this will eventually call graces output first
-    generate_data("testdata_2.csv")
-    return render_template("graphs_data.html", labels_all=dates_all, values_all=covid_levels_all)
+    new_update(file_name)
+    #generate_data("testdata_2.csv")
+    return render_template("graphs_data.html", data=final_graph)
 @app.route('/graphs_data.html')
 def graph_page():
-    return render_template("graphs_data.html", labels_all=dates_all, values_all=covid_levels_all)
+    return render_template("graphs_data.html", data=final_graph)
 
 @app.route('/history.html')
 def history_page():
