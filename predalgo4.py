@@ -7,7 +7,6 @@ import math
 from sklearn.preprocessing import MinMaxScaler
 
 def generate_results(data):
-    data = pd.read_csv("Texas.csv")
 
     #  Plotting date vs the case
     # data.plot('Date', 'actual.cases', color="red")

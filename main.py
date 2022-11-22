@@ -66,7 +66,11 @@ def new_generate(file_name):
 
 
 def new_update(file_name):
-    new_data = generate_results(file_name)
+    csv_obj = client.get_object(Bucket=bucket_name, Key=file_name)
+    body = csv_obj['Body']
+    csv_string = body.read().decode('utf-8')
+    df = pd.read_csv(StringIO(csv_string))
+    new_data = generate_results(df)
     new_dates.append(new_data[2])
     new_covid.append(new_data[0])
     final_graph.clear()
@@ -109,6 +113,7 @@ def upload():
             msg = "Enter correct file format (.csv)"
             return render_template("/file_upload.html",msg = msg)
         data_clear()
+        global file_name
         file_name = img.filename
         new_generate(file_name)
     return render_template("/file_upload.html",msg = msg)
@@ -116,6 +121,7 @@ def upload():
 @app.route('/update_graph', methods=['POST'])
 def update_graph():
     #this will eventually call graces output first
+    global file_name
     new_update(file_name)
     #generate_data("testdata_2.csv")
     return render_template("graphs_data.html", data=final_graph)
