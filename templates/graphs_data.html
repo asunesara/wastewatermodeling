@@ -70,36 +70,40 @@
         var testChart = new Chart(ctx, {
             type: "line",
             data: {
-                labels: {{ labels_all[0] | safe }},
+              labels: {{ data[1][0] | safe }},
                 datasets: []},
-                    /*{
-                        label: "Covid Cases",
-                        data: {{ values_all[0] | safe }},
-                        fill: false,
-                        borderColor: "rgb(75, 192, 192)",
-                        lineTension: 0.1
-                    }*
-
-                    /*{
-                        label: "Predictivive Algo",
-                        data: {{ values_all[1] | safe }},
-                        fill: false,
-                        borderColor: "rgb(136, 8, 8)",
-                        lineTension: 0.1
-                    }*/
-                //const val_array = {{values_all | safe}};
             options: {
                 responsive: false
             }
         });
-        {% for item in values_all %}
+        {% for item in data[0] %}
+          console.log({{ loop.index0 }});
+          var pred_len = 0;
+          var reg_len = 0;
+          var offset = 0;
+          var border_col = "rgb(75, 192, 192)";
+          var data_array = [];
+          {% if loop.index0 > 0 %}
+            reg_len = {{ data[0][0]|length }};
+            pred_len = {{ item|length }};
+            offset = reg_len - pred_len;
+            border_col = "rgb(255, 0, 0)";
+            data_array = Array(offset).fill(null);
+          {% endif %}
+          console.log("Item length:" + {{ item|length }});
+          console.log(data_array);
+          data_array = data_array.concat({{ item }});
+          /*const data_string = JSON.stringify(data_array);*/
+          /*console.log(data_string);*/
+
           testChart.data.datasets.push({
             label: "Covid Cases",
-            data: {{ item | safe }},
+            data: data_array,
             fill: false,
-            borderColor: "rgb(75, 192, 192)",
-            lineTension: 0.1
-          });
+            borderColor: border_col,
+            lineTension: 0.1,
+            radius: 0
+          });         
           testChart.update();
         {% endfor %}
     </script>

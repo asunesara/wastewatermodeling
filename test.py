@@ -12,3 +12,10 @@ df = pd.read_csv('bostondata.csv', skiprows=[0,2], usecols = ['Sample Date', 'No
 df = df[df['Northern'].notna()]
 with pd.option_context('display.max_rows', None, 'display.max_columns', None):  # more options can be specified also
     print(df)
+#def test_generate(filename):
+#    dates_all = []
+#    df = pd.read_csv(filename)
+#    dates_all.append(df["actual.cases"].values.tolist())
+#    with pd.option_context('display.max_rows', None, 'display.max_columns', None):  # more options can be specified also
+#         print(df)
+#    print(dates_all)
