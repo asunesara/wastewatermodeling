@@ -39,7 +39,7 @@
     align-items: left;
     justify-content: center;
     background-color:rgb(225, 225, 225);
-    height:600px;
+    height:510px;
     border: 3px solid rgb(25, 25, 155);
     margin: 15px;
 }
@@ -113,18 +113,33 @@
 
 .title
 {
+    margin-top: 10px;
     font-size: 60px;
     line-height: 0.5;
+    text-decoration: underline;
 }
 
 .subtitle
 {
-    font-size: 35px;
+    margin-top: 0px;
+    font-size: 30px;
     line-height: 0.05;
 }
 
 .names
 {
+    margin-top: -10px;
     font-size: 20px;
     line-height: 0.05;
+    margin-bottom: 10px;
+}
+
+.links
+{
+    margin-top: -30px;
+    font-size: 30px;
+    background-color:rgb(225, 225, 225);
+    height:130px;
+    border: 3px solid rgb(25, 25, 155);
+    margin: 15px;
 }
