@@ -27,27 +27,27 @@ file_name = ""
 #object_key = 'testdata.csv'
 #object_keys = []
 #object_keys.extend(["testdata.csv", "testdata_2.csv"])
-dates_all = []
-covid_levels_all = []
-
+#dates_all = []
+#covid_levels_all = []
+file_names = []
 new_dates = []
 new_covid = []
 final_graph = []
 def data_clear():
-    dates_all.clear()
-    covid_levels_all.clear()
+    #dates_all.clear()
+    #covid_levels_all.clear()
     new_dates.clear()
     new_covid.clear()
     final_graph.clear()
 
-def generate_data(new_filename):
-    
-    csv_obj = client.get_object(Bucket=bucket_name, Key=new_filename)
-    body = csv_obj['Body']
-    csv_string = body.read().decode('utf-8')
-    df = pd.read_csv(StringIO(csv_string))
-    dates_all.append(df["Date"].values.tolist())
-    covid_levels_all.append(df["Covid Level"].values.tolist())
+#def generate_data(new_filename):
+#   
+#    csv_obj = client.get_object(Bucket=bucket_name, Key=new_filename)
+#    body = csv_obj['Body']
+#    csv_string = body.read().decode('utf-8')
+#    df = pd.read_csv(StringIO(csv_string))
+#    dates_all.append(df["Date"].values.tolist())
+#    covid_levels_all.append(df["Covid Level"].values.tolist())
 
 
 def new_generate(file_name):
@@ -80,7 +80,7 @@ def new_update(file_name):
 
 @app.route('/')
 def about():
-    return render_template("index.html", labels_all=dates_all, values_all=covid_levels_all)
+    return render_template("index.html")
 
 @app.route('/index.html')
 def home_page():
@@ -115,6 +115,7 @@ def upload():
         data_clear()
         global file_name
         file_name = img.filename
+        file_names.append(file_name)
         new_generate(file_name)
     return render_template("/file_upload.html",msg = msg)
 
@@ -124,14 +125,16 @@ def update_graph():
     global file_name
     new_update(file_name)
     #generate_data("testdata_2.csv")
-    return render_template("graphs_data.html", data=final_graph)
+    return render_template("graphs_data.html", data = final_graph)
 @app.route('/graphs_data.html')
 def graph_page():
-    return render_template("graphs_data.html", data=final_graph)
+    return render_template("graphs_data.html", data = final_graph)
 
 @app.route('/history.html')
 def history_page():
-    return render_template("history.html")
+    #print(file_names)
+    x = ["Testing!!!", "testing2!!"]
+    return render_template("history.html", name_list=x)
 
 if __name__ == "__main__":
     app.run(debug= True, port=5000)
