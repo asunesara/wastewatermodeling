@@ -24,37 +24,26 @@ client = boto3.client('s3', aws_access_key_id = access_key,
 
 bucket_name = 'mattdtest'
 file_name = ""
-#object_key = 'testdata.csv'
-#object_keys = []
-#object_keys.extend(["testdata.csv", "testdata_2.csv"])
-#dates_all = []
-#covid_levels_all = []
+
 file_names = []
 new_dates = []
 new_covid = []
 final_graph = []
 def data_clear():
-    #dates_all.clear()
-    #covid_levels_all.clear()
     new_dates.clear()
     new_covid.clear()
     final_graph.clear()
 
-#def generate_data(new_filename):
-#   
-#    csv_obj = client.get_object(Bucket=bucket_name, Key=new_filename)
-#    body = csv_obj['Body']
-#    csv_string = body.read().decode('utf-8')
-#    df = pd.read_csv(StringIO(csv_string))
-#    dates_all.append(df["Date"].values.tolist())
-#    covid_levels_all.append(df["Covid Level"].values.tolist())
 
-
-def new_generate(file_name):
+def csv_to_df(file_name):
     csv_obj = client.get_object(Bucket=bucket_name, Key=file_name)
     body = csv_obj['Body']
     csv_string = body.read().decode('utf-8')
     df = pd.read_csv(StringIO(csv_string))
+    return df
+
+def new_generate(file_name):
+    df = csv_to_df(file_name)
     close_data = df.filter(['actual.cases'])
     dataset = close_data.values
     data_list = dataset.reshape(1,dataset.size)[0].tolist()
@@ -66,10 +55,7 @@ def new_generate(file_name):
 
 
 def new_update(file_name):
-    csv_obj = client.get_object(Bucket=bucket_name, Key=file_name)
-    body = csv_obj['Body']
-    csv_string = body.read().decode('utf-8')
-    df = pd.read_csv(StringIO(csv_string))
+    df = csv_to_df(file_name)
     new_data = generate_results(df)
     new_dates.append(new_data[2])
     new_covid.append(new_data[0])
@@ -108,7 +94,7 @@ def upload():
                     )
                 except Exception as e:
                     print("Error", e)
-                msg = "Upload Complete!"
+                msg = "Upload Complete! "
         else:
             msg = "Incorrect File Format (.csv)"
             return render_template("/file_upload.html",msg = msg)
