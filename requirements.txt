@@ -31,7 +31,7 @@ libclang==14.0.6
 Markdown==3.4.1
 MarkupSafe==2.1.1
 matplotlib==3.5
-numpy==1.7.2
+numpy==1.19
 oauthlib==3.2.2
 opt-einsum==3.3.0
 packaging==21.3
@@ -48,7 +48,7 @@ requests-oauthlib==1.3.1
 rsa==4.9
 s3transfer==0.6.0
 scikit-learn==1.0
-scipy==1.9.3
+scipy==1.7.2
 six==1.16.0
 tensorboard==2.11.0
 tensorboard-data-server==0.6.1
