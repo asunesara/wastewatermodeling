@@ -1,3 +1,4 @@
+-f https://download.pytorch.org/whl/torch_stable.html
 absl-py==0.15.0
 astunparse==1.6.3
 boto==2.49.0
@@ -59,9 +60,9 @@ tensorflow-cpu==2.6.2
 tensorflow-estimator==2.6.0
 termcolor==1.1.0
 threadpoolctl==3.1.0
+torch==1.8.1+cpu
 typing-extensions==3.7.4.3
 urllib3==1.26.13
 Werkzeug==2.0.3
 wrapt==1.12.1
 zipp==3.6.0
-torch==1.11.0+cpu
