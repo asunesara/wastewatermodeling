@@ -24,52 +24,55 @@ client = boto3.client('s3', aws_access_key_id = access_key,
 
 bucket_name = 'mattdtest'
 file_name = ""
-#object_key = 'testdata.csv'
-#object_keys = []
-#object_keys.extend(["testdata.csv", "testdata_2.csv"])
-dates_all = []
-covid_levels_all = []
 
+generated = False
+file_names = []
 new_dates = []
 new_covid = []
 final_graph = []
+
 def data_clear():
-    dates_all.clear()
-    covid_levels_all.clear()
     new_dates.clear()
     new_covid.clear()
     final_graph.clear()
-
-def generate_data(new_filename):
-    
-    csv_obj = client.get_object(Bucket=bucket_name, Key=new_filename)
-    body = csv_obj['Body']
-    csv_string = body.read().decode('utf-8')
-    df = pd.read_csv(StringIO(csv_string))
-    dates_all.append(df["Date"].values.tolist())
-    covid_levels_all.append(df["Covid Level"].values.tolist())
+    global generated
+    generated = False
 
 
-def new_generate(file_name):
+def csv_to_df(file_name):
     csv_obj = client.get_object(Bucket=bucket_name, Key=file_name)
     body = csv_obj['Body']
     csv_string = body.read().decode('utf-8')
-    df = pd.read_csv(StringIO(csv_string))
-    close_data = df.filter(['actual.cases'])
-    dataset = close_data.values
-    data_list = dataset.reshape(1,dataset.size)[0].tolist()
-    date_list = list(range(0,len(dataset)))
-    new_covid.append(data_list)
-    new_dates.append(date_list)
+    df = pd.read_csv(StringIO(csv_string), header=None)
+    df = df.dropna()
+    return df
+
+#def new_generate_old(file_name):
+#    df = csv_to_df(file_name)
+#    close_data = df.filter(['actual.cases'])
+#    dataset = close_data.values
+#    data_list = dataset.reshape(1,dataset.size)[0].tolist()
+#    date_list = list(range(0,len(dataset)))
+#    new_covid.append(data_list)
+#    new_dates.append(date_list)
+#    final_graph.append(new_covid)
+#    final_graph.append(new_dates)
+
+def new_generate(file_name):
+    df = csv_to_df(file_name)
+    dates = (df.iloc[:,0]).values
+    cases = (df.iloc[:,1]).values
+    data_list = dates.reshape(1,dates.size)[0].tolist()
+    cases_list = cases.reshape(1,cases.size)[0].tolist()
+    date_list = list(range(0,len(cases)))
+    new_covid.append(cases_list)
+    new_dates.append(data_list)
     final_graph.append(new_covid)
     final_graph.append(new_dates)
 
 
 def new_update(file_name):
-    csv_obj = client.get_object(Bucket=bucket_name, Key=file_name)
-    body = csv_obj['Body']
-    csv_string = body.read().decode('utf-8')
-    df = pd.read_csv(StringIO(csv_string))
+    df = csv_to_df(file_name)
     new_data = generate_results(df)
     new_dates.append(new_data[2])
     new_covid.append(new_data[0])
@@ -80,7 +83,7 @@ def new_update(file_name):
 
 @app.route('/')
 def about():
-    return render_template("index.html", labels_all=dates_all, values_all=covid_levels_all)
+    return render_template("index.html")
 
 @app.route('/index.html')
 def home_page():
@@ -108,30 +111,34 @@ def upload():
                     )
                 except Exception as e:
                     print("Error", e)
-                msg = "Upload Done ! "
+                msg = "Upload Complete! "
         else:
-            msg = "Enter correct file format (.csv)"
+            msg = "Incorrect File Format (.csv)"
             return render_template("/file_upload.html",msg = msg)
         data_clear()
         global file_name
         file_name = img.filename
+        file_names.append(file_name)
         new_generate(file_name)
     return render_template("/file_upload.html",msg = msg)
 
 @app.route('/update_graph', methods=['POST'])
 def update_graph():
     #this will eventually call graces output first
+    global generated
+    generated = True
     global file_name
     new_update(file_name)
     #generate_data("testdata_2.csv")
-    return render_template("graphs_data.html", data=final_graph)
+    return render_template("graphs_data.html", data = final_graph, generated = generated)
 @app.route('/graphs_data.html')
 def graph_page():
-    return render_template("graphs_data.html", data=final_graph)
+    global generated
+    return render_template("graphs_data.html", data = final_graph, generated = generated)
 
 @app.route('/history.html')
 def history_page():
-    return render_template("history.html")
+    return render_template("history.html", name_list=file_names)
 
 if __name__ == "__main__":
     app.run(debug= True, port=5000)

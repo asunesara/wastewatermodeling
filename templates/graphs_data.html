@@ -12,7 +12,7 @@
     <body>
       <!-- Title at the top of the page-->
       <h1 class="title">
-        Waste Water Modeling
+        Wastewater Modeling
         <!--<a href="https://www.lanl.gov/">
           <img
             alt="Qries"
@@ -23,10 +23,8 @@
           />
         </a>-->
       </h1>
-      <a class="subtitle"> TAMU ECEN Senior Design Project </a>
+      <a class="subtitle"> Team 15: Matthew Delorenzo, Quinlon Horndasch, Grace Salau & Ayaan Sunesara </a>
       <!--<a class="subtitle"> Sponsored by Los Alamos National Labratories </a>-->
-      <br> </br>
-      <a class="names"> Team 15: Matthew Delorenzo, Quinlon Horndasch, Grace Salau & Ayaan Sunesara </a>
       <br> </br>
       <!-- starting the tabs section-->
       <div class="tabs">
@@ -58,56 +56,91 @@
       <hr size="4" width="100%" color="black" />
     </div>
     <!--This is for the introdcution box and content inside of it-->
-    <div class="container">
-      <h2>Press Button to Generate Graph from Uploaded Data: {{ButtonPressed}}</h2>
-        <form action="/update_graph" method="POST">
-          <input type="submit" value="Generate Graph">
-      </form>
-    </div>
+    {% if data|length > 0 %}
+      {% if not generated %}
+        <div class="containerBlock">
+          <div class="container">
+            <p>Press Button to Generate Graph from Uploaded Data: {{ButtonPressed}}</p>
+          </div>
+          <div class="generateButton">
+            <form action="/update_graph" method="POST" >
+              <input type="submit" value="Generate Graph">
+            </form>
+          </div>
+        </div>
+      {% endif %}
     <!--Add more contents inside here to add to the home page-->
     <!--Start of Graph Code-->
-    <canvas id="testChart" width="900" height="400"></canvas>
-    <script>
-        var ctx = document.getElementById("testChart").getContext("2d");
-        var testChart = new Chart(ctx, {
-            type: "line",
-            data: {
-              labels: {{ data[1][0] | safe }},
-                datasets: []},
-            options: {
-                responsive: false
-            }
-        });
-        {% for item in data[0] %}
-          console.log({{ loop.index0 }});
-          var pred_len = 0;
-          var reg_len = 0;
-          var offset = 0;
-          var border_col = "rgb(75, 192, 192)";
-          var data_array = [];
-          {% if loop.index0 > 0 %}
-            reg_len = {{ data[0][0]|length }};
-            pred_len = {{ item|length }};
-            offset = reg_len - pred_len;
-            border_col = "rgb(255, 0, 0)";
-            data_array = Array(offset).fill(null);
-          {% endif %}
-          console.log("Item length:" + {{ item|length }});
-          console.log(data_array);
-          data_array = data_array.concat({{ item }});
-          /*const data_string = JSON.stringify(data_array);*/
-          /*console.log(data_string);*/
-
-          testChart.data.datasets.push({
-            label: "Covid Cases",
-            data: data_array,
-            fill: false,
-            borderColor: border_col,
-            lineTension: 0.1,
-            radius: 0
-          });         
-          testChart.update();
-        {% endfor %}
-    </script>
+      <canvas id="testChart" width="900" height="400"></canvas>
+      <script>
+          var ctx = document.getElementById("testChart").getContext("2d");
+          var testChart = new Chart(ctx, {
+              type: "line",
+              data: {
+                labels: {{ data[1][0] | safe }},
+                  datasets: []},
+              options: {
+                responsive: false,
+                scales: {
+                  yAxes: [{
+                    scaleLabel: {
+                      display: true,
+                      labelString: "Covid Measurement"
+                    }
+                  }],
+                  xAxes: [{
+                    scaleLabel: {
+                      display: true,
+                      labelString: "Date"
+                    }
+                  }]
+                }
+              }
+          });
+          {% for item in data[0] %}
+            console.log({{ loop.index0 }});
+            var pred_len = 0;
+            var reg_len = 0;
+            var offset = 0;
+            var border_col = "rgb(75, 192, 192)";
+            var data_array = [];
+            var curr_label = "";
+            {% if loop.index0 > 0 %}
+              reg_len = {{ data[0][0]|length }};
+              pred_len = {{ item|length }};
+              offset = reg_len - pred_len;
+              border_col = "rgb(255, 0, 0)";
+              data_array = Array(offset).fill(null);
+            {% endif %}
+            console.log("Item length:" + {{ item|length }});
+            console.log(data_array);
+            data_array = data_array.concat({{ item }});
+            /*const data_string = JSON.stringify(data_array);*/
+            /*console.log(data_string);*/
+            {% if loop.index0 == 0 %}
+              curr_label = "CSV Data";
+            {% else %}
+              curr_label = "Generated Prediction";
+            {% endif %}
+            testChart.data.datasets.push({
+              label: curr_label,
+              data: data_array,
+              fill: false,
+              borderColor: border_col,
+              lineTension: 0.1,
+              radius: 0
+            });         
+            testChart.update();
+          {% endfor %}
+      </script>
+    {% elif data|length == 0 %}
+      <div class="noUploadBlock">
+        <div class="noUpload">
+          <p>
+            Please upload a file (CSV) in the "File Upload" tab to generate a graph.
+          </p>
+        </div>
+      </div>
+    {% endif %}
   </body>
 </html>

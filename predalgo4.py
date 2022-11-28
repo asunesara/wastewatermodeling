@@ -17,11 +17,13 @@ def generate_results(data):
     # new_data.plot('Date', 'actual.cases', color="green")
 
     # 1. defining variable
-    close_data = data.filter(['actual.cases'])
+    #close_data = data.filter(['actual.cases'])
 
     # 2. Convert the data into array for easy evaluation
+   # dataset = close_data.values
+    close_data = data.filter([1])
     dataset = close_data.values
-    plt.show()
+    #plt.show()
     # 3. Scale the data to make all values between 0 and 1
     scaler = MinMaxScaler(feature_range=(0, 1))
     scaled_data = scaler.fit_transform(dataset)
@@ -85,7 +87,6 @@ def generate_results(data):
     valid = data[training_data_len:]
 
     valid['Predictions'] = predictions
-
     prediction_list = predictions.reshape(1,predictions.size)[0].tolist()
     date_range = list(range(0,len(dataset)))
     date_range2 = list(range(training_data_len, len(dataset)))
