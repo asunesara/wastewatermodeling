@@ -87,7 +87,6 @@ def generate_results(data):
     valid = data[training_data_len:]
 
     valid['Predictions'] = predictions
-
     prediction_list = predictions.reshape(1,predictions.size)[0].tolist()
     date_range = list(range(0,len(dataset)))
     date_range2 = list(range(training_data_len, len(dataset)))
