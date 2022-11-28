@@ -57,12 +57,14 @@
     </div>
     <!--This is for the introdcution box and content inside of it-->
     {% if data|length > 0 %}
-      <div class="container">
-        <h2>Press Button to Generate Graph from Uploaded Data: {{ButtonPressed}}</h2>
-          <form action="/update_graph" method="POST">
-            <input type="submit" value="Generate Graph">
-        </form>
-      </div>
+      {% if not generated %}
+        <div class="container">
+          <h2>Press Button to Generate Graph from Uploaded Data: {{ButtonPressed}}</h2>
+            <form action="/update_graph" method="POST">
+              <input type="submit" value="Generate Graph">
+          </form>
+        </div>
+      {% endif %}
     <!--Add more contents inside here to add to the home page-->
     <!--Start of Graph Code-->
       <canvas id="testChart" width="900" height="400"></canvas>

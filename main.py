@@ -25,6 +25,7 @@ client = boto3.client('s3', aws_access_key_id = access_key,
 bucket_name = 'mattdtest'
 file_name = ""
 
+generated = False
 file_names = []
 new_dates = []
 new_covid = []
@@ -34,6 +35,8 @@ def data_clear():
     new_dates.clear()
     new_covid.clear()
     final_graph.clear()
+    global generated
+    generated = False
 
 
 def csv_to_df(file_name):
@@ -121,13 +124,16 @@ def upload():
 @app.route('/update_graph', methods=['POST'])
 def update_graph():
     #this will eventually call graces output first
+    global generated
+    generated = True
     global file_name
     new_update(file_name)
     #generate_data("testdata_2.csv")
-    return render_template("graphs_data.html", data = final_graph)
+    return render_template("graphs_data.html", data = final_graph, generated = generated)
 @app.route('/graphs_data.html')
 def graph_page():
-    return render_template("graphs_data.html", data = final_graph)
+    global generated
+    return render_template("graphs_data.html", data = final_graph, generated = generated)
 
 @app.route('/history.html')
 def history_page():
