@@ -44,6 +44,7 @@ def csv_to_df(file_name):
     body = csv_obj['Body']
     csv_string = body.read().decode('utf-8')
     df = pd.read_csv(StringIO(csv_string), header=None)
+    df = df.dropna()
     return df
 
 #def new_generate_old(file_name):
@@ -65,7 +66,7 @@ def new_generate(file_name):
     cases_list = cases.reshape(1,cases.size)[0].tolist()
     date_list = list(range(0,len(cases)))
     new_covid.append(cases_list)
-    new_dates.append(date_list)
+    new_dates.append(data_list)
     final_graph.append(new_covid)
     final_graph.append(new_dates)
 

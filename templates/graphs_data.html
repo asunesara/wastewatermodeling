@@ -80,7 +80,21 @@
                 labels: {{ data[1][0] | safe }},
                   datasets: []},
               options: {
-                  responsive: false
+                responsive: false,
+                scales: {
+                  yAxes: [{
+                    scaleLabel: {
+                      display: true,
+                      labelString: "Covid Measurement"
+                    }
+                  }],
+                  xAxes: [{
+                    scaleLabel: {
+                      display: true,
+                      labelString: "Date"
+                    }
+                  }]
+                }
               }
           });
           {% for item in data[0] %}
@@ -90,6 +104,7 @@
             var offset = 0;
             var border_col = "rgb(75, 192, 192)";
             var data_array = [];
+            var curr_label = "";
             {% if loop.index0 > 0 %}
               reg_len = {{ data[0][0]|length }};
               pred_len = {{ item|length }};
@@ -102,9 +117,13 @@
             data_array = data_array.concat({{ item }});
             /*const data_string = JSON.stringify(data_array);*/
             /*console.log(data_string);*/
-
+            {% if loop.index0 == 0 %}
+              curr_label = "CSV Data";
+            {% else %}
+              curr_label = "Generated Prediction";
+            {% endif %}
             testChart.data.datasets.push({
-              label: "Covid Cases",
+              label: curr_label,
               data: data_array,
               fill: false,
               borderColor: border_col,
