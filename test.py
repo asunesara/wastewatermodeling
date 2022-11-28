@@ -24,4 +24,11 @@ cases_list = cases.reshape(1,cases.size)[0].tolist()
 
 close_data = df.filter([1])
 dataset = close_data.values
-print(dataset)
+#print(dataset)
+
+
+
+df = pd.read_csv("boston_clean.csv", header=None)
+df = df.dropna()
+with pd.option_context('display.max_rows', None, 'display.max_columns', None):
+    print(df)
