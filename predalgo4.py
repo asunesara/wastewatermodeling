@@ -54,7 +54,7 @@ def generate_results(data):
     model.add(Dense(units=1))
 
     model.compile(optimizer='adam', loss='mean_squared_error')
-    model.fit(x_train_data2, y_train_data1, batch_size=1, epochs=2)
+    model.fit(x_train_data2, y_train_data1, batch_size=1, epochs=1)
 
     # 1. Creating a dataset for testing
     test_data = scaled_data[training_data_len - 60:, :]
