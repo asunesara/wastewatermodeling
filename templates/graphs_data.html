@@ -58,11 +58,15 @@
     <!--This is for the introdcution box and content inside of it-->
     {% if data|length > 0 %}
       {% if not generated %}
-        <div class="container">
-          <h2>Press Button to Generate Graph from Uploaded Data: {{ButtonPressed}}</h2>
-            <form action="/update_graph" method="POST">
+        <div class="containerBlock">
+          <div class="container">
+            <p>Press Button to Generate Graph from Uploaded Data: {{ButtonPressed}}</p>
+          </div>
+          <div class="generateButton">
+            <form action="/update_graph" method="POST" >
               <input type="submit" value="Generate Graph">
-          </form>
+            </form>
+          </div>
         </div>
       {% endif %}
     <!--Add more contents inside here to add to the home page-->
@@ -111,7 +115,13 @@
           {% endfor %}
       </script>
     {% elif data|length == 0 %}
-      <p>Please upload your csv file in the "File Upload" tab to generate your graph here.</p>
+      <div class="noUploadBlock">
+        <div class="noUpload">
+          <p>
+            Please upload a file (CSV) in the "File Upload" tab to generate a graph.
+          </p>
+        </div>
+      </div>
     {% endif %}
   </body>
 </html>
