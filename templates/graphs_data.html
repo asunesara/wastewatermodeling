@@ -29,21 +29,21 @@
       <!-- starting the tabs section-->
       <div class="tabs">
         <!-- Home page (to keep ordering consistent in title block) -->
-        <a href="index.html">Home</a>
-        <a href="file_upload.html">File Upload</a>
+        <a href="index.html"> Home </a>
+        <a href="file_upload.html"> File Upload </a>
         <!-- class is active showing current page -->
-        <a class="active">Graphs & Data</a>
+        <a class="active"> Graphs & Data </a>
         <!-- rest of the tab bars with the name and linked to the html pages-->
-        <a href="history.html">History</a>
+        <a href="history.html"> History </a>
 
         <div class="tabs2">
           <!-- git hub image here linked to our repo-->
           <a href="https://github.com/wastewatermodeling">
-            <img alt="Qries" src="{{ url_for('static',filename='images/GitHub-Mark.png') }}" width="35px" height="35px" />
+            <img alt="Qries" src="{{ url_for('static',filename='images/GitHub-Mark.png') }}" width="35px" height="35px"/>
           </a>
           <!-- tamu image here linked to the website to rep the university-->
           <a href="https://tamu.edu">
-            <img alt="Qries" src="{{ url_for('static',filename='images/tamu.png') }}" width="35px" height="35px" />
+            <img alt="Qries" src="{{ url_for('static',filename='images/tamu.png') }}" width="35px" height="35px"/>
           </a>
         </div>
       </div>
@@ -52,26 +52,40 @@
     <!--END OF TITLE BLOCK-->
 
     <div class="intro">
-      <header style="font-size: 40px; padding-top: 10px">Graphs & Data</header>
-      <hr size="4" width="100%" color="black" />
+      <header style="font-size: 40px; padding-top: 10px"> Graphs & Data </header>
+      <hr size="4" width="100%" color="black"/>
     </div>
     <!--This is for the introdcution box and content inside of it-->
     {% if data|length > 0 %}
       {% if not generated %}
         <div class="containerBlock">
           <div class="container">
-            <p>Press Button to Generate Graph from Uploaded Data: {{ButtonPressed}}</p>
+            <p>Press Button to Generate Prediction from Uploaded Data: {{ButtonPressed}}</p>
           </div>
           <div class="generateButton">
             <form action="/update_graph" method="POST" >
-              <input type="submit" value="Generate Graph">
+              <input type="submit" value="Generate Prediction">
             </form>
           </div>
         </div>
       {% endif %}
-    <!--Add more contents inside here to add to the home page-->
+
     <!--Start of Graph Code-->
-      <canvas id="testChart" width="900" height="400"></canvas>
+    <div class="graphDescBlock">
+      <div class="graphDescription">
+        <p>
+          &nbsp Here is where the graphs descrition will go.
+        </p>
+      </div>
+    </div>
+    <hr size="4" width="100%" color="black"/>
+    <div class="graphTitle">
+      <p>
+        Wastewater Data and Prediction Graph
+      </p>
+    </div>
+    <div class="graph">
+      <canvas id="testChart" width="1327.5" height="590"></canvas>
       <script>
           var ctx = document.getElementById("testChart").getContext("2d");
           var testChart = new Chart(ctx, {
@@ -133,6 +147,15 @@
             testChart.update();
           {% endfor %}
       </script>
+    </div>
+    <div class="line">
+      <p>
+        <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br>
+        <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br>
+        <br> <br> <br> <br>
+      </p>
+      <hr size="4" width="100%" color="black"/>
+    </div>
     {% elif data|length == 0 %}
       <div class="noUploadBlock">
         <div class="noUpload">
