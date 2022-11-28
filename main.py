@@ -108,9 +108,9 @@ def upload():
                     )
                 except Exception as e:
                     print("Error", e)
-                msg = "Upload Done ! "
+                msg = "Upload Complete!"
         else:
-            msg = "Enter correct file format (.csv)"
+            msg = "Incorrect File Format (.csv)"
             return render_template("/file_upload.html",msg = msg)
         data_clear()
         global file_name
