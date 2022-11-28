@@ -56,7 +56,13 @@
     </div>
     <!--This is for the introdcution box and content inside of it-->
     <div class="history">
-      <p>This is where the history will go.</p>
+      {% if name_list|length > 0 %}
+        {% for name in name_list %}
+          <p>{{name}}</p>
+        {% endfor %}
+      {% elif name_list|length == 0 %}
+        <p>This is where the history will go.</p>
+      {% endif %}
     </div>
     <!--Add more contents inside here to add to the home page-->
   </body>

@@ -17,11 +17,13 @@ def generate_results(data):
     # new_data.plot('Date', 'actual.cases', color="green")
 
     # 1. defining variable
-    close_data = data.filter(['actual.cases'])
+    #close_data = data.filter(['actual.cases'])
 
     # 2. Convert the data into array for easy evaluation
+   # dataset = close_data.values
+    close_data = data.filter([1])
     dataset = close_data.values
-    plt.show()
+    #plt.show()
     # 3. Scale the data to make all values between 0 and 1
     scaler = MinMaxScaler(feature_range=(0, 1))
     scaled_data = scaler.fit_transform(dataset)

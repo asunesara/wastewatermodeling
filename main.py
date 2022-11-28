@@ -29,6 +29,7 @@ file_names = []
 new_dates = []
 new_covid = []
 final_graph = []
+
 def data_clear():
     new_dates.clear()
     new_covid.clear()
@@ -39,16 +40,28 @@ def csv_to_df(file_name):
     csv_obj = client.get_object(Bucket=bucket_name, Key=file_name)
     body = csv_obj['Body']
     csv_string = body.read().decode('utf-8')
-    df = pd.read_csv(StringIO(csv_string))
+    df = pd.read_csv(StringIO(csv_string), header=None)
     return df
 
-def new_generate(file_name):
+def new_generate_old(file_name):
     df = csv_to_df(file_name)
     close_data = df.filter(['actual.cases'])
     dataset = close_data.values
     data_list = dataset.reshape(1,dataset.size)[0].tolist()
     date_list = list(range(0,len(dataset)))
     new_covid.append(data_list)
+    new_dates.append(date_list)
+    final_graph.append(new_covid)
+    final_graph.append(new_dates)
+
+def new_generate(file_name):
+    df = csv_to_df(file_name)
+    dates = (df.iloc[:,0]).values
+    cases = (df.iloc[:,1]).values
+    data_list = dates.reshape(1,dates.size)[0].tolist()
+    cases_list = cases.reshape(1,cases.size)[0].tolist()
+    date_list = list(range(0,len(cases)))
+    new_covid.append(cases_list)
     new_dates.append(date_list)
     final_graph.append(new_covid)
     final_graph.append(new_dates)
@@ -118,9 +131,7 @@ def graph_page():
 
 @app.route('/history.html')
 def history_page():
-    #print(file_names)
-    x = ["Testing!!!", "testing2!!"]
-    return render_template("history.html", name_list=x)
+    return render_template("history.html", name_list=file_names)
 
 if __name__ == "__main__":
     app.run(debug= True, port=5000)
