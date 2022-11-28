@@ -1,3 +1,27 @@
+/* ---------------------------------------------------- TITLE BLOCK ---------------------------------------------------- */
+.title
+{
+    margin-top: 15px;
+    font-size: 60px;
+    line-height: 0.5;
+    text-decoration: underline;
+}
+
+.subtitle
+{
+    margin-top: 0px;
+    font-size: 30px;
+    line-height: 0.05;
+}
+
+.names
+{
+    margin-top: -10px;
+    font-size: 20px;
+    line-height: 0.05;
+    margin-bottom: 10px;
+}
+
 .tabs 
 {
     background-color: rgb(25, 25, 155);
@@ -31,7 +55,9 @@
     background-color: rgb(65, 110, 200);
     color: rgb(0, 0, 0);
 }
+/* ---------------------------------------------------- ---------------------------------------------------- */
 
+/* ---------------------------------------------------- HOME TAB ---------------------------------------------------- */
 .introduction
 {
     overflow:auto;
@@ -44,6 +70,18 @@
     margin: 15px;
 }
 
+.links
+{
+    margin-top: -30px;
+    font-size: 30px;
+    background-color:rgb(225, 225, 225);
+    height:130px;
+    border: 3px solid rgb(25, 25, 155);
+    margin: 15px;
+}
+/* ---------------------------------------------------- ---------------------------------------------------- */
+
+/* ---------------------------------------------------- FILE UPLOAD TAB ---------------------------------------------------- */
 .file_upload
 {
     overflow:auto;
@@ -87,63 +125,6 @@
     margin-right: 50px;
 }
 
-.graphs_data
-{
-    /*overflow:auto;
-    font-size: 30px;
-    align-items: left;
-    justify-content: center;
-    background-color:rgb(225, 225, 225);
-    height:235px;
-    border: 3px solid rgb(25, 25, 155);
-    margin: 10px;*/
-}
-
-.history
-{
-    overflow:auto;
-    font-size: 30px;
-    align-items: left;
-    justify-content: center;
-    background-color:rgb(225, 225, 225);
-    height:235px;
-    border: 3px solid rgb(25, 25, 155);
-    margin: 10px;
-}
-
-.title
-{
-    margin-top: 10px;
-    font-size: 60px;
-    line-height: 0.5;
-    text-decoration: underline;
-}
-
-.subtitle
-{
-    margin-top: 0px;
-    font-size: 30px;
-    line-height: 0.05;
-}
-
-.names
-{
-    margin-top: -10px;
-    font-size: 20px;
-    line-height: 0.05;
-    margin-bottom: 10px;
-}
-
-.links
-{
-    margin-top: -30px;
-    font-size: 30px;
-    background-color:rgb(225, 225, 225);
-    height:130px;
-    border: 3px solid rgb(25, 25, 155);
-    margin: 15px;
-}
-
 .msg
 {
     margin-top: 8px;
@@ -168,7 +149,9 @@
     font-size: 30px;
     text-align: center;
 }
+/* ---------------------------------------------------- ---------------------------------------------------- */
 
+/* ---------------------------------------------------- GRAPHS & DATA TAB ---------------------------------------------------- */
 .containerBlock
 {
     display: block;
@@ -200,3 +183,55 @@
     -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
 }
+
+.graphDescBlock
+{
+    background-color:rgb(225, 225, 225);
+    height:100px;
+    border: 3px solid rgb(25, 25, 155);
+    margin: 15px;
+}
+
+.graphDescription
+{
+    font-size: 30px;
+    margin-top: -15px;
+}
+
+.graphTitle
+{
+    text-align: center;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 35px;
+    margin-top: -20px;
+    margin-bottom: 10px;
+    text-decoration: underline;
+    color: rgb(135, 135, 135);
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.graph
+{
+    margin: 0;
+    position: absolute;
+    left: 50%;
+    -ms-transform: translate(-50%, -5%);
+    transform: translate(-50%, -5%);
+}
+/* ---------------------------------------------------- ---------------------------------------------------- */
+
+/* ---------------------------------------------------- HISTORY TAB ---------------------------------------------------- */
+.history
+{
+    overflow:auto;
+    font-size: 30px;
+    align-items: left;
+    justify-content: center;
+    background-color:rgb(225, 225, 225);
+    height:235px;
+    border: 3px solid rgb(25, 25, 155);
+    margin: 10px;
+}
+/* ---------------------------------------------------- ---------------------------------------------------- */
