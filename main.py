@@ -131,6 +131,13 @@ def update_graph():
     new_update(file_name)
     #generate_data("testdata_2.csv")
     return render_template("graphs_data.html", data = final_graph, generated = generated)
+
+@app.route('/download', methods=['POST'])
+def download():
+    filename = request.form["Download"]
+    response = client.download_file(bucket_name, filename, filename)
+    return render_template("history.html", name_list=file_names) 
+
 @app.route('/graphs_data.html')
 def graph_page():
     global generated

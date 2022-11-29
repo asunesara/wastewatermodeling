@@ -68,6 +68,11 @@
           <div class="historyName">
             <p>
               &nbsp {{loop.index}}. {{name}}
+            <div class="download_button">
+              <form action="/download" method="POST">
+                <button name="Download" type="submit" value = "{{ name }}">Download File</button>
+              </form>
+            </div>
             </p>
           </div>
         {% endfor %}

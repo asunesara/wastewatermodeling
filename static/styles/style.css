@@ -110,6 +110,12 @@
     align-items: center;
 }
 
+.download_button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .file_upload_desc_title {
     margin-top: -20px;
     margin-bottom: -28px;
