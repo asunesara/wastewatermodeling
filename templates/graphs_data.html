@@ -55,7 +55,7 @@
       <header style="font-size: 40px; padding-top: 10px"> Graphs & Data </header>
       <hr size="4" width="100%" color="black"/>
     </div>
-    <!--This is for the introdcution box and content inside of it-->
+
     {% if data|length > 0 %}
       {% if not generated %}
         <div class="containerBlock">
@@ -68,6 +68,7 @@
             </form>
           </div>
         </div>
+        <hr size="4" width="100%" color="black"/>
       {% endif %}
 
     <!--Start of Graph Code-->
@@ -82,11 +83,13 @@
       </div>
     </div>
     <hr size="4" width="100%" color="black"/>
+
     <div class="graphTitle">
       <p>
         Wastewater Data and Prediction Graph
       </p>
     </div>
+
     <div class="graph">
       <canvas id="testChart" width="1327.5" height="590"></canvas>
       <script>
@@ -151,7 +154,8 @@
           {% endfor %}
       </script>
     </div>
-    <div class="line">
+
+    <div>
       <p>
         <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br>
         <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br>
@@ -159,6 +163,7 @@
       </p>
       <hr size="4" width="100%" color="black"/>
     </div>
+
     {% elif data|length == 0 %}
       <div class="noUploadBlock">
         <div class="noUpload">
@@ -167,6 +172,7 @@
           </p>
         </div>
       </div>
+      <hr size="4" width="100%" color="black"/>
     {% endif %}
   </body>
 </html>

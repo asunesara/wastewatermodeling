@@ -54,16 +54,33 @@
       <header style="font-size: 40px; padding-top: 10px"> History </header>
       <hr size="4" width="100%" color="black"/>
     </div>
-    <!--This is for the introdcution box and content inside of it-->
-    <div class="history">
+
+    <div class="historyDescription">
+      <p>
+        Quinlon
+      </p>
+    </div>
+    <hr size="4" width="100%" color="black"/>
+
+    <div>
       {% if name_list|length > 0 %}
         {% for name in name_list %}
-          <p>{{name}}</p>
+          <div class="historyName">
+            <p>
+              &nbsp {{name}}
+            </p>
+          </div>
         {% endfor %}
       {% elif name_list|length == 0 %}
-        <p>This is where the history will go.</p>
+        <div class="noUploadNameBlock">
+          <div class="noUploadName">
+            <p>
+              Please upload a file (CSV) in the "File Upload" tab to view uploaded files.
+            </p>
+          </div>
+        </div>
       {% endif %}
     </div>
-    <!--Add more contents inside here to add to the home page-->
+    <hr size="4" width="100%" color="black"/>
   </body>
 </html>
