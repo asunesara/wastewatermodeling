@@ -37,6 +37,7 @@ def data_clear():
     final_graph.clear()
     global generated
     generated = False
+    global catch_error
 
 
 def csv_to_df(file_name):
@@ -45,18 +46,9 @@ def csv_to_df(file_name):
     csv_string = body.read().decode('utf-8')
     df = pd.read_csv(StringIO(csv_string), header=None)
     df = df.dropna()
+    df = df[pd.to_numeric(df[1], errors='coerce').notnull()]
+    df[1] = df[1].astype(float)
     return df
-
-#def new_generate_old(file_name):
-#    df = csv_to_df(file_name)
-#    close_data = df.filter(['actual.cases'])
-#    dataset = close_data.values
-#    data_list = dataset.reshape(1,dataset.size)[0].tolist()
-#    date_list = list(range(0,len(dataset)))
-#    new_covid.append(data_list)
-#    new_dates.append(date_list)
-#    final_graph.append(new_covid)
-#    final_graph.append(new_dates)
 
 def new_generate(file_name):
     df = csv_to_df(file_name)
@@ -119,7 +111,11 @@ def upload():
         global file_name
         file_name = img.filename
         file_names.append(file_name)
-        new_generate(file_name)
+        try:
+            new_generate(file_name)
+        except: 
+            msg = "Error in csv - please check format of data."
+            data_clear()
     return render_template("/file_upload.html",msg = msg)
 
 @app.route('/update_graph', methods=['POST'])
