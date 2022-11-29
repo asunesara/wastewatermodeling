@@ -67,7 +67,7 @@
         {% for name in name_list %}
           <div class="historyName">
             <p>
-              &nbsp {{name}}
+              &nbsp {{loop.index}}. {{name}}
             </p>
           </div>
         {% endfor %}
