@@ -37,6 +37,7 @@ def data_clear():
     final_graph.clear()
     global generated
     generated = False
+    global catch_error
 
 
 def csv_to_df(file_name):
@@ -110,7 +111,11 @@ def upload():
         global file_name
         file_name = img.filename
         file_names.append(file_name)
-        new_generate(file_name)
+        try:
+            new_generate(file_name)
+        except: 
+            msg = "Error in csv - please check format of data."
+            data_clear()
     return render_template("/file_upload.html",msg = msg)
 
 @app.route('/update_graph', methods=['POST'])
