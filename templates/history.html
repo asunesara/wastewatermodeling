@@ -65,7 +65,11 @@
     <div>
       {% if name_list|length > 0 %}
         {% for name in name_list %}
-          <p>{{name}}</p>
+          <div class="historyName">
+            <p>
+              &nbsp {{name}}
+            </p>
+          </div>
         {% endfor %}
       {% elif name_list|length == 0 %}
         <div class="noUploadNameBlock">
