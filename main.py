@@ -49,17 +49,6 @@ def csv_to_df(file_name):
     df[1] = df[1].astype(float)
     return df
 
-#def new_generate_old(file_name):
-#    df = csv_to_df(file_name)
-#    close_data = df.filter(['actual.cases'])
-#    dataset = close_data.values
-#    data_list = dataset.reshape(1,dataset.size)[0].tolist()
-#    date_list = list(range(0,len(dataset)))
-#    new_covid.append(data_list)
-#    new_dates.append(date_list)
-#    final_graph.append(new_covid)
-#    final_graph.append(new_dates)
-
 def new_generate(file_name):
     df = csv_to_df(file_name)
     dates = (df.iloc[:,0]).values
@@ -67,9 +56,6 @@ def new_generate(file_name):
     data_list = dates.reshape(1,dates.size)[0].tolist()
     cases_list = cases.reshape(1,cases.size)[0].tolist()
     date_list = list(range(0,len(cases)))
-    print(cases_list)
-    print("\n")
-    print(data_list)
     new_covid.append(cases_list)
     new_dates.append(data_list)
     final_graph.append(new_covid)
