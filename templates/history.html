@@ -55,27 +55,40 @@
       <hr size="4" width="100%" color="black"/>
     </div>
 
-    <div class="historyDescription">
-      <p>
-        Quinlon
-      </p>
-    </div>
-    <hr size="4" width="100%" color="black"/>
-
     <div>
       {% if name_list|length > 0 %}
+        <div class="historyDescriptionBlock">
+          <div class="historyDescription">
+            <p>
+              &nbsp <u> About the History Tab</u>: <br>
+              &nbsp The History tab is in place to view previous uploads to the server. This allows 
+              more accurate analysis of data and in &nbsp &nbsp &nbsp turn better results. After files
+              are uplaoded via the Upload Files tab, the file name appears here which can then be 
+              &nbsp &nbsp &nbsp &nbsp &nbsp downloaded if the original somehow gets misplaced or deleted.
+            </p>
+          </div>
+        </div>
+        <hr size="4" width="100%" color="black"/>
+        <div class="historyNameBlock">
+          <div class="historyDescription">
+            <p>
+              &nbsp <u> Previously Uploaded Files</u>:
+            </p>
+          </div>
         {% for name in name_list %}
           <div class="historyName">
             <p>
               &nbsp {{loop.index}}. {{name}}
             <div class="download_button">
               <form action="/download" method="POST">
-                <button name="Download" type="submit" value = "{{ name }}">Download File</button>
+                <button name="Download" type="submit" value = "{{ name }}"> Download File </button>
               </form>
             </div>
+            <hr size="2" width="98%" color="grey"/>
             </p>
           </div>
         {% endfor %}
+        </div>
       {% elif name_list|length == 0 %}
         <div class="noUploadNameBlock">
           <div class="noUploadName">
@@ -87,5 +100,6 @@
       {% endif %}
     </div>
     <hr size="4" width="100%" color="black"/>
+    <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br>
   </body>
 </html>

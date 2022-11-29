@@ -110,12 +110,6 @@
     align-items: center;
 }
 
-.download_button {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
 .file_upload_desc_title {
     margin-top: -20px;
     margin-bottom: -28px;
@@ -136,7 +130,6 @@
     margin-top: 8px;
     font-size: 20px;
 }
-
 /* ---------------------------------------------------- ---------------------------------------------------- */
 
 /* ---------------------------------------------------- GRAPHS & DATA TAB ---------------------------------------------------- */
@@ -196,7 +189,7 @@
 .graphDescBlock
 {
     background-color:rgb(225, 225, 225);
-    height:125px;
+    height:160px;
     border: 3px solid rgb(25, 25, 155);
     margin: 15px;
 }
@@ -245,6 +238,20 @@
     margin-right: auto;
 }
 
+.historyDescriptionBlock
+{
+    background-color:rgb(225, 225, 225);
+    height:160px;
+    border: 3px solid rgb(25, 25, 155);
+    margin: 15px;
+}
+
+.historyDescription
+{
+    font-size: 30px;
+    margin-top: -20px;
+}
+
 .noUploadName
 {
     margin-top: -15px;
@@ -252,8 +259,21 @@
     text-align: center;
 }
 
+.historyNameBlock
+{
+    background-color:rgb(225, 225, 225);
+    border: 3px solid rgb(25, 25, 155);
+    min-height: 100px;
+    overflow: hidden;
+    margin: 15px;
+}
+
 .historyName
 {
     font-size: 30px;
+}
+
+.download_button {
+    margin-left: 30px;
 }
 /* ---------------------------------------------------- ---------------------------------------------------- */
