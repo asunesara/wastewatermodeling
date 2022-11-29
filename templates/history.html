@@ -58,7 +58,7 @@
     <div class="history">
       {% if name_list|length > 0 %}
         {% for name in name_list %}
-          <p>{{name}}</p>
+          <p>{{loop.index}}. {{name}}</p>
         {% endfor %}
       {% elif name_list|length == 0 %}
         <p>This is where the history will go.</p>
