@@ -19,7 +19,7 @@ cases_list = cases.reshape(1,cases.size)[0].tolist()
 
 #df = df[df['Northern'].notna()]
 #with pd.option_context('display.max_rows', None, 'display.max_columns', None):  # more options can be specified also
-#    print(df)testtstingtest
+#    print(df)testtstingtesttest
 
 
 close_data = df.filter([1])
