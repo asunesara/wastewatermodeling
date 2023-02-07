@@ -9,6 +9,7 @@ import sys
 from io import StringIO
 from werkzeug.utils import secure_filename
 from predalgo4 import *
+from predalgo3 import *
 from sklearn.preprocessing import MinMaxScaler
 app = Flask(__name__)
 
@@ -26,6 +27,7 @@ bucket_name = 'mattdtest'
 file_name = ""
 
 generated = False
+proj = False
 file_names = []
 new_dates = []
 new_covid = []
@@ -37,6 +39,8 @@ def data_clear():
     final_graph.clear()
     global generated
     generated = False
+    global proj
+    proj = False
     global catch_error
 
 
@@ -72,7 +76,20 @@ def new_update(file_name):
     final_graph.append(new_covid)
     final_graph.append(new_dates)
 
-
+def new_proj(file_name):
+    df= csv_to_df(file_name)
+    new_data = generate_proj(df)
+    final_graph.clear()
+    final_graph.append(new_data[2])
+    #final_graph.append(new_data[0])
+    #final_graph.append(new_data[1])
+    new_covid.append(new_data[0])
+    new_covid.append(new_data[1])
+    final_graph.append(new_covid)
+    print(final_graph[0])
+    print(final_graph[1][0])
+    print(final_graph[1][1])
+    print(final_graph[1][2])
 @app.route('/')
 def about():
     return render_template("index.html")
@@ -113,6 +130,8 @@ def upload():
         file_names.append(file_name)
         try:
             new_generate(file_name)
+            global generated
+            generated = False
         except: 
             msg = "Error in csv - please check format of data."
             data_clear()
@@ -126,7 +145,15 @@ def update_graph():
     global file_name
     new_update(file_name)
     #generate_data("testdata_2.csv")
-    return render_template("graphs_data.html", data = final_graph, generated = generated)
+    return render_template("graphs_data.html", data = final_graph, generated = generated, proj=proj)
+
+@app.route('/update_proj', methods=['POST'])
+def update_proj():
+    global proj
+    proj = True
+    global file_name
+    new_proj(file_name)
+    return render_template("graphs_data.html", data = final_graph, generated=generated, proj=proj)
 
 @app.route('/download', methods=['POST'])
 def download():
@@ -137,7 +164,7 @@ def download():
 @app.route('/graphs_data.html')
 def graph_page():
     global generated
-    return render_template("graphs_data.html", data = final_graph, generated = generated)
+    return render_template("graphs_data.html", data = final_graph, generated = generated, proj=proj)
 
 @app.route('/history.html')
 def history_page():

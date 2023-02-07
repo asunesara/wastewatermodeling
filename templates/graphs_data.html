@@ -57,10 +57,10 @@
     </div>
 
     {% if data|length > 0 %}
-      {% if not generated %}
+      {% if not generated and not proj %}
         <div class="containerBlock">
           <div class="container">
-            <p>Press Button to Generate Prediction from Uploaded Data: {{ButtonPressed}}</p>
+            <p>Generate Prediction from Uploaded Data:</p>
           </div>
           <div class="generateButton">
             <form action="/update_graph" method="POST" >
@@ -68,103 +68,211 @@
             </form>
           </div>
         </div>
+        <div class="containerBlock">
+          <div class="container">
+            <p>Generate Future Projection from Uploaded Data:</p>
+          </div>
+          <div class="generateButton">
+            <form action="/update_proj" method="POST" >
+              <input type="submit" value="Generate Projection">
+            </form>
+          </div>
+        </div>
         <hr size="4" width="100%" color="black"/>
+
+      {% elif not proj %}
+        <div class="graphDescBlock">
+          <div class="graphDescription">
+            <p>
+              &nbsp <u> About the Graph</u>: <br>
+              &nbsp This graph represents the level of COVID-19 in a specific area (dependent on uploaded data)
+              on a certain date &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp (dependent on uploaded data). This 
+              allows the trend (blue line), seen below, to be formed. From this data, a &nbsp &nbsp &nbsp &nbsp 
+              &nbsp &nbsp &nbsp &nbsp &nbsp prediction (red line) can be made using our machine learning element.
+            </p>
+          </div>
+        </div>
+        <hr size="4" width="100%" color="black"/>
+
+        <div class="graphTitle">
+          <p>
+            Wastewater Data and Prediction Graph
+          </p>
+        </div>
+
+        <div class="graph">
+          <canvas id="testChart" width="1327.5" height="590"></canvas>
+          <script>
+              var ctx = document.getElementById("testChart").getContext("2d");
+              var testChart = new Chart(ctx, {
+                  type: "line",
+                  data: {
+                    labels: {{ data[1][0] | safe }},
+                      datasets: []},
+                  options: {
+                    responsive: false,
+                    scales: {
+                      yAxes: [{
+                        scaleLabel: {
+                          display: true,
+                          labelString: "Covid Measurement"
+                        }
+                      }],
+                      xAxes: [{
+                        scaleLabel: {
+                          display: true,
+                          labelString: "Date"
+                        }
+                      }]
+                    }
+                  }
+              });
+              {% for item in data[0] %}
+                console.log({{ loop.index0 }});
+                var pred_len = 0;
+                var reg_len = 0;
+                var offset = 0;
+                var border_col = "rgb(75, 192, 192)";
+                var data_array = [];
+                var curr_label = "";
+                {% if loop.index0 > 0 %}
+                  reg_len = {{ data[0][0]|length }};
+                  pred_len = {{ item|length }};
+                  offset = reg_len - pred_len;
+                  border_col = "rgb(255, 0, 0)";
+                  data_array = Array(offset).fill(null);
+                {% endif %}
+                /*console.log("Item length:" + {{ item|length }});
+                console.log(data_array);*/
+                data_array = data_array.concat({{ item }});
+                /*const data_string = JSON.stringify(data_array);*/
+                /*console.log(data_string);*/
+                {% if loop.index0 == 0 %}
+                  curr_label = "CSV Data";
+                {% else %}
+                  curr_label = "Generated Prediction";
+                {% endif %}
+                testChart.data.datasets.push({
+                  label: curr_label,
+                  data: data_array,
+                  fill: false,
+                  borderColor: border_col,
+                  lineTension: 0.1,
+                  radius: 0
+                });         
+                testChart.update();
+              {% endfor %}
+          </script>
+        </div>
+
+        <div>
+          <p>
+            <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br>
+            <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br>
+            <br> <br> <br> <br>
+          </p>
+          <hr size="4" width="100%" color="black"/>
+        </div>
+      {% elif proj %}
+        <div class="graphDescBlock">
+            <div class="graphDescription">
+              <p>
+                &nbsp <u> About the Graph</u>: <br>
+                &nbsp This graph represents the level of COVID-19 in a specific area (dependent on uploaded data)
+                on a certain date &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp (dependent on uploaded data). This 
+                allows the trend (blue line), seen below, to be formed. From this data, a &nbsp &nbsp &nbsp &nbsp 
+                &nbsp &nbsp &nbsp &nbsp &nbsp prediction (red line) can be made using our machine learning element.
+              </p>
+            </div>
+          </div>
+          <hr size="4" width="100%" color="black"/>
+
+          <div class="graphTitle">
+            <p>
+              Wastewater Data and Prediction Graph
+            </p>
+          </div>
+
+          <div class="graph">
+            <canvas id="testChart" width="1327.5" height="590"></canvas>
+            <script>
+                var ctx = document.getElementById("testChart").getContext("2d");
+                var testChart = new Chart(ctx, {
+                    type: "line",
+                    data: {
+                      labels: {{ data[0] | safe }},
+                        datasets: []},
+                    options: {
+                      responsive: false,
+                      scales: {
+                        yAxes: [{
+                          scaleLabel: {
+                            display: true,
+                            labelString: "Covid Measurement"
+                          }
+                        }],
+                        xAxes: [{
+                          scaleLabel: {
+                            display: true,
+                            labelString: "Date"
+                          }
+                        }]
+                      }
+                    }
+                });
+                {% for item in data[1] %}
+                  var pred_len = 0;
+                  var reg_len = 0;
+                  var offset = 0;
+                  var border_col = "rgb(75, 192, 192)";
+                  var data_array = [];
+                  var curr_label = "";
+                  {% if loop.index0 == 0 %}
+                    reg_len = {{ data[1][0]|length }};
+                    pred_len = {{ data[1][2]|length }};
+                    border_col = "rgb(255, 0, 0)";
+                    data_array = {{ item }};
+                    data_array = data_array.concat(Array(pred_len).fill(null));
+                    /*console.log({{ data[1][0] }});
+                    console.log({{ data[1][1] }});*/
+                  {% elif loop.index0 == 1 %}
+                    data_array = Array({{ data[1][0]|length }}).fill(null);
+                    data_array = data_array.concat({{ data[1][2] }});
+                    console.log({{ item }});
+                  {% endif %}
+                  /*console.log("Item length:" + {{ item|length }});
+                  console.log(data_array);*/
+                  /*const data_string = JSON.stringify(data_array);*/
+                  /*console.log(data_string);*/
+                  {% if loop.index0 == 0 %}
+                    curr_label = "CSV Data";
+                  {% else %}
+                    curr_label = "Generated Prediction";
+                  {% endif %}
+                  testChart.data.datasets.push({
+                    label: curr_label,
+                    data: data_array,
+                    fill: false,
+                    borderColor: border_col,
+                    lineTension: 0.1,
+                    radius: 0
+                  });         
+                  testChart.update();
+                {% endfor %}
+            </script>
+          </div>
+
+          <div>
+            <p>
+              <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br>
+              <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br>
+              <br> <br> <br> <br>
+            </p>
+            <hr size="4" width="100%" color="black"/>
+          </div>
+
+
       {% endif %}
-
-    <!--Start of Graph Code-->
-    <div class="graphDescBlock">
-      <div class="graphDescription">
-        <p>
-          &nbsp <u> About the Graph</u>: <br>
-          &nbsp This graph represents the level of COVID-19 in a specific area (dependent on uploaded data)
-          on a certain date &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp (dependent on uploaded data). This 
-          allows the trend (blue line), seen below, to be formed. From this data, a &nbsp &nbsp &nbsp &nbsp 
-          &nbsp &nbsp &nbsp &nbsp &nbsp prediction (red line) can be made using our machine learning element.
-        </p>
-      </div>
-    </div>
-    <hr size="4" width="100%" color="black"/>
-
-    <div class="graphTitle">
-      <p>
-        Wastewater Data and Prediction Graph
-      </p>
-    </div>
-
-    <div class="graph">
-      <canvas id="testChart" width="1327.5" height="590"></canvas>
-      <script>
-          var ctx = document.getElementById("testChart").getContext("2d");
-          var testChart = new Chart(ctx, {
-              type: "line",
-              data: {
-                labels: {{ data[1][0] | safe }},
-                  datasets: []},
-              options: {
-                responsive: false,
-                scales: {
-                  yAxes: [{
-                    scaleLabel: {
-                      display: true,
-                      labelString: "Covid Measurement"
-                    }
-                  }],
-                  xAxes: [{
-                    scaleLabel: {
-                      display: true,
-                      labelString: "Date"
-                    }
-                  }]
-                }
-              }
-          });
-          {% for item in data[0] %}
-            console.log({{ loop.index0 }});
-            var pred_len = 0;
-            var reg_len = 0;
-            var offset = 0;
-            var border_col = "rgb(75, 192, 192)";
-            var data_array = [];
-            var curr_label = "";
-            {% if loop.index0 > 0 %}
-              reg_len = {{ data[0][0]|length }};
-              pred_len = {{ item|length }};
-              offset = reg_len - pred_len;
-              border_col = "rgb(255, 0, 0)";
-              data_array = Array(offset).fill(null);
-            {% endif %}
-            console.log("Item length:" + {{ item|length }});
-            console.log(data_array);
-            data_array = data_array.concat({{ item }});
-            /*const data_string = JSON.stringify(data_array);*/
-            /*console.log(data_string);*/
-            {% if loop.index0 == 0 %}
-              curr_label = "CSV Data";
-            {% else %}
-              curr_label = "Generated Prediction";
-            {% endif %}
-            testChart.data.datasets.push({
-              label: curr_label,
-              data: data_array,
-              fill: false,
-              borderColor: border_col,
-              lineTension: 0.1,
-              radius: 0
-            });         
-            testChart.update();
-          {% endfor %}
-      </script>
-    </div>
-
-    <div>
-      <p>
-        <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br>
-        <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br>
-        <br> <br> <br> <br>
-      </p>
-      <hr size="4" width="100%" color="black"/>
-    </div>
-
     {% elif data|length == 0 %}
       <div class="noUploadBlock">
         <div class="noUpload">
