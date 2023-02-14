@@ -170,5 +170,9 @@ def graph_page():
 def history_page():
     return render_template("history.html", name_list=file_names)
 
+@app.route('/login.html')
+def login_page():
+    return render_template("login.html")
+
 if __name__ == "__main__":
     app.run(debug= True, port=5000)

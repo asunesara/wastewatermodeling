@@ -79,6 +79,17 @@
     border: 3px solid rgb(25, 25, 155);
     margin: 15px;
 }
+
+.login_box
+{
+    overflow:auto;
+    background-color:rgb(225, 225, 225);
+    height:260px;
+    width: 1000px;
+    border: 3px solid rgb(25, 25, 155);
+    margin: auto;
+    margin-top: 15px;
+}
 /* ---------------------------------------------------- ---------------------------------------------------- */
 
 /* ---------------------------------------------------- FILE UPLOAD TAB ---------------------------------------------------- */
@@ -129,6 +140,44 @@
 {
     margin-top: 8px;
     font-size: 20px;
+}
+
+#signin
+{
+    float: right;
+    background-color: rgb(25, 25, 155);
+    color: #f2f2f2;
+    padding: 14px 16px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 18px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+#signin:hover
+{
+    background-color: rgb(115, 155, 250);
+    color: black;
+}
+
+#signup
+{
+    float: right;
+    background-color: rgb(25, 25, 155);
+    color: #f2f2f2;
+    padding: 14px 16px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 18px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+#signup:hover
+{
+    background-color: rgb(115, 155, 250);
+    color: black;
 }
 /* ---------------------------------------------------- ---------------------------------------------------- */
 
