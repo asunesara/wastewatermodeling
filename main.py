@@ -1,4 +1,5 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, url_for, redirect, request
+from authlib.integrations.flask_client import OAuth
 import boto
 import boto.s3.connection
 import os
@@ -14,6 +15,14 @@ from predalgo4 import *
 from predalgo3 import *
 from sklearn.preprocessing import MinMaxScaler
 app = Flask(__name__)
+
+
+########################
+app.secret_key = os.urandom(12)
+#app.secret_key = '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'
+app.config['SERVER_NAME'] = 'localhost:5000'
+oauth = OAuth(app)
+########################
 
 access_key = 'AKIA2BUHV4R2RS54PBTY'
 secret_key = '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'
@@ -216,6 +225,41 @@ def getStatus():
 @app.route('/login.html')
 def login_page():
     return render_template("login.html")
+
+
+@app.route('/google/')
+def google():
+
+
+    GOOGLE_CLIENT_ID = "227467647033-9ur7q19ivmmklj1d0tsubsv7mv9c9s6f.apps.googleusercontent.com"
+    GOOGLE_CLIENT_SECRET = "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"
+
+
+    CONF_URL = 'https://accounts.google.com/.well-known/openid-configuration'
+    oauth.register(
+        name='google',
+        client_id=GOOGLE_CLIENT_ID,
+        client_secret=GOOGLE_CLIENT_SECRET,
+        server_metadata_url=CONF_URL,
+        client_kwargs={
+            'scope': 'openid email profile'
+        }
+    )
+
+
+    # Redirect to google_auth function
+    redirect_uri = url_for('google_auth', _external=True)
+    print(redirect_uri)
+    return oauth.google.authorize_redirect(redirect_uri)
+
+
+@app.route('/google/auth/')
+def google_auth():
+    token = oauth.google.authorize_access_token()
+    user = token['userinfo']
+    print(" Google User ", user)
+    return redirect('/')
+############################
 
 if __name__ == "__main__":
     app.run(debug= True, port=5000)
