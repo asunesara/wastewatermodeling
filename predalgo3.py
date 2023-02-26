@@ -1,15 +1,38 @@
 import pandas as pd
 import numpy as np
+from statistics import mean
 from keras.preprocessing.sequence import TimeseriesGenerator
 from keras.models import Sequential
 from keras.layers import Dense, LSTM
+from keras.callbacks import Callback
 #from plotly import graph_objs as go
 import tensorflow as tf
+import main
 
 
+
+class TrainingCallback(Callback):
+    def on_train_begin(self, logs=None):
+        print("Starting training...")
+        
+    def on_epoch_begin(self, epoch, logs=None):
+        print(f"Starting epoch {epoch}")
+        main.status = epoch
+        print(main.status)
+    #def on_train_batch_begin(self, batch, logs=None):
+        #print(f"Training: Starting batch {batch}")
+
+    #def on_train_batch_end(self, batch, logs=None):
+        #print(f"Training: Finished batch {batch}")
+        
+    #def on_epoch_end(self, epoch, logs=None):
+        #print(f"Finished epoch {epoch}")
+    def on_train_end(self, logs=None):
+        print("Finished training")
+
+# main.status
 def generate_proj(data_df):
     df = data_df
-
     cases_data = df[1].values
     cases_data = cases_data.reshape((-1, 1))
     dates = df[0]
@@ -39,7 +62,7 @@ def generate_proj(data_df):
     model.add(LSTM(units=50, activation='relu', stateful=False, input_shape=(look_back, 1)))
     model.add(Dense(1))
     model.compile(optimizer='adam', loss='mean_squared_error')
-    model.fit_generator(train_generator, epochs=25, verbose=1)
+    model.fit_generator(train_generator, epochs=25, verbose=1, callbacks= [TrainingCallback()])
 
     # makes prediction
     prediction = model.predict_generator(test_generator)
@@ -102,10 +125,20 @@ def generate_proj(data_df):
     og_cases = cases_data.tolist()
     new_cases = forecast(days_to_forecast, model).tolist()
     new_dates = forecast_dates(days_to_forecast).tolist()
+    last_7_mean = mean(og_cases[-7:])
+    print(og_cases[-7:])
+    print(last_7_mean)
+    avg_arr = [last_7_mean] * 7
     my_dates = np.append(dates, forecast_dates(days_to_forecast)).tolist()
     #print(my_dates[1].strftime('%m/%d/%Y'))
 
-    results = [og_cases, new_cases, my_dates]
+    upper = []
+    lower = []
+    for i in new_cases:
+        upper.append(i + (i * .15))
+        lower.append(i - (i * .15))
+
+    results = [og_cases, new_cases, my_dates, upper, lower, avg_arr]
  
     return(results)
     #print(my_data.tolist())

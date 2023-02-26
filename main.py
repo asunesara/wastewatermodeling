@@ -2,7 +2,9 @@ from flask import Flask, render_template, request
 import boto
 import boto.s3.connection
 import os
-
+import math
+from threading import Thread
+import json
 import boto3
 import pandas as pd
 import sys
@@ -26,17 +28,27 @@ client = boto3.client('s3', aws_access_key_id = access_key,
 bucket_name = 'mattdtest'
 file_name = ""
 
+global mean_7
+mean_7 = 0
+global status
+status = 0
 generated = False
 proj = False
 file_names = []
 new_dates = []
 new_covid = []
 final_graph = []
-
+bounds = []
+upper_bounds = []
+lower_bounds = []
 def data_clear():
+    mean_7= 0
     new_dates.clear()
     new_covid.clear()
     final_graph.clear()
+    upper_bounds.clear()
+    bounds.clear()
+    lower_bounds.clear()
     global generated
     generated = False
     global proj
@@ -69,7 +81,9 @@ def new_generate(file_name):
 
 def new_update(file_name):
     df = csv_to_df(file_name)
+
     new_data = generate_results(df)
+
     new_dates.append(new_data[2])
     new_covid.append(new_data[0])
     final_graph.clear()
@@ -77,19 +91,20 @@ def new_update(file_name):
     final_graph.append(new_dates)
 
 def new_proj(file_name):
+    global mean_7
     df= csv_to_df(file_name)
     new_data = generate_proj(df)
     final_graph.clear()
     final_graph.append(new_data[2])
-    #final_graph.append(new_data[0])
-    #final_graph.append(new_data[1])
     new_covid.append(new_data[0])
     new_covid.append(new_data[1])
     final_graph.append(new_covid)
-    print(final_graph[0])
-    print(final_graph[1][0])
-    print(final_graph[1][1])
-    print(final_graph[1][2])
+    upper_bounds = new_data[3]
+    lower_bounds = new_data[4]
+    mean_7 = new_data[5]
+    bounds.append(upper_bounds)
+    bounds.append(lower_bounds)
+
 @app.route('/')
 def about():
     return render_template("index.html")
@@ -97,6 +112,12 @@ def about():
 @app.route('/index.html')
 def home_page():
     return render_template("index.html")
+
+@app.route('/testing.html')
+def testing_page():
+    batch = "N/A"
+    test_str = "N/A"
+    return render_template("testing.html", var = batch, str = test_str)
 
 @app.route('/file_upload.html')
 def file_page():
@@ -145,16 +166,32 @@ def update_graph():
     global file_name
     new_update(file_name)
     #generate_data("testdata_2.csv")
-    return render_template("graphs_data.html", data = final_graph, generated = generated, proj=proj)
+    return render_template("graphs_data.html", data = final_graph, generated = generated, proj=proj, bounds = bounds,  mean_7 = mean_7)
+
+@app.route('/resize', methods=['POST'])
+def zoom_graph():
+    global final_graph
+    edit_dates = final_graph[0]
+    edit_cases = final_graph[1][0]
+    len_list = len(final_graph[0])
+    len_list = math.floor(len_list * .2)
+    edit_dates = edit_dates[len_list:]
+    edit_cases = edit_cases[len_list:]
+    final_graph[0] = edit_dates
+    final_graph[1][0] = edit_cases
+    return render_template("graphs_data.html", data = final_graph, generated = generated, proj=proj, bounds = bounds, mean_7 = mean_7)
 
 @app.route('/update_proj', methods=['POST'])
 def update_proj():
     global proj
     proj = True
     global file_name
+    #t1 = Thread(target=new_proj(file_name))
+    #t1.start()
     new_proj(file_name)
-    return render_template("graphs_data.html", data = final_graph, generated=generated, proj=proj)
-
+    return render_template("graphs_data.html", data = final_graph, generated=generated, proj=proj, bounds=bounds, mean_7 = mean_7)
+    #return render_template("test_load.html")
+    
 @app.route('/download', methods=['POST'])
 def download():
     filename = request.form["Download"]
@@ -164,11 +201,17 @@ def download():
 @app.route('/graphs_data.html')
 def graph_page():
     global generated
-    return render_template("graphs_data.html", data = final_graph, generated = generated, proj=proj)
+    return render_template("graphs_data.html", data = final_graph, generated = generated, proj=proj, bounds = bounds, mean_7 = mean_7)
 
 @app.route('/history.html')
 def history_page():
     return render_template("history.html", name_list=file_names)
+
+@app.route('/status', methods=['GET'])
+def getStatus():
+    global status
+    statusList = {'status':status}
+    return json.dumps(statusList)
 
 if __name__ == "__main__":
     app.run(debug= True, port=5000)

@@ -81,19 +81,6 @@
         <hr size="4" width="100%" color="black"/>
 
       {% elif not proj %}
-        <div class="graphDescBlock">
-          <div class="graphDescription">
-            <p>
-              &nbsp <u> About the Graph</u>: <br>
-              &nbsp This graph represents the level of COVID-19 in a specific area (dependent on uploaded data)
-              on a certain date &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp (dependent on uploaded data). This 
-              allows the trend (blue line), seen below, to be formed. From this data, a &nbsp &nbsp &nbsp &nbsp 
-              &nbsp &nbsp &nbsp &nbsp &nbsp prediction (red line) can be made using our machine learning element.
-            </p>
-          </div>
-        </div>
-        <hr size="4" width="100%" color="black"/>
-
         <div class="graphTitle">
           <p>
             Wastewater Data and Prediction Graph
@@ -128,7 +115,7 @@
                   }
               });
               {% for item in data[0] %}
-                console.log({{ loop.index0 }});
+                /*console.log({{ loop.index0 }});*/
                 var pred_len = 0;
                 var reg_len = 0;
                 var offset = 0;
@@ -174,17 +161,16 @@
           <hr size="4" width="100%" color="black"/>
         </div>
       {% elif proj %}
-        <div class="graphDescBlock">
-            <div class="graphDescription">
-              <p>
-                &nbsp <u> About the Graph</u>: <br>
-                &nbsp This graph represents the level of COVID-19 in a specific area (dependent on uploaded data)
-                on a certain date &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp (dependent on uploaded data). This 
-                allows the trend (blue line), seen below, to be formed. From this data, a &nbsp &nbsp &nbsp &nbsp 
-                &nbsp &nbsp &nbsp &nbsp &nbsp prediction (red line) can be made using our machine learning element.
-              </p>
-            </div>
+        <div class="containerBlock">
+          <div class="container">
+            <p>Zoom Into Graph:</p>
           </div>
+          <div class="generateButton">
+                <form action="/resize" method="POST" >
+                  <input type="submit" value="Zoom In">
+                </form>
+          </div>
+        </div>
           <hr size="4" width="100%" color="black"/>
 
           <div class="graphTitle">
@@ -238,7 +224,7 @@
                   {% elif loop.index0 == 1 %}
                     data_array = Array({{ data[1][0]|length }}).fill(null);
                     data_array = data_array.concat({{ data[1][2] }});
-                    console.log({{ item }});
+                    /*console.log({{ item }});*/
                   {% endif %}
                   /*console.log("Item length:" + {{ item|length }});
                   console.log(data_array);*/
@@ -259,9 +245,41 @@
                   });         
                   testChart.update();
                 {% endfor %}
+
+                {% for item in bounds %}
+                  curr_label = "";
+                  var border_col = "rgb(159, 43, 104)";
+                  bound_array = Array({{ data[1][0]|length }}).fill(null);
+                  bound_array = bound_array.concat({{ item }});
+                  {% if loop.index0 == 0 %}
+                    curr_label = "Upper Bound";
+                  {% else %}
+                    curr_label = "Lower Bound";
+                  {% endif %}
+                  testChart.data.datasets.push({
+                    label: curr_label,
+                    data: bound_array,
+                    fill: false,
+                    borderColor: border_col,
+                    lineTension: 0.1,
+                    radius: 0
+                  });         
+                  curr_label = "Naive";
+                  var border_col = "rgb(255, 165, 0)";
+                  bound_array = Array({{ data[1][0]|length }}).fill(null);
+                  bound_array = bound_array.concat({{ mean_7 }})
+                  testChart.data.datasets.push({
+                    label: curr_label,
+                    data: bound_array,
+                    fill: false,
+                    borderColor: border_col,
+                    lineTension: 0.1,
+                    radius: 0
+                  });    
+                  testChart.update();
+                {% endfor %}
             </script>
           </div>
-
           <div>
             <p>
               <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br>
