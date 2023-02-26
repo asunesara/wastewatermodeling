@@ -13,16 +13,19 @@
     <body>
       <!-- Title at the top of the page-->
       <h1 class="title">
-        Wastewater Modeling
-        <!--<a href="https://www.lanl.gov/">
-          <img
-            alt="Qries"
-            src="lanl.png"
-            align="right"
-            width="550px"
-            height="120px"
-          />
-        </a>-->
+        Wastewater Modeling 
+        <button type="button" id="signin" > Sign In </button>
+        <script type="text/javascript">
+          document.getElementById("signin").onclick = function () {
+              location.href = "login.html";
+          };
+        </script>
+        <button type="button" id="signup"> Sign Up </button>
+        <script type="text/javascript">
+          document.getElementById("signup").onclick = function () {
+              location.href = "login.html";
+          };
+        </script>
       </h1>
       <a class="subtitle"> Team 15: Matthew Delorenzo, Quinlon Horndasch, Grace Salau & Ayaan Sunesara </a>
       <!--<a class="subtitle"> Sponsored by Los Alamos National Labratories </a>-->
@@ -62,7 +65,7 @@
         &nbsp Wastewater modeling is an increasingly popular way to track things like SARS-CoV-2 more accurately. 
         Currently the &nbsp primary way to track COVID-19 levels in an area are the reported cases. While this is 
         an effective way to track these &nbsp &nbsp numbers in theory, there are many draw-backs to this. The major 
-        issues with this method is that there are &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp 
+        issues with this method is that there are &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
         inconsistencies in reporting, asymptomatic cases and a long period between taking and receiving the results 
         back &nbsp &nbsp &nbsp &nbsp &nbsp from the tests themselves. Using wastewater to test for things like this 
         allows for better and more accurate results &nbsp &nbsp &nbsp &nbsp &nbsp which in turn leads to better 

@@ -213,5 +213,9 @@ def getStatus():
     statusList = {'status':status}
     return json.dumps(statusList)
 
+@app.route('/login.html')
+def login_page():
+    return render_template("login.html")
+
 if __name__ == "__main__":
     app.run(debug= True, port=5000)

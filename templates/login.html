@@ -1,0 +1,103 @@
+<!--START OF TITLE BLOCK-->
+<!-- -->
+<!DOCTYPE html>
+<html>
+  <body class="back">
+    <head>
+      <!-- style sheets linked here-->
+      <link id="style" rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/style.css') }}"></link>
+      <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
+    </head>
+    <body>
+      <!-- Title at the top of the page-->
+      <h1 class="title">
+        Wastewater Modeling
+        <button type="button" id="signin" > Sign In </button>
+        <script type="text/javascript">
+          document.getElementById("signin").onclick = function () {
+              location.href = "login.html";
+          };
+        </script>
+        <button type="button" id="signup"> Sign Up </button>
+        <script type="text/javascript">
+          document.getElementById("signup").onclick = function () {
+              location.href = "login.html";
+          };
+        </script>
+      </h1>
+      <a class="subtitle"> Team 15: Matthew Delorenzo, Quinlon Horndasch, Grace Salau & Ayaan Sunesara </a>
+      <!--<a class="subtitle"> Sponsored by Los Alamos National Labratories </a>-->
+      <br> </br>
+      <!-- starting the tabs section-->
+      <div class="tabs">
+        <!-- Home page (to keep ordering consistent in title block) -->
+        <a href="index.html"> Home </a>
+        <!-- class is active showing current page -->
+        <a class="file_upload.html"> File Upload </a>
+        <!-- rest of the tab bars with the name and linked to the html pages-->
+        <a href="graphs_data.html"> Graphs & Data </a>
+        <a href="history.html"> History </a>
+
+        <div class="tabs2">
+          <!-- git hub image here linked to our repo-->
+          <a href="https://github.com/wastewatermodeling">
+            <img alt="Qries" src="{{ url_for('static',filename='images/GitHub-Mark.png') }}" width="35px" height="35px"/>
+          </a>
+          <!-- tamu image here linked to the website to rep the university-->
+          <a href="https://tamu.edu">
+            <img alt="Qries" src="{{ url_for('static',filename='images/tamu.png') }}" width="35px" height="35px"/>
+          </a>
+        </div>
+      </div>
+    </body>
+    <!-- -->
+    <!--END OF TITLE BLOCK-->
+
+    <div class="intro">
+      <header style="font-size: 40px; padding-top: 10px"> Log In </header>
+      <hr size="4" width="100%" color="black"/>
+    </div>
+
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body {font-family: Arial, Helvetica, sans-serif;}
+form {border: 3px solid #f1f1f1;}
+
+input[type=text], input[type=password] {
+  width: 75%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+/* Change styles for span and cancel button on extra small screens */
+@media screen and (max-width: 300px) {
+  span.psw {
+     display: block;
+     float: none;
+  }
+  .cancelbtn {
+     width: 100%;
+  }
+}
+</style>
+</head>
+<body>
+<div class="login_box">
+  <div class="container">
+    <br>
+    <label for="uname"><b>Username</b></label> <br>
+    <input type="text" placeholder="Enter Username" name="uname" required>
+    <br>
+    <label for="psw"><b>Password</b></label> <br>
+    <input type="password" placeholder="Enter Password" name="psw" required>
+    <br>
+    <button type="submit">Login</button>
+  </div>
+</div>
+</form>
+</body>
+</html>
