@@ -1,3 +1,4 @@
+<!-- Link for website for deveolpment: http://localhost:5000 -->
 <!--START OF TITLE BLOCK-->
 <!DOCTYPE html>
 <html>
@@ -5,12 +6,19 @@
     <head>
       <!-- style sheets linked here-->
       <link id="style" rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/style.css') }}"></link>
+      <!--<link rel="stylesheet2" href="style2.css" />-->
       <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
     </head>
     <body>
       <!-- Title at the top of the page-->
       <h1 class="title">
-        Wastewater Modeling
+        Wastewater Modeling 
+        <button type="button" id="signin" > Sign In </button>
+        <script type="text/javascript">
+          document.getElementById("signin").onclick = function () {
+              location.href = "login.html";
+          };
+        </script>
         <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -38,12 +46,11 @@
       <br> </br>
       <!-- starting the tabs section-->
       <div class="tabs">
-        <!-- Home page (to keep ordering consistent in title block) -->
         <a href="index.html"> Home </a>
-        <a href="about_graph.html"> About Graph </a>
         <!-- class is active showing current page -->
-        <a class="active" href="file_upload.html"> File Upload </a>
+        <a class="active" href="about_graph.html"> About Graph </a>
         <!-- rest of the tab bars with the name and linked to the html pages-->
+        <a href="file_upload.html"> File Upload </a>
         <a href="graphs_data.html"> Graph </a>
         <a href="data.html"> Data </a>
         <a href="history.html"> History </a>
@@ -53,45 +60,6 @@
     <!--END OF TITLE BLOCK-->
 
     <div class="intro">
-      <header style="font-size: 40px; padding-top: 10px"> File Upload </header>
+      <header style="font-size: 40px; padding-top: 10px"> About Graph </header>
       <hr size="4" width="100%" color="black"/>
     </div>
-
-    <div class="file_upload">
-      <div class="upload_desc">
-        <p> Click on the "Choose File" Button to Select a File and Click on the "Upload" Button to Send it to the Server:</p>
-      </div>
-        <div class="upload_button">
-          <form action="/upload" method="POST" enctype="multipart/form-data">
-            <input type="file" id="file" name="file">
-            <input type="submit" name="upload" value="Upload" class="btn btn-success">
-          </form>
-          <div class="msg">
-            &nbsp {{msg}}
-          </div>
-        </div>
-    </div>
-
-    <div class="file_upload_desc_title">
-      <p> General Guidelines: </p>
-    </div>
-
-    <div class="file_upload_desc">
-      <p>
-        <img alt="File Upload - Required CSV File Example" src="{{ url_for('static', filename='images/ReqEx_FileUpload.png') }}" width="675px" height="450px" style="float: right;">
-        In order to utilize this application with your own wastewater data there are two <br>
-        major requirements that must be met in order to ensure that the application works <br>
-        correctly. The image to the right gives a visual example of these requirements <br>
-        while the short list below are the specifics of the requirements/instructions. <br>
-        <br>
-        1. Click upload file then navigate to desired file. <br>
-        &nbsp &nbsp &nbsp &nbsp a. Must be a CSV (comma-seperated value) file. <br>
-        2. The file must also contain two columns. <br>
-        &nbsp &nbsp &nbsp &nbsp a. Column 1: Contains date (mm/dd/yyyy). <br>
-        &nbsp &nbsp &nbsp &nbsp b. Column 2: Corresponding COVID-19 wastewater measurement.
-        <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br>
-      </p>
-      <hr size="4" width="100%" color="black"/>
-    </div>
-  </body>
-</html>

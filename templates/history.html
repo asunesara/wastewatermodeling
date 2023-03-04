@@ -1,5 +1,4 @@
 <!--START OF TITLE BLOCK-->
-<!-- -->
 <!DOCTYPE html>
 <html>
   <body class="back">
@@ -13,15 +12,27 @@
       <!-- Title at the top of the page-->
       <h1 class="title">
         Wastewater Modeling
-        <!--<a href="https://www.lanl.gov/">
-          <img
-            alt="Qries"
-            src="lanl.png"
-            align="right"
-            width="550px"
-            height="120px"
-          />
-        </a>-->
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+            <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles.css') }}">
+        </head>
+        <body>
+            <div class="google" style="float: right;">
+                <a class="tamu_button" href="https://tamu.edu">
+                    <img alt="Qries" src="{{ url_for('static',filename='images/tamu.png') }}" width="60px" height="60px"/>
+                </a>
+                <a class="github_button" href="https://github.com/wastewatermodeling">
+                    <img alt="Qries" src="{{ url_for('static',filename='images/GitHub-Mark.png') }}" width="56px" height="56px" border="2px solid black"/>
+                </a>
+                <a href="google/" class="login-btn" style="text-decoration:none;">
+                    <img alt="Qries" src="{{ url_for('static',filename='images/google.png') }}" width="252px" height="60px"/>
+                </a>
+            </div>
+        </body>
       </h1>
       <a class="subtitle"> Team 15: Matthew Delorenzo, Quinlon Horndasch, Grace Salau & Ayaan Sunesara </a>
       <!--<a class="subtitle"> Sponsored by Los Alamos National Labratories </a>-->
@@ -30,21 +41,12 @@
       <div class="tabs">
         <!-- Home page (to keep ordering consistent in title block) -->
         <a href="index.html"> Home </a>
+        <a href="about_graph.html"> About Graph </a>
         <a href="file_upload.html"> File Upload </a>
-        <a href="graphs_data.html"> Graphs & Data </a>
+        <a href="graphs_data.html"> Graph </a>
+        <a href="data.html"> Data </a>
         <!-- class is active showing current page -->
-        <a class="active"> History </a>
-
-        <div class="tabs2">
-          <!-- git hub image here linked to our repo-->
-          <a href="https://github.com/wastewatermodeling">
-            <img alt="Qries" src="{{ url_for('static',filename='images/GitHub-Mark.png') }}" width="35px" height="35px"/>
-          </a>
-          <!-- tamu image here linked to the website to rep the university-->
-          <a href="https://tamu.edu">
-            <img alt="Qries" src="{{ url_for('static',filename='images/tamu.png') }}" width="35px" height="35px"/>
-          </a>
-        </div>
+        <a class="active" href="history.html"> History </a>
       </div>
     </body>
     <!-- -->

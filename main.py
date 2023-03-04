@@ -16,13 +16,10 @@ from predalgo3 import *
 from sklearn.preprocessing import MinMaxScaler
 app = Flask(__name__)
 
-
-########################
 app.secret_key = os.urandom(12)
 #app.secret_key = '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'
 app.config['SERVER_NAME'] = 'localhost:5000'
 oauth = OAuth(app)
-########################
 
 access_key = 'AKIA2BUHV4R2RS54PBTY'
 secret_key = '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'
@@ -64,7 +61,6 @@ def data_clear():
     proj = False
     global catch_error
 
-
 def csv_to_df(file_name):
     csv_obj = client.get_object(Bucket=bucket_name, Key=file_name)
     body = csv_obj['Body']
@@ -86,7 +82,6 @@ def new_generate(file_name):
     new_dates.append(data_list)
     final_graph.append(new_covid)
     final_graph.append(new_dates)
-
 
 def new_update(file_name):
     df = csv_to_df(file_name)
@@ -121,6 +116,10 @@ def about():
 @app.route('/index.html')
 def home_page():
     return render_template("index.html")
+
+@app.route('/about_graph.html')
+def about_graph_page():
+    return render_template("about_graph.html")
 
 @app.route('/testing.html')
 def testing_page():
@@ -212,6 +211,10 @@ def graph_page():
     global generated
     return render_template("graphs_data.html", data = final_graph, generated = generated, proj=proj, bounds = bounds, mean_7 = mean_7)
 
+@app.route('/data.html')
+def data_page():
+    return render_template("data.html")
+
 @app.route('/history.html')
 def history_page():
     return render_template("history.html", name_list=file_names)
@@ -226,15 +229,10 @@ def getStatus():
 def login_page():
     return render_template("login.html")
 
-
 @app.route('/google/')
 def google():
-
-
     GOOGLE_CLIENT_ID = "227467647033-9ur7q19ivmmklj1d0tsubsv7mv9c9s6f.apps.googleusercontent.com"
     GOOGLE_CLIENT_SECRET = "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"
-
-
     CONF_URL = 'https://accounts.google.com/.well-known/openid-configuration'
     oauth.register(
         name='google',
@@ -245,13 +243,9 @@ def google():
             'scope': 'openid email profile'
         }
     )
-
-
-    # Redirect to google_auth function
     redirect_uri = url_for('google_auth', _external=True)
     print(redirect_uri)
     return oauth.google.authorize_redirect(redirect_uri)
-
 
 @app.route('/google/auth/')
 def google_auth():
@@ -259,7 +253,6 @@ def google_auth():
     user = token['userinfo']
     print(" Google User ", user)
     return redirect('/')
-############################
 
 if __name__ == "__main__":
     app.run(debug= True, port=5000)

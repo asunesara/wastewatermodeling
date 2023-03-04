@@ -1,6 +1,5 @@
-<!-- Link for website for deveolpment: http://127.0.0.1:5000 -->
+<!-- Link for website for deveolpment: http://localhost:5000 -->
 <!--START OF TITLE BLOCK-->
-<!-- -->
 <!DOCTYPE html>
 <html>
   <body class="back">
@@ -14,18 +13,27 @@
       <!-- Title at the top of the page-->
       <h1 class="title">
         Wastewater Modeling 
-        <button type="button" id="signin" > Sign In </button>
-        <script type="text/javascript">
-          document.getElementById("signin").onclick = function () {
-              location.href = "login.html";
-          };
-        </script>
-        <button type="button" id="signup"> Sign Up </button>
-        <script type="text/javascript">
-          document.getElementById("signup").onclick = function () {
-              location.href = "login.html";
-          };
-        </script>
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+            <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles.css') }}">
+        </head>
+        <body>
+            <div class="google" style="float: right;">
+                <a class="tamu_button" href="https://tamu.edu">
+                    <img alt="Qries" src="{{ url_for('static',filename='images/tamu.png') }}" width="60px" height="60px"/>
+                </a>
+                <a class="github_button" href="https://github.com/wastewatermodeling">
+                    <img alt="Qries" src="{{ url_for('static',filename='images/GitHub-Mark.png') }}" width="56px" height="56px" border="2px solid black"/>
+                </a>
+                <a href="google/" class="login-btn" style="text-decoration:none;">
+                    <img alt="Qries" src="{{ url_for('static',filename='images/google.png') }}" width="252px" height="60px"/>
+                </a>
+            </div>
+        </body>
       </h1>
       <a class="subtitle"> Team 15: Matthew Delorenzo, Quinlon Horndasch, Grace Salau & Ayaan Sunesara </a>
       <!--<a class="subtitle"> Sponsored by Los Alamos National Labratories </a>-->
@@ -35,20 +43,11 @@
         <!-- class is active showing current page -->
         <a class="active" href="index.html"> Home </a>
         <!-- rest of the tab bars with the name and linked to the html pages-->
+        <a href="about_graph.html"> About Graph </a>
         <a href="file_upload.html"> File Upload </a>
-        <a href="graphs_data.html"> Graphs & Data </a>
+        <a href="graphs_data.html"> Graph </a>
+        <a href="data.html"> Data </a>
         <a href="history.html"> History </a>
-
-        <div class="tabs2">
-          <!-- git hub image here linked to our repo-->
-          <a href="https://github.com/wastewatermodeling">
-            <img alt="Qries" src="{{ url_for('static',filename='images/GitHub-Mark.png') }}" width="35px" height="35px"/>
-          </a>
-          <!-- tamu image here linked to the website to rep the university-->
-          <a href="https://tamu.edu">
-            <img alt="Qries" src="{{ url_for('static',filename='images/tamu.png') }}" width="35px" height="35px"/>
-          </a>
-        </div>
       </div>
     </body>
     <!-- -->
@@ -103,8 +102,6 @@
         &nbsp <u> CDC's National Wastewater Surveillance System (NWSS)</u>:
         <a href="https://www.cdc.gov/healthywater/surveillance/wastewater-surveillance/wastewater-surveillance.html#:~:text
             =Wastewater%20from%20a%20sewershed%20(the,SARS%2DCoV%2D2%20testing.">CDC Link</a> <br>
-        &nbsp <u> Los Alamos National Labratory (LANL) COVID-19 Genome Pipeline</u>:
-        <a href="https://cov.lanl.gov/content/index">Los Alamos National Labratory Link</a> <br>
         &nbsp <u> Rice's Houston Wastewater Monitoring Dashboard</u>:
         <a href="https://covidwwtp.spatialstudieslab.org/">Rice Link</a> <br>
         </p>
