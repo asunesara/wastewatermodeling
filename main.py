@@ -117,9 +117,9 @@ def about():
 def home_page():
     return render_template("index.html")
 
-@app.route('/about_graph.html')
-def about_graph_page():
-    return render_template("about_graph.html")
+@app.route('/about_model.html')
+def about_model_page():
+    return render_template("about_model.html")
 
 @app.route('/testing.html')
 def testing_page():
