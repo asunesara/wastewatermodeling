@@ -50,7 +50,7 @@ def generate_proj(data_df):
 
     # timeseries generator helps manipulate data from a sequence to supervised data
     # look back data is the specifying the number of previous days to look back
-    look_back = 60
+    look_back = 15
     train_generator = TimeseriesGenerator(cases_train, cases_train, length=look_back, batch_size=20)
     test_generator = TimeseriesGenerator(cases_test, cases_test, length=look_back, batch_size=1)
 
@@ -126,8 +126,8 @@ def generate_proj(data_df):
     new_cases = forecast(days_to_forecast, model).tolist()
     new_dates = forecast_dates(days_to_forecast).tolist()
     last_7_mean = mean(og_cases[-7:])
-    print(og_cases[-7:])
-    print(last_7_mean)
+    #print(og_cases[-7:])
+    #print(last_7_mean)
     avg_arr = [last_7_mean] * 7
     my_dates = np.append(dates, forecast_dates(days_to_forecast)).tolist()
     #print(my_dates[1].strftime('%m/%d/%Y'))
@@ -139,9 +139,8 @@ def generate_proj(data_df):
         lower.append(i - (i * .15))
 
     results = [og_cases, new_cases, my_dates, upper, lower, avg_arr]
- 
+    print(new_cases)
     return(results)
-    #print(my_data.tolist())
     #print(type(dates.tolist()[1]))
     '''
     forecast = forecast(days_to_forecast, model)
@@ -150,7 +149,6 @@ def generate_proj(data_df):
     af = [7902403, 7902627, 7902627, 7902627, 7910455, 7910788, 7914571, 7915047]
     print("actual", af)
     print("predicted", forecast)
-
     # data visualization of predictions as well as testing data
     trace1 = go.Scatter(
         x=date_train,
@@ -171,10 +169,8 @@ def generate_proj(data_df):
         title="Covid Cases",
         xaxis={'title': "Date"},
         yaxis={'title': "Cases"})
-
     fig = go.Figure(data=[trace1, trace2, trace3], layout=layout)
     fig.show()
-
     # Percent Accuracy
     PA1 = 100 - abs((((af[1] - forecast[1]) / af[1]) * 100))
     PA2 = 100 - abs((((af[2] - forecast[2]) / af[2]) * 100))
