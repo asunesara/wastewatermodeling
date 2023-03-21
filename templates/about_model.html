@@ -12,12 +12,6 @@
       <!-- Title at the top of the page-->
       <h1 class="title">
         Wastewater Modeling 
-        <button type="button" id="signin" > Sign In </button>
-        <script type="text/javascript">
-          document.getElementById("signin").onclick = function () {
-              location.href = "login.html";
-          };
-        </script>
         <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -62,3 +56,42 @@
       <header style="font-size: 40px; padding-top: 10px"> About Graph </header>
       <hr size="4" width="100%" color="black"/>
     </div>
+
+    <div class="model">
+      <p style="margin-top: 10px; margin-bottom: 10px;">
+        &nbsp <u> About Predictive Algorithm</u>: <br>
+        &nbsp The predictive algorithm utilizes a Long Short Term Memory model (LSTM), which is a type of recurrent neural 
+        &nbsp &nbsp &nbsp &nbsp &nbsp network. This is utilized to make predictions, as well as forcast data up to 7 
+        days into the future. It works by utilizing &nbsp &nbsp a pre-processed CSV file that consists of two columns: the date 
+        and the measurement of COVID-19 cases (or &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp wastewater 
+        measurement). Utilizing the CSV file data, as well as various libraries (such as TensorFlow, Keras, &nbsp &nbsp &nbsp &nbsp
+        &nbsp &nbsp &nbsp Pandas and NumPy for data manipulation & model building and data visualization), it outputs a graph of past 
+        data as &nbsp &nbsp well as the forecasted predictions. The CSV data is then made into a data frame to seperate 
+        the dates from the &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp measurements. It is then split into training and 
+        testing data to train and test the recurrent neural network. The &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp sequential 
+        data is turned into supervised data by using a time series generator, which is then fed into the LSTM &nbsp &nbsp &nbsp &nbsp 
+        &nbsp &nbsp model. The outputted data from the LTSM is then reshaped and fed into two functions: a predict function 
+        that takes &nbsp &nbsp &nbsp in the number of days to forecast data, as well as the output of the model to then make the 
+        forecasted predictions. &nbsp &nbsp &nbsp &nbsp &nbsp The predicted dates also function as the number of forecast 
+        days to align the predictions with the correct dates. 
+      </p>
+    </div>
+
+    <hr size="4" width="100%" color="black"/>
+    <div class="file_upload_desc_title">
+      <p style="font-size: 32px"> Expected Outcome: </p>
+    </div>
+
+    <div class="file_upload_desc">
+      <p style="font-size: 25px">
+        <img alt="File Upload - Required CSV File Example" src="{{ url_for('static', filename='images/expected_outcome_1.png') }}" width="675px" height="450px" style="float: right" border="2px solid black";>
+        The image to the right gives a visual represenation of the expected outcome of 
+        the uploaded data and the prediction (from predictive algorithm). In the image 
+        you can see that the uploaded wastewater data is presented in red while the 
+        predicted trend is presented in <br> light blue. The graph also presents the date 
+        (x-axis) and the level <br> of measured COVID-19 in the wastewater (y-axis) along 
+        with a legend (that will eventually involve more data trends/data <br> analysis). 
+        There is also a zoom function being implemented that <br> will allow for closer 
+        inspection of the predicted trend.
+        <br> <br> <br> <br> <br> <br> <br> <br> <br> <br>
+      </p>
