@@ -58,21 +58,21 @@
     </div>
 
     <div class="model">
-      <p style="margin-top: 10px; margin-bottom: 10px;">
-        &nbsp <u> About Predictive Algorithm</u>: <br>
-        &nbsp The predictive algorithm utilizes a Long Short Term Memory model (LSTM), which is a type of recurrent neural 
-        &nbsp &nbsp &nbsp &nbsp &nbsp network. This is utilized to make predictions, as well as forcast data up to 7 
-        days into the future. It works by utilizing &nbsp &nbsp a pre-processed CSV file that consists of two columns: the date 
-        and the measurement of COVID-19 cases (or &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp wastewater 
-        measurement). Utilizing the CSV file data, as well as various libraries (such as TensorFlow, Keras, &nbsp &nbsp &nbsp &nbsp
-        &nbsp &nbsp &nbsp Pandas and NumPy for data manipulation & model building and data visualization), it outputs a graph of past 
-        data as &nbsp &nbsp well as the forecasted predictions. The CSV data is then made into a data frame to seperate 
-        the dates from the &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp measurements. It is then split into training and 
-        testing data to train and test the recurrent neural network. The &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp sequential 
-        data is turned into supervised data by using a time series generator, which is then fed into the LSTM &nbsp &nbsp &nbsp &nbsp 
-        &nbsp &nbsp model. The outputted data from the LTSM is then reshaped and fed into two functions: a predict function 
-        that takes &nbsp &nbsp &nbsp in the number of days to forecast data, as well as the output of the model to then make the 
-        forecasted predictions. &nbsp &nbsp &nbsp &nbsp &nbsp The predicted dates also function as the number of forecast 
+      <p style="margin-top: 10px; margin-bottom: 10px; margin-left: 12px; margin-right: 12px;">
+        <u> About Predictive Algorithm</u>: <br>
+        The predictive algorithm utilizes a Long Short Term Memory model (LSTM), which is a type of recurrent neural 
+        network. This is utilized to make predictions, as well as forcast data up to 7 
+        days into the future. It works by utilizing a pre-processed CSV file that consists of two columns: the date 
+        and the measurement of COVID-19 cases (or wastewater 
+        measurement). Utilizing the CSV file data, as well as various libraries (such as TensorFlow, Keras, 
+        Pandas and NumPy for data manipulation & model building and data visualization), it outputs a graph of past 
+        data as well as the forecasted predictions. The CSV data is then made into a data frame to seperate 
+        the dates from the measurements. It is then split into training and 
+        testing data to train and test the recurrent neural network. The sequential 
+        data is turned into supervised data by using a time series generator, which is then fed into the LSTM  
+        model. The outputted data from the LTSM is then reshaped and fed into two functions: a predict function 
+        that takes in the number of days to forecast data, as well as the output of the model to then make the 
+        forecasted predictions. The predicted dates also function as the number of forecast 
         days to align the predictions with the correct dates. 
       </p>
     </div>
