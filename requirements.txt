@@ -67,6 +67,3 @@ urllib3==1.26.13
 Werkzeug==2.0.3
 wrapt==1.12.1
 zipp==3.6.0
-oauthlib==3.2.2
-google-auth==2.14.1
-google-auth-oauthlib==0.4.6
