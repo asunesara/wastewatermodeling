@@ -16,7 +16,7 @@ from werkzeug.utils import secure_filename
 from predalgo4 import *
 from sklearn.preprocessing import MinMaxScaler
 app = Flask(__name__)
-app.config['SERVER_NAME'] = 'localhost:5000'
+app.config['SERVER_NAME'] = 'wastewater-modeling.herokuapp.com'
 oauth = OAuth(app)
 
 access_key = 'AKIA2BUHV4R2RS54PBTY'
