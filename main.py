@@ -3,6 +3,11 @@ import boto
 import boto.s3.connection
 import os
 
+from authlib.integrations.flask_client import OAuth
+from googleapiclient.discovery import build
+from google_auth_oauthlib.flow import InstalledAppFlow
+from google.auth.transport.requests import Request
+
 import boto3
 import pandas as pd
 import sys
@@ -11,6 +16,8 @@ from werkzeug.utils import secure_filename
 from predalgo4 import *
 from sklearn.preprocessing import MinMaxScaler
 app = Flask(__name__)
+app.config['SERVER_NAME'] = 'localhost:5000'
+oauth = OAuth(app)
 
 access_key = 'AKIA2BUHV4R2RS54PBTY'
 secret_key = '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'
@@ -139,6 +146,10 @@ def graph_page():
 @app.route('/history.html')
 def history_page():
     return render_template("history.html", name_list=file_names)
+
+@app.route('/login', methods = ['POST'])
+def login():
+    return render_template("login.html")
 
 if __name__ == "__main__":
     app.run(debug= True, port=5000)
