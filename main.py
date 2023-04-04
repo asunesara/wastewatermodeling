@@ -63,7 +63,7 @@ def csv_to_df(file_name):
 #    new_covid.append(data_list)
 #    new_dates.append(date_list)
 #    final_graph.append(new_covid)
-#    final_graph.append(new_dates)
+#    final_graph.append(new_dates
 
 def new_generate(file_name):
     df = csv_to_df(file_name)
