@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 from sklearn.preprocessing import MinMaxScaler
 from keras.models import Sequential, load_model
 from keras.layers import LSTM, Dense, Dropout
@@ -71,8 +71,9 @@ predictions = scaler.inverse_transform(predictions)
 y_test_scaled = scaler.inverse_transform(y_test.reshape(-1, 1))
 
 # building & showing graph
-fig, ax = plt.subplots(figsize=(16, 8))
-ax.plot(y_test_scaled, color='blue', label='Original')
-plt.plot(predictions, color='purple', label='Predicted')
-plt.legend()
-plt.show()
+
+#fig, ax = plt.subplots(figsize=(16, 8))
+#ax.plot(y_test_scaled, color='blue', label='Original')
+#plt.plot(predictions, color='purple', label='Predicted')
+#plt.legend()
+#plt.show()
