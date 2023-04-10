@@ -28,7 +28,7 @@
                 <a class="github_button" href="https://github.com/wastewatermodeling">
                     <img alt="Qries" src="{{ url_for('static',filename='images/GitHub-Mark.png') }}" width="56px" height="56px" border="2px solid black"/>
                 </a>
-                <a href="google/" class="login-btn" style="text-decoration:none;">
+                <a href="login.html" class="login-btn" style="text-decoration:none;">
                     <img alt="Qries" src="{{ url_for('static',filename='images/google.png') }}" width="252px" height="60px"/>
                 </a>
             </div>
@@ -80,6 +80,17 @@
             </form>
           </div>
         </div>
+
+        <div class="containerBlock">
+          <div class="container">
+            <p>Generate 95% Confidence Interval w/ Projection:</p>
+          </div>
+          <div class="generateButton">
+            <form action="/confidence" method="POST" >
+              <input type="submit" value="Generate CI">
+            </form>
+          </div>
+        </div>
         <hr size="4" width="100%" color="black"/>
 
       {% elif not proj %}
@@ -117,7 +128,6 @@
                   }
               });
               {% for item in data[0] %}
-                /*console.log({{ loop.index0 }});*/
                 var pred_len = 0;
                 var reg_len = 0;
                 var offset = 0;
@@ -131,11 +141,7 @@
                   border_col = "rgb(255, 0, 0)";
                   data_array = Array(offset).fill(null);
                 {% endif %}
-                /*console.log("Item length:" + {{ item|length }});
-                console.log(data_array);*/
                 data_array = data_array.concat({{ item }});
-                /*const data_string = JSON.stringify(data_array);*/
-                /*console.log(data_string);*/
                 {% if loop.index0 == 0 %}
                   curr_label = "CSV Data";
                 {% else %}
@@ -196,7 +202,7 @@
                         yAxes: [{
                           scaleLabel: {
                             display: true,
-                            labelString: "Covid Measurement"
+                            labelString: "Covid-19 Postive Cases - Daily Incidence"
                           }
                         }],
                         xAxes: [{
@@ -215,23 +221,18 @@
                   var border_col = "rgb(75, 192, 192)";
                   var data_array = [];
                   var curr_label = "";
+                  var fill_bool = false;
                   {% if loop.index0 == 0 %}
                     reg_len = {{ data[1][0]|length }};
-                    pred_len = {{ data[1][2]|length }};
+                    pred_len = {{ data[1][1]|length }};
                     border_col = "rgb(255, 0, 0)";
                     data_array = {{ item }};
                     data_array = data_array.concat(Array(pred_len).fill(null));
-                    /*console.log({{ data[1][0] }});
-                    console.log({{ data[1][1] }});*/
                   {% elif loop.index0 == 1 %}
                     data_array = Array({{ data[1][0]|length }}).fill(null);
-                    data_array = data_array.concat({{ data[1][2] }});
-                    /*console.log({{ item }});*/
+                    data_array = data_array.concat({{ data[1][1] }});
                   {% endif %}
-                  /*console.log("Item length:" + {{ item|length }});
-                  console.log(data_array);*/
-                  /*const data_string = JSON.stringify(data_array);*/
-                  /*console.log(data_string);*/
+
                   {% if loop.index0 == 0 %}
                     curr_label = "CSV Data";
                   {% else %}
@@ -248,24 +249,31 @@
                   testChart.update();
                 {% endfor %}
 
-                {% for item in bounds %}
+                {% for item in conf_int %}
                   curr_label = "";
+                  fill_bool = false;
                   var border_col = "rgb(159, 43, 104)";
                   bound_array = Array({{ data[1][0]|length }}).fill(null);
                   bound_array = bound_array.concat({{ item }});
                   {% if loop.index0 == 0 %}
-                    curr_label = "Upper Bound";
-                  {% else %}
                     curr_label = "Lower Bound";
+                  {% elif loop.index0 == 1 %}
+                    curr_label = "Upper Bound";
+                    fill_bool = '-1';
+                  {% elif loop.index0 == 2 %}
+                    curr_label = "Center of CI";
                   {% endif %}
                   testChart.data.datasets.push({
                     label: curr_label,
                     data: bound_array,
-                    fill: false,
+                    fill: fill_bool,
                     borderColor: border_col,
                     lineTension: 0.1,
                     radius: 0
                   });         
+                  testChart.update();
+                {% endfor %}
+
                   curr_label = "Naive";
                   var border_col = "rgb(255, 165, 0)";
                   bound_array = Array({{ data[1][0]|length }}).fill(null);
@@ -279,7 +287,6 @@
                     radius: 0
                   });    
                   testChart.update();
-                {% endfor %}
             </script>
           </div>
           <div>

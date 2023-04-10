@@ -4,9 +4,12 @@ from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 import pickle
+import scipy.stats as st
+import numpy as np
 import boto
 import boto.s3.connection
 import os
+import csv
 import math
 from threading import Thread
 import json
@@ -35,10 +38,13 @@ bucket2 = conn.get_bucket("mattdtest")
 client = boto3.client('s3', aws_access_key_id = access_key,
                     aws_secret_access_key = secret_key)
 
+
 bucket_name = 'mattdtest'
 file_name = ""
 
 global mean_7
+global conf_int
+conf_int = []
 mean_7 = 0
 global status
 status = 0
@@ -57,6 +63,8 @@ def data_clear():
     new_covid.clear()
     final_graph.clear()
     upper_bounds.clear()
+    global conf_int
+    conf_int.clear()
     bounds.clear()
     lower_bounds.clear()
     global generated
@@ -86,6 +94,7 @@ def new_generate(file_name):
     new_dates.append(data_list)
     final_graph.append(new_covid)
     final_graph.append(new_dates)
+    #print(final_graph)
 
 def new_update(file_name):
     df = csv_to_df(file_name)
@@ -103,6 +112,7 @@ def new_proj(file_name):
     df= csv_to_df(file_name)
     new_data = generate_proj(df)
     final_graph.clear()
+    new_covid.clear()
     final_graph.append(new_data[2])
     new_covid.append(new_data[0])
     new_covid.append(new_data[1])
@@ -112,7 +122,6 @@ def new_proj(file_name):
     mean_7 = new_data[5]
     bounds.append(upper_bounds)
     bounds.append(lower_bounds)
-
 @app.route('/')
 def about():
     return render_template("index.html")
@@ -178,7 +187,7 @@ def update_graph():
     global file_name
     new_update(file_name)
     #generate_data("testdata_2.csv")
-    return render_template("graphs_data.html", data = final_graph, generated = generated, proj=proj, bounds = bounds,  mean_7 = mean_7)
+    return render_template("graphs_data.html", data = final_graph, generated = generated, proj=proj, bounds = bounds,  mean_7 = mean_7, conf_int=conf_int)
 
 @app.route('/resize', methods=['POST'])
 def zoom_graph():
@@ -191,19 +200,89 @@ def zoom_graph():
     edit_cases = edit_cases[len_list:]
     final_graph[0] = edit_dates
     final_graph[1][0] = edit_cases
-    return render_template("graphs_data.html", data = final_graph, generated = generated, proj=proj, bounds = bounds, mean_7 = mean_7)
+    return render_template("graphs_data.html", data = final_graph, generated = generated, proj=proj, bounds = bounds, mean_7 = mean_7, conf_int=conf_int)
 
 @app.route('/update_proj', methods=['POST'])
 def update_proj():
     global proj
     proj = True
     global file_name
-    #t1 = Thread(target=new_proj(file_name))
-    #t1.start()
     new_proj(file_name)
-    return render_template("graphs_data.html", data = final_graph, generated=generated, proj=proj, bounds=bounds, mean_7 = mean_7)
+    arr = final_graph[1][1]
+    response = client.download_file(bucket_name, file_name, file_name)
+    df = csv_to_df(file_name)
+    df["forecast"] = pd.Series(arr)
+    df.to_csv("texas_clean.csv")  
+    client.upload_file("texas_clean.csv", bucket_name, file_name)
+    #arr = final_graph[1][2]
+    #response = client.download_file(bucket_name, file_name, file_name)
+    #wtr = csv.writer(open (file_name, 'w'), delimiter=',', lineterminator='\n')
+    #for x in arr : wtr.writerow ([x]) 
+    #with open("texas_clean_og.csv", 'rb') as data:
+    #    client.upload_fileobj(data, bucket_name, access_key)
+    return render_template("graphs_data.html", data = final_graph, generated=generated, proj=proj, bounds=bounds, mean_7 = mean_7, conf_int=conf_int)
     #return render_template("test_load.html")
     
+@app.route('/confidence', methods=['POST'])
+def confidence():
+    global proj
+    proj = True
+    global conf_int
+    conf_int = []
+    result_data = []
+    global file_name
+
+    for x in range(20):
+        df= csv_to_df(file_name)
+        new_data = generate_proj(df)
+        result_data.append(new_data[1])
+    #print("Result Data: ")
+    #print("")
+    #print(result_data)
+    all_data = []
+    for x in range(8):
+        data_part = []
+        for y in range(20):
+            data_part.append(result_data[y][x])
+        all_data.append(data_part)
+       # print("")
+        #print(all_data)
+    
+    #print(all_data)
+    result_ci = []
+    for y in range(8):
+        if (y != 0):
+            ci = st.t.interval(alpha=.9, df = len(all_data[y])-1,loc=np.mean(all_data[y]), scale=st.sem(all_data[y]))
+            result_ci.append(ci)
+        else:
+            constant_tuple = (all_data[0][0], all_data[0][0])
+            result_ci.append(constant_tuple)
+
+
+    #print("")
+    #print(result_ci)
+    #print(type(result_ci[0]))
+    conf_int = []
+    upper_ci = []
+    lower_ci = []
+    mid_ci = []
+    for x in range(len(result_ci)):
+        lower_ci.append(result_ci[x][0])
+        upper_ci.append(result_ci[x][1])
+        mid_ci.append((result_ci[x][1]+result_ci[x][0])/2)
+    conf_int.append(lower_ci)
+    conf_int.append(upper_ci)
+    conf_int.append(mid_ci)
+    print("Confidence Interval")
+    print(conf_int[0])
+    print(conf_int[1])
+    print(conf_int[2])
+
+    new_proj(file_name)
+
+    return render_template("graphs_data.html", data = final_graph, generated=generated, proj=proj, bounds=bounds, mean_7 = mean_7, conf_int=conf_int)
+
+
 @app.route('/download', methods=['POST'])
 def download():
     filename = request.form["Download"]
@@ -213,11 +292,12 @@ def download():
 @app.route('/graphs_data.html')
 def graph_page():
     global generated
-    return render_template("graphs_data.html", data = final_graph, generated = generated, proj=proj, bounds = bounds, mean_7 = mean_7)
+    return render_template("graphs_data.html", data = final_graph, generated = generated, proj=proj, bounds = bounds, mean_7 = mean_7, conf_int=conf_int)
 
 @app.route('/data.html')
 def data_page():
     return render_template("data.html")
+
 
 @app.route('/history.html')
 def history_page():
@@ -265,6 +345,7 @@ def new_auth():
     try:
         SCOPES = ['https://www.googleapis.com/auth/drive']
         ##this might need to be swapped out to work with google picker authentication
+
         creds = None
         if os.path.exists('token.pickle'):
             with open('token.pickle', 'rb') as token:
@@ -281,8 +362,7 @@ def new_auth():
                 pickle.dump(creds, token)
         #print("Success")
         drive_service = build('drive', 'v3', credentials=creds)
-        results = drive_service.files().list(
-        fields="nextPageToken, files(name)").execute()
+        results = drive_service.files().list().execute()
         items = results.get('files',[])
         print(items)
         return render_template("index.html")

@@ -17,8 +17,8 @@ class TrainingCallback(Callback):
         
     def on_epoch_begin(self, epoch, logs=None):
         print(f"Starting epoch {epoch}")
-        main.status = epoch
-        print(main.status)
+        #main.status = epoch
+        #print(main.status)
     #def on_train_batch_begin(self, batch, logs=None):
         #print(f"Training: Starting batch {batch}")
 
@@ -55,7 +55,7 @@ def generate_proj(data_df):
     test_generator = TimeseriesGenerator(cases_test, cases_test, length=look_back, batch_size=1)
 
     # random seed
-    tf.keras.utils.set_random_seed(2)
+    #tf.keras.utils.set_random_seed(2)
 
     # building LSTM
     model = Sequential()
@@ -112,7 +112,6 @@ def generate_proj(data_df):
             out = model.predict(x)[0][0]  # prediction is made
             prediction_list = np.append(prediction_list, out)  # forecast prediction is then appended to prediction list
         prediction_list = prediction_list[look_back - 1:]  # list of forecast predictions is finalized
-
         return prediction_list
 
 
@@ -139,6 +138,7 @@ def generate_proj(data_df):
         lower.append(i - (i * .15))
 
     results = [og_cases, new_cases, my_dates, upper, lower, avg_arr]
+    print("New Cases")
     print(new_cases)
     return(results)
     #print(type(dates.tolist()[1]))
