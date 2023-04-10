@@ -1,0 +1,97 @@
+<!--START OF TITLE BLOCK-->
+<!DOCTYPE html>
+<html>
+  <body class="back">
+    <head>
+      <!-- style sheets linked here-->
+      <link id="style" rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/style.css') }}"></link>
+      <!--<link rel="stylesheet2" href="style2.css" />-->
+      <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
+    </head>
+    <body>
+      <!-- Title at the top of the page-->
+      <body>
+        <div class="google">
+          <a href="login.html" class="login-btn" style="text-decoration:none;">
+            <img alt="Qries" src="{{ url_for('static',filename='images/google.png') }}" width="18%" height="9%" style="float: right;"/>
+          </a>
+          <a class="github_button" href="https://github.com/wastewatermodeling">
+            <img alt="Qries" src="{{ url_for('static',filename='images/GitHub-Mark.png') }}" width="4.05%" height="4.05%" style="border: black solid; float: right; margin-right: 0.3%;"/>
+          </a>
+          <a class="tamu_button" href="https://tamu.edu">
+                <img alt="Qries" src="{{ url_for('static',filename='images/tamu.png') }}" width="4.3%" height="4.3%" style="float: right; margin-right: 0.3%;"/>
+          </a>
+        </div>
+    </body>
+    <h1 class="title">
+      <u>Wastewater Modeling</u> 
+      <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <link rel="preconnect" href="https://fonts.googleapis.com">
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+          <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles.css') }}">
+      </head>
+    </h1>
+    <a class="subtitle"> Team 15: Matthew Delorenzo, Quinlon Horndasch, Grace Salau & Ayaan Sunesara </a>
+      <!--<a class="subtitle"> Sponsored by Los Alamos National Labratories </a>-->
+      <br> </br>
+      <!-- starting the tabs section-->
+      <div class="tabs">
+        <a href="index.html"> Home </a>
+        <!-- class is active showing current page -->
+        <a class="active" href="about_model.html"> About Model </a>
+        <!-- rest of the tab bars with the name and linked to the html pages-->
+        <a href="file_upload.html"> File Upload </a>
+        <a href="graphs_data.html"> Graph </a>
+        <a href="data.html"> Data </a>
+        <a href="history.html"> History </a>
+      </div>
+    </body>
+    <!-- -->
+    <!--END OF TITLE BLOCK-->
+
+    <div class="intro">
+      <header style="font-size: 40px; padding-top: 10px"> About Graph </header>
+      <hr size="4" width="100%" color="black"/>
+    </div>
+
+    <div class="model">
+      <p style="margin-top: 10px; margin-bottom: 10px; margin-left: 12px; margin-right: 12px;">
+        <u> About Predictive Algorithm</u>: <br>
+        The predictive algorithm utilizes a Long Short Term Memory model (LSTM), which is a type of recurrent neural 
+        network. This is utilized to make predictions, as well as forcast data up to 7 
+        days into the future. It works by utilizing a pre-processed CSV file that consists of two columns: the date 
+        and the measurement of COVID-19 cases (or wastewater 
+        measurement). Utilizing the CSV file data, as well as various libraries (such as TensorFlow, Keras, 
+        Pandas and NumPy for data manipulation & model building and data visualization), it outputs a graph of past 
+        data as well as the forecasted predictions. The CSV data is then made into a data frame to seperate 
+        the dates from the measurements. It is then split into training and 
+        testing data to train and test the recurrent neural network. The sequential 
+        data is turned into supervised data by using a time series generator, which is then fed into the LSTM  
+        model. The outputted data from the LTSM is then reshaped and fed into two functions: a predict function 
+        that takes in the number of days to forecast data, as well as the output of the model to then make the 
+        forecasted predictions. The predicted dates also function as the number of forecast 
+        days to align the predictions with the correct dates. 
+      </p>
+    </div>
+
+    <hr size="4" width="100%" color="black"/>
+    <div class="file_upload_desc_title">
+      <p style="font-size: 32px"> Expected Outcome: </p>
+    </div>
+
+    <div class="file_upload_desc">
+        <img alt="File Upload - Required CSV File Example" src="{{ url_for('static', filename='images/expected_outcome_1.png') }}" width="50%" height="50%" style="float: right" border="2px solid black";>
+        <p style="font-size: 1.75vw; width: 47%; margin-right: 45%;">
+        The image to the right gives a visual represenation of the expected outcome of 
+        the uploaded data and the prediction (from predictive algorithm). In the image 
+        you can see that the uploaded wastewater data is presented in red while the 
+        predicted trend is presented in light blue. The graph also presents the date 
+        (x-axis) and the level of measured COVID-19 in the wastewater (y-axis) along 
+        with a legend (that will eventually involve more data trends/data analysis). 
+        There is also a zoom function being implemented that will allow for closer 
+        inspection of the predicted trend.
+        <br> <br> <br> <br> <br> <br> <br> <br> <br> <br>
+      </p>

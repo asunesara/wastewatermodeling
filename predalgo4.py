@@ -1,10 +1,32 @@
+from flask import Flask, render_template, request
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 from keras.models import Sequential
 from keras.layers import Dense, LSTM
+from keras.callbacks import Callback
 import math
 from sklearn.preprocessing import MinMaxScaler
+
+
+class TrainingCallback(Callback):
+    def on_train_begin(self, logs=None):
+        print("Starting training...")
+        
+    def on_epoch_begin(self, epoch, logs=None):
+        print(f"Starting epoch {epoch}")
+    def on_train_batch_begin(self, batch, logs=None):
+        print(f"Training: Starting batch {batch}")
+
+    def on_train_batch_end(self, batch, logs=None):
+        print(f"Training: Finished batch {batch}")
+        
+    def on_epoch_end(self, epoch, logs=None):
+        print(f"Finished epoch {epoch}")
+        return render_template("/testing.html", var=epoch)
+    def on_train_end(self, logs=None):
+        print("Finished training")
+
 
 def generate_results(data):
 
@@ -54,7 +76,7 @@ def generate_results(data):
     model.add(Dense(units=1))
 
     model.compile(optimizer='adam', loss='mean_squared_error')
-    model.fit(x_train_data2, y_train_data1, batch_size=1, epochs=1)
+    model.fit(x_train_data2, y_train_data1, batch_size=1, epochs=2, callbacks= [TrainingCallback()])
 
     # 1. Creating a dataset for testing
     test_data = scaled_data[training_data_len - 60:, :]

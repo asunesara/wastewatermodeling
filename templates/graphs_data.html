@@ -1,5 +1,4 @@
 <!--START OF TITLE BLOCK-->
-<!-- -->
 <!DOCTYPE html>
 <html>
   <body class="back">
@@ -11,128 +10,296 @@
     </head>
     <body>
       <!-- Title at the top of the page-->
-      <h1 class="title">
-        Wastewater Modeling
-        <!--<a href="https://www.lanl.gov/">
-          <img
-            alt="Qries"
-            src="lanl.png"
-            align="right"
-            width="550px"
-            height="120px"
-          />
-        </a>-->
-      </h1>
-      <a class="subtitle"> Team 15: Matthew Delorenzo, Quinlon Horndasch, Grace Salau & Ayaan Sunesara </a>
+      <body>
+        <div class="google">
+          <a href="login.html" class="login-btn" style="text-decoration:none;">
+            <img alt="Qries" src="{{ url_for('static',filename='images/google.png') }}" width="18%" height="9%" style="float: right;"/>
+          </a>
+          <a class="github_button" href="https://github.com/wastewatermodeling">
+            <img alt="Qries" src="{{ url_for('static',filename='images/GitHub-Mark.png') }}" width="4.05%" height="4.05%" style="border: black solid; float: right; margin-right: 0.3%;"/>
+          </a>
+          <a class="tamu_button" href="https://tamu.edu">
+                <img alt="Qries" src="{{ url_for('static',filename='images/tamu.png') }}" width="4.3%" height="4.3%" style="float: right; margin-right: 0.3%;"/>
+          </a>
+        </div>
+    </body>
+    <h1 class="title">
+      <u>Wastewater Modeling</u> 
+      <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <link rel="preconnect" href="https://fonts.googleapis.com">
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+          <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles.css') }}">
+      </head>
+    </h1>
+    <a class="subtitle"> Team 15: Matthew Delorenzo, Quinlon Horndasch, Grace Salau & Ayaan Sunesara </a>
       <!--<a class="subtitle"> Sponsored by Los Alamos National Labratories </a>-->
       <br> </br>
       <!-- starting the tabs section-->
       <div class="tabs">
         <!-- Home page (to keep ordering consistent in title block) -->
-        <a href="index.html">Home</a>
-        <a href="file_upload.html">File Upload</a>
+        <a href="index.html"> Home </a>
+        <a href="about_model.html"> About Model </a>
+        <a href="file_upload.html"> File Upload </a>
         <!-- class is active showing current page -->
-        <a class="active">Graphs & Data</a>
+        <a class="active" href="graphs_data.html"> Graph </a>
         <!-- rest of the tab bars with the name and linked to the html pages-->
-        <a href="history.html">History</a>
-
-        <div class="tabs2">
-          <!-- git hub image here linked to our repo-->
-          <a href="https://github.com/wastewatermodeling">
-            <img alt="Qries" src="{{ url_for('static',filename='images/GitHub-Mark.png') }}" width="35px" height="35px" />
-          </a>
-          <!-- tamu image here linked to the website to rep the university-->
-          <a href="https://tamu.edu">
-            <img alt="Qries" src="{{ url_for('static',filename='images/tamu.png') }}" width="35px" height="35px" />
-          </a>
-        </div>
+        <a href="data.html"> Data </a>
+        <a href="history.html"> History </a>
       </div>
     </body>
     <!-- -->
     <!--END OF TITLE BLOCK-->
 
     <div class="intro">
-      <header style="font-size: 40px; padding-top: 10px">Graphs & Data</header>
-      <hr size="4" width="100%" color="black" />
+      <header style="font-size: 40px; padding-top: 10px"> Graph </header>
+      <hr size="4" width="100%" color="black"/>
     </div>
-    <!--This is for the introdcution box and content inside of it-->
+
     {% if data|length > 0 %}
-      {% if not generated %}
+      {% if not generated and not proj %}
         <div class="containerBlock">
           <div class="container">
-            <p>Press Button to Generate Graph from Uploaded Data: {{ButtonPressed}}</p>
+            <p>Generate Prediction from Uploaded Data:</p>
           </div>
           <div class="generateButton">
             <form action="/update_graph" method="POST" >
-              <input type="submit" value="Generate Graph">
+              <input type="submit" value="Generate Prediction">
             </form>
           </div>
         </div>
+        <div class="containerBlock">
+          <div class="container">
+            <p>Generate Future Projection from Uploaded Data:</p>
+          </div>
+          <div class="generateButton">
+            <form action="/update_proj" method="POST" >
+              <input type="submit" value="Generate Projection">
+            </form>
+          </div>
+        </div>
+
+        <div class="containerBlock">
+          <div class="container">
+            <p>Generate 95% Confidence Interval w/ Projection:</p>
+          </div>
+          <div class="generateButton">
+            <form action="/confidence" method="POST" >
+              <input type="submit" value="Generate CI">
+            </form>
+          </div>
+        </div>
+        <hr size="4" width="100%" color="black"/>
+
+      {% elif not proj %}
+        <div class="graphTitle">
+          <p>
+            Wastewater Data and Prediction Graph
+          </p>
+        </div>
+
+        <div class="graph">
+          <canvas id="testChart" width="1327.5" height="590"></canvas>
+          <script>
+              var ctx = document.getElementById("testChart").getContext("2d");
+              var testChart = new Chart(ctx, {
+                  type: "line",
+                  data: {
+                    labels: {{ data[1][0] | safe }},
+                      datasets: []},
+                  options: {
+                    responsive: false,
+                    scales: {
+                      yAxes: [{
+                        scaleLabel: {
+                          display: true,
+                          labelString: "Covid Measurement"
+                        }
+                      }],
+                      xAxes: [{
+                        scaleLabel: {
+                          display: true,
+                          labelString: "Date"
+                        }
+                      }]
+                    }
+                  }
+              });
+              {% for item in data[0] %}
+                var pred_len = 0;
+                var reg_len = 0;
+                var offset = 0;
+                var border_col = "rgb(75, 192, 192)";
+                var data_array = [];
+                var curr_label = "";
+                {% if loop.index0 > 0 %}
+                  reg_len = {{ data[0][0]|length }};
+                  pred_len = {{ item|length }};
+                  offset = reg_len - pred_len;
+                  border_col = "rgb(255, 0, 0)";
+                  data_array = Array(offset).fill(null);
+                {% endif %}
+                data_array = data_array.concat({{ item }});
+                {% if loop.index0 == 0 %}
+                  curr_label = "CSV Data";
+                {% else %}
+                  curr_label = "Generated Prediction";
+                {% endif %}
+                testChart.data.datasets.push({
+                  label: curr_label,
+                  data: data_array,
+                  fill: false,
+                  borderColor: border_col,
+                  lineTension: 0.1,
+                  radius: 0
+                });         
+                testChart.update();
+              {% endfor %}
+          </script>
+        </div>
+
+        <div>
+          <p>
+            <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br>
+            <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br>
+            <br> <br> <br> <br>
+          </p>
+          <hr size="4" width="100%" color="black"/>
+        </div>
+      {% elif proj %}
+        <div class="containerBlock">
+          <div class="container">
+            <p>Zoom Into Graph:</p>
+          </div>
+          <div class="generateButton">
+                <form action="/resize" method="POST" >
+                  <input type="submit" value="Zoom In">
+                </form>
+          </div>
+        </div>
+          <hr size="4" width="100%" color="black"/>
+
+          <div class="graphTitle">
+            <p>
+              Wastewater Data and Prediction Graph
+            </p>
+          </div>
+
+          <div class="graph">
+            <canvas id="testChart" width="1327.5" height="590"></canvas>
+            <script>
+                var ctx = document.getElementById("testChart").getContext("2d");
+                var testChart = new Chart(ctx, {
+                    type: "line",
+                    data: {
+                      labels: {{ data[0] | safe }},
+                        datasets: []},
+                    options: {
+                      responsive: false,
+                      scales: {
+                        yAxes: [{
+                          scaleLabel: {
+                            display: true,
+                            labelString: "Covid-19 Postive Cases - Daily Incidence"
+                          }
+                        }],
+                        xAxes: [{
+                          scaleLabel: {
+                            display: true,
+                            labelString: "Date"
+                          }
+                        }]
+                      }
+                    }
+                });
+                {% for item in data[1] %}
+                  var pred_len = 0;
+                  var reg_len = 0;
+                  var offset = 0;
+                  var border_col = "rgb(75, 192, 192)";
+                  var data_array = [];
+                  var curr_label = "";
+                  var fill_bool = false;
+                  {% if loop.index0 == 0 %}
+                    reg_len = {{ data[1][0]|length }};
+                    pred_len = {{ data[1][1]|length }};
+                    border_col = "rgb(255, 0, 0)";
+                    data_array = {{ item }};
+                    data_array = data_array.concat(Array(pred_len).fill(null));
+                  {% elif loop.index0 == 1 %}
+                    data_array = Array({{ data[1][0]|length }}).fill(null);
+                    data_array = data_array.concat({{ data[1][1] }});
+                  {% endif %}
+
+                  {% if loop.index0 == 0 %}
+                    curr_label = "CSV Data";
+                  {% else %}
+                    curr_label = "Generated Prediction";
+                  {% endif %}
+                  testChart.data.datasets.push({
+                    label: curr_label,
+                    data: data_array,
+                    fill: false,
+                    borderColor: border_col,
+                    lineTension: 0.1,
+                    radius: 0
+                  });         
+                  testChart.update();
+                {% endfor %}
+
+                {% for item in conf_int %}
+                  curr_label = "";
+                  fill_bool = false;
+                  var border_col = "rgb(159, 43, 104)";
+                  bound_array = Array({{ data[1][0]|length }}).fill(null);
+                  bound_array = bound_array.concat({{ item }});
+                  {% if loop.index0 == 0 %}
+                    curr_label = "Lower Bound";
+                  {% elif loop.index0 == 1 %}
+                    curr_label = "Upper Bound";
+                    fill_bool = '-1';
+                  {% elif loop.index0 == 2 %}
+                    curr_label = "Center of CI";
+                  {% endif %}
+                  testChart.data.datasets.push({
+                    label: curr_label,
+                    data: bound_array,
+                    fill: fill_bool,
+                    borderColor: border_col,
+                    lineTension: 0.1,
+                    radius: 0
+                  });         
+                  testChart.update();
+                {% endfor %}
+
+                  curr_label = "Naive";
+                  var border_col = "rgb(255, 165, 0)";
+                  bound_array = Array({{ data[1][0]|length }}).fill(null);
+                  bound_array = bound_array.concat({{ mean_7 }})
+                  testChart.data.datasets.push({
+                    label: curr_label,
+                    data: bound_array,
+                    fill: false,
+                    borderColor: border_col,
+                    lineTension: 0.1,
+                    radius: 0
+                  });    
+                  testChart.update();
+            </script>
+          </div>
+          <div>
+            <p>
+              <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br>
+              <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br>
+              <br> <br> <br> <br>
+            </p>
+            <hr size="4" width="100%" color="black"/>
+          </div>
+
+
       {% endif %}
-    <!--Add more contents inside here to add to the home page-->
-    <!--Start of Graph Code-->
-      <canvas id="testChart" width="900" height="400"></canvas>
-      <script>
-          var ctx = document.getElementById("testChart").getContext("2d");
-          var testChart = new Chart(ctx, {
-              type: "line",
-              data: {
-                labels: {{ data[1][0] | safe }},
-                  datasets: []},
-              options: {
-                responsive: false,
-                scales: {
-                  yAxes: [{
-                    scaleLabel: {
-                      display: true,
-                      labelString: "Covid Measurement"
-                    }
-                  }],
-                  xAxes: [{
-                    scaleLabel: {
-                      display: true,
-                      labelString: "Date"
-                    }
-                  }]
-                }
-              }
-          });
-          {% for item in data[0] %}
-            console.log({{ loop.index0 }});
-            var pred_len = 0;
-            var reg_len = 0;
-            var offset = 0;
-            var border_col = "rgb(75, 192, 192)";
-            var data_array = [];
-            var curr_label = "";
-            {% if loop.index0 > 0 %}
-              reg_len = {{ data[0][0]|length }};
-              pred_len = {{ item|length }};
-              offset = reg_len - pred_len;
-              border_col = "rgb(255, 0, 0)";
-              data_array = Array(offset).fill(null);
-            {% endif %}
-            console.log("Item length:" + {{ item|length }});
-            console.log(data_array);
-            data_array = data_array.concat({{ item }});
-            /*const data_string = JSON.stringify(data_array);*/
-            /*console.log(data_string);*/
-            {% if loop.index0 == 0 %}
-              curr_label = "CSV Data";
-            {% else %}
-              curr_label = "Generated Prediction";
-            {% endif %}
-            testChart.data.datasets.push({
-              label: curr_label,
-              data: data_array,
-              fill: false,
-              borderColor: border_col,
-              lineTension: 0.1,
-              radius: 0
-            });         
-            testChart.update();
-          {% endfor %}
-      </script>
     {% elif data|length == 0 %}
       <div class="noUploadBlock">
         <div class="noUpload">
@@ -141,6 +308,8 @@
           </p>
         </div>
       </div>
+      <hr size="4" width="100%" color="black"/>
     {% endif %}
   </body>
 </html>
+<br> <br> <br> <br> <br> <br> <br> <br> <br> <br> 

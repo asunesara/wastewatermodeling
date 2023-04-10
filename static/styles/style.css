@@ -1,7 +1,31 @@
+/* ---------------------------------------------------- TITLE BLOCK ---------------------------------------------------- */
+.title
+{
+    margin-top: 10px;
+    font-size: 4vw;
+    width: auto;
+    margin-bottom: 1.3%;
+}
+
+.subtitle
+{
+    font-size: 2vw;
+    line-height: 0.05;
+}
+
+.names
+{
+    margin-top: -20px;
+    font-size: 20px;
+    line-height: 0.05;
+    margin-bottom: 10px;
+}
+
 .tabs 
 {
     background-color: rgb(25, 25, 155);
-    overflow: hidden;
+    width: auto;
+    overflow: auto;
     border-style: solid;
 }
 
@@ -10,13 +34,13 @@
     float: left;
     color: #f2f2f2;
     text-align: center;
-    padding: 14px 16px;
+    padding-top: 1%;
+    padding-bottom:1%;
     text-decoration: none;
-    font-size: 25px;
-    width: 14.35%;
+    font-size: 1.9vw;
+    width: 16.665%;
     height: 35px;
-    border-style: solid;
-    border-width: 1px;
+    outline: solid white thin; 
     border-color:rgb(255, 255, 255);
 }
 
@@ -28,10 +52,12 @@
 
 .tabs a.active 
 {
-    background-color: rgb(65, 110, 200);
+    background-color: rgb(100, 140, 230);
     color: rgb(0, 0, 0);
 }
+/* ---------------------------------------------------- ---------------------------------------------------- */
 
+/* ---------------------------------------------------- HOME TAB ---------------------------------------------------- */
 .introduction
 {
     overflow:auto;
@@ -39,10 +65,37 @@
     align-items: left;
     justify-content: center;
     background-color:rgb(225, 225, 225);
-    height:510px;
+    height:475px;
     border: 3px solid rgb(25, 25, 155);
     margin: 15px;
 }
+
+.links
+{
+    margin-top: -30px;
+    font-size: 2vw;
+    background-color:rgb(225, 225, 225);
+    height:95px;
+    border: 3px solid rgb(25, 25, 155);
+    margin: 15px;
+}
+
+.login_box
+{
+    overflow:auto;
+    background-color:rgb(225, 225, 225);
+    height:260px;
+    width: 1000px;
+    border: 3px solid rgb(25, 25, 155);
+    margin: auto;
+    margin-top: 15px;
+}
+/* ---------------------------------------------------- ---------------------------------------------------- */
+
+/* ---------------------------------------------------- FILE UPLOAD TAB ---------------------------------------------------- */
+
+
+
 
 .file_upload
 {
@@ -87,67 +140,89 @@
     margin-right: 50px;
 }
 
-.graphs_data
+.msg
 {
-    /*overflow:auto;
-    font-size: 30px;
-    align-items: left;
-    justify-content: center;
-    background-color:rgb(225, 225, 225);
-    height:235px;
-    border: 3px solid rgb(25, 25, 155);
-    margin: 10px;*/
+    margin-top: 8px;
+    font-size: 20px;
 }
 
-.history
+#signin
+{
+    float: right;
+    background-color: rgb(25, 25, 155);
+    color: #f2f2f2;
+    padding: 14px 16px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 18px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+#signin:hover
+{
+    background-color: rgb(115, 155, 250);
+    color: black;
+}
+
+#signup
+{
+    float: right;
+    background-color: rgb(25, 25, 155);
+    color: #f2f2f2;
+    padding: 14px 16px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 18px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+#signup:hover
+{
+    background-color: rgb(115, 155, 250);
+    color: black;
+}
+/* ---------------------------------------------------- ---------------------------------------------------- */
+
+/* ---------------------------------------------------- ABOUT MODEL ---------------------------------------------------- */
+.model
 {
     overflow:auto;
     font-size: 30px;
     align-items: left;
     justify-content: center;
     background-color:rgb(225, 225, 225);
-    height:235px;
-    border: 3px solid rgb(25, 25, 155);
-    margin: 10px;
-}
-
-.title
-{
-    margin-top: 10px;
-    font-size: 60px;
-    line-height: 0.5;
-    text-decoration: underline;
-}
-
-.subtitle
-{
-    margin-top: 0px;
-    font-size: 30px;
-    line-height: 0.05;
-}
-
-.names
-{
-    margin-top: -10px;
-    font-size: 20px;
-    line-height: 0.05;
-    margin-bottom: 10px;
-}
-
-.links
-{
-    margin-top: -30px;
-    font-size: 30px;
-    background-color:rgb(225, 225, 225);
-    height:130px;
+    height:440px;
     border: 3px solid rgb(25, 25, 155);
     margin: 15px;
 }
+/* ---------------------------------------------------- ---------------------------------------------------- */
 
-.msg
+/* ---------------------------------------------------- GRAPHS & DATA TAB ---------------------------------------------------- */
+.containerBlock
 {
-    margin-top: 8px;
-    font-size: 20px;
+    display: block;
+    overflow: auto;
+    background-color:rgb(225, 225, 225);
+    height:112px;
+    width: 60%;
+    border: 3px solid rgb(25, 25, 155);
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    align-items: center;
+}
+
+.container
+{
+    text-align: center;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: -15px;
+    font-size: 2vw;
 }
 
 .noUploadBlock
@@ -158,6 +233,7 @@
     width: 950px;
     border: 3px solid rgb(25, 25, 155);
     margin-top: 25px;
+    margin-bottom: 25px;
     margin-left: auto;
     margin-right: auto;
 }
@@ -169,29 +245,6 @@
     text-align: center;
 }
 
-.containerBlock
-{
-    display: block;
-    background-color:rgb(225, 225, 225);
-    height:112px;
-    width: 950px;
-    border: 3px solid rgb(25, 25, 155);
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 11px;
-    align-items: center;
-}
-
-.container
-{
-    text-align: center;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    font-size: 30px;
-    margin-top: -15px;
-}
-
 .generateButton
 {
     margin: 0;
@@ -199,4 +252,125 @@
     left: 50%;
     -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
+}
+
+.graphDescBlock
+{
+    background-color:rgb(225, 225, 225);
+    height:160px;
+    border: 3px solid rgb(25, 25, 155);
+    margin: 15px;
+}
+
+.graphDescription
+{
+    font-size: 30px;
+    margin-top: -20px;
+}
+
+.graphTitle
+{
+    text-align: center;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 35px;
+    margin-top: -20px;
+    margin-bottom: 10px;
+    text-decoration: underline;
+    color: rgb(135, 135, 135);
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.graph
+{
+    margin: 0;
+    position: absolute;
+    left: 50%;
+    -ms-transform: translate(-50%, -5%);
+    transform: translate(-50%, -5%);
+}
+
+.noUploadNameBlock2
+{
+    display: block;
+    background-color:rgb(225, 225, 225);
+    height: 70px;
+    width: 85%;
+    border: 3px solid rgb(25, 25, 155);
+    margin-top: 25px;
+    margin-bottom: 25px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.noUploadName2
+{
+    margin-top: -15px;
+    font-size: 2vw;
+    text-align: center;
+}
+/* ---------------------------------------------------- ---------------------------------------------------- */
+
+/* ---------------------------------------------------- HISTORY TAB ---------------------------------------------------- */
+.noUploadNameBlock
+{
+    display: block;
+    background-color:rgb(225, 225, 225);
+    height:65px;
+    width: 950px;
+    border: 3px solid rgb(25, 25, 155);
+    margin-top: 25px;
+    margin-bottom: 25px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.historyDescriptionBlock
+{
+    background-color:rgb(225, 225, 225);
+    height:160px;
+    border: 3px solid rgb(25, 25, 155);
+    margin: 15px;
+}
+
+.historyDescription
+{
+    font-size: 2vw;
+}
+
+.noUploadName
+{
+    margin-top: -15px;
+    font-size: 2vw;
+    text-align: center;
+}
+
+.historyNameBlock
+{
+    display: block;
+    overflow: auto;
+    background-color:rgb(225, 225, 225);
+    min-height: 100px;
+    width: 60%;
+    border: 3px solid rgb(25, 25, 155);
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    align-items: center;
+}
+
+.historyName
+{
+    font-size: 2vw;
+}
+
+.download_button {
+    margin-left: 30px;
+}
+/* ---------------------------------------------------- ---------------------------------------------------- */
+
+.more{
+    cursor:pointer;
 }
