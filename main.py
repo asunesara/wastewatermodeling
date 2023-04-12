@@ -11,7 +11,7 @@ import boto.s3.connection
 import os
 import csv
 import math
-from threading import Thread
+#from threading import Thread
 import json
 import boto3
 import pandas as pd
