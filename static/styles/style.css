@@ -38,8 +38,7 @@
     padding-bottom:1%;
     text-decoration: none;
     font-size: 1.9vw;
-    width: 16.665%;
-    height: 35px;
+    width: 20%;
     outline: solid white thin; 
     border-color:rgb(255, 255, 255);
 }
@@ -65,7 +64,6 @@
     align-items: left;
     justify-content: center;
     background-color:rgb(225, 225, 225);
-    height:475px;
     border: 3px solid rgb(25, 25, 155);
     margin: 15px;
 }
@@ -75,7 +73,6 @@
     margin-top: -30px;
     font-size: 2vw;
     background-color:rgb(225, 225, 225);
-    height:95px;
     border: 3px solid rgb(25, 25, 155);
     margin: 15px;
 }
@@ -84,8 +81,6 @@
 {
     overflow:auto;
     background-color:rgb(225, 225, 225);
-    height:260px;
-    width: 1000px;
     border: 3px solid rgb(25, 25, 155);
     margin: auto;
     margin-top: 15px;
@@ -93,16 +88,11 @@
 /* ---------------------------------------------------- ---------------------------------------------------- */
 
 /* ---------------------------------------------------- FILE UPLOAD TAB ---------------------------------------------------- */
-
-
-
-
 .file_upload
 {
     overflow:auto;
     font-size: 30px;
     background-color:rgb(225, 225, 225);
-    height:100px;
     border: 3px solid rgb(25, 25, 155);
     margin-top: 10px;
     margin-left: 50px;
@@ -113,6 +103,8 @@
     font-size: 28px;
     margin-top: -15px;
     margin-bottom: -22px;
+    margin-left: 2.5%;
+    margin-right: 2.5%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -123,6 +115,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-bottom: 1%;
 }
 
 .file_upload_desc_title {
@@ -193,7 +186,6 @@
     align-items: left;
     justify-content: center;
     background-color:rgb(225, 225, 225);
-    height:440px;
     border: 3px solid rgb(25, 25, 155);
     margin: 15px;
 }
@@ -205,8 +197,7 @@
     display: block;
     overflow: auto;
     background-color:rgb(225, 225, 225);
-    height:112px;
-    width: 60%;
+    width: 50%;
     border: 3px solid rgb(25, 25, 155);
     margin-left: auto;
     margin-right: auto;
@@ -219,18 +210,18 @@
 {
     text-align: center;
     display: block;
+    margin-top: -2%;
+    margin-bottom: 5%;
     margin-left: auto;
     margin-right: auto;
-    margin-top: -15px;
-    font-size: 2vw;
+    font-size: 1.8vw;
 }
 
 .noUploadBlock
 {
     display: block;
     background-color:rgb(225, 225, 225);
-    height:65px;
-    width: 950px;
+    width: 55%;
     border: 3px solid rgb(25, 25, 155);
     margin-top: 25px;
     margin-bottom: 25px;
@@ -240,18 +231,19 @@
 
 .noUpload
 {
-    margin-top: -15px;
-    font-size: 30px;
+    margin-right: 1%;
+    margin-left: 1%;
+    font-size: 1.7vw;
     text-align: center;
 }
 
 .generateButton
 {
-    margin: 0;
-    position: absolute;
-    left: 50%;
-    -ms-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);
+    margin-top: -3%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 2%;
 }
 
 .graphDescBlock
@@ -264,7 +256,7 @@
 
 .graphDescription
 {
-    font-size: 30px;
+    font-size: 2vw;
     margin-top: -20px;
 }
 
@@ -274,8 +266,9 @@
     display: block;
     margin-left: auto;
     margin-right: auto;
-    font-size: 35px;
-    margin-top: -20px;
+    margin-top: -1.5%;
+    /*font-size: 35px;*/
+    font-size: 2vw;
     margin-bottom: 10px;
     text-decoration: underline;
     color: rgb(135, 135, 135);
@@ -284,11 +277,10 @@
 
 .graph
 {
-    margin: 0;
-    position: absolute;
-    left: 50%;
-    -ms-transform: translate(-50%, -5%);
-    transform: translate(-50%, -5%);
+    margin-top: -2%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .noUploadNameBlock2
@@ -310,6 +302,40 @@
     font-size: 2vw;
     text-align: center;
 }
+
+.zoomContainerBlock
+{
+    display: block;
+    overflow: auto;
+    background-color:rgb(225, 225, 225);
+    width: 35%;
+    border: 3px solid rgb(25, 25, 155);
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    align-items: center;
+}
+
+.zoomContainer
+{
+    text-align: center;
+    display: block;
+    margin-top: -2%;
+    margin-bottom: 6%;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 1.8vw;
+}
+
+.zoomGenerateButton
+{
+    margin-top: -3%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 2.5%;
+}
 /* ---------------------------------------------------- ---------------------------------------------------- */
 
 /* ---------------------------------------------------- HISTORY TAB ---------------------------------------------------- */
@@ -317,8 +343,7 @@
 {
     display: block;
     background-color:rgb(225, 225, 225);
-    height:65px;
-    width: 950px;
+    width: 70%;
     border: 3px solid rgb(25, 25, 155);
     margin-top: 25px;
     margin-bottom: 25px;
@@ -329,7 +354,6 @@
 .historyDescriptionBlock
 {
     background-color:rgb(225, 225, 225);
-    height:160px;
     border: 3px solid rgb(25, 25, 155);
     margin: 15px;
 }
@@ -341,8 +365,7 @@
 
 .noUploadName
 {
-    margin-top: -15px;
-    font-size: 2vw;
+    font-size: 1.8vw;
     text-align: center;
 }
 
