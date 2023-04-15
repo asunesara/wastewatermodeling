@@ -25,7 +25,7 @@ app = Flask(__name__)
 
 app.secret_key = os.urandom(12)
 #app.secret_key = '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'
-app.config['SERVER_NAME'] = 'localhost:5000'
+app.config['SERVER_NAME'] = 'wastewater-modeling.herokuapp.com'
 oauth = OAuth(app)
 
 access_key = 'AKIA2BUHV4R2RS54PBTY'
