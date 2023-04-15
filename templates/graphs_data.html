@@ -83,7 +83,7 @@
 
         <div class="containerBlock">
           <div class="container">
-            <p>Generate 95% Confidence Interval w/ Projection:</p>
+            <p>Generate 90% Confidence Interval w/ Projection:</p>
           </div>
           <div class="generateButton">
             <form action="/confidence" method="POST" >
@@ -202,7 +202,7 @@
                         yAxes: [{
                           scaleLabel: {
                             display: true,
-                            labelString: "Covid-19 Postive Cases - Daily Incidence"
+                            labelString: "7-day avg: RNA Copies/mL"
                           }
                         }],
                         xAxes: [{
@@ -256,9 +256,9 @@
                   bound_array = Array({{ data[1][0]|length }}).fill(null);
                   bound_array = bound_array.concat({{ item }});
                   {% if loop.index0 == 0 %}
-                    curr_label = "Lower Bound";
+                    curr_label = "Lower 5% CI";
                   {% elif loop.index0 == 1 %}
-                    curr_label = "Upper Bound";
+                    curr_label = "Lower 5% CI";
                     fill_bool = '-1';
                   {% elif loop.index0 == 2 %}
                     curr_label = "Center of CI";

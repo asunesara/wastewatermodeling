@@ -9,7 +9,11 @@ from keras.callbacks import Callback
 import tensorflow as tf
 import main
 
+global results_array
+results_array = []
 
+def return_results():
+    return(results_array)
 
 class TrainingCallback(Callback):
     def on_train_begin(self, logs=None):
@@ -138,6 +142,7 @@ def generate_proj(data_df):
         lower.append(i - (i * .15))
 
     results = [og_cases, new_cases, my_dates, upper, lower, avg_arr]
+    results_array.append(new_cases)
     print("New Cases")
     print(new_cases)
     return(results)

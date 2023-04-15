@@ -11,7 +11,7 @@ import boto.s3.connection
 import os
 import csv
 import math
-#from threading import Thread
+from threading import Thread
 import json
 import boto3
 import pandas as pd
@@ -25,7 +25,7 @@ app = Flask(__name__)
 
 app.secret_key = os.urandom(12)
 #app.secret_key = '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'
-app.config['SERVER_NAME'] = 'wastewater-modeling.herokuapp.com'
+app.config['SERVER_NAME'] = 'localhost:5000'
 oauth = OAuth(app)
 
 access_key = 'AKIA2BUHV4R2RS54PBTY'
@@ -57,6 +57,7 @@ final_graph = []
 bounds = []
 upper_bounds = []
 lower_bounds = []
+
 def data_clear():
     mean_7= 0
     new_dates.clear()
@@ -231,24 +232,31 @@ def confidence():
     conf_int = []
     result_data = []
     global file_name
-
+    threads = []
+    df= csv_to_df(file_name)
+    print("Hi there")
     for x in range(20):
-        df= csv_to_df(file_name)
-        new_data = generate_proj(df)
-        result_data.append(new_data[1])
-    #print("Result Data: ")
-    #print("")
-    #print(result_data)
+        #new_data = generate_proj(df)
+        print("Hi")
+        process = Thread(target=generate_proj, args=(df,))
+        process.start()
+        threads.append(process)
+        #result_data.append(new_data[1])
+    for process in threads:
+        process.join()
+    
+    result_data = return_results()
+    print("Result Data")
+    print(result_data)
+
+
     all_data = []
     for x in range(8):
         data_part = []
         for y in range(20):
             data_part.append(result_data[y][x])
         all_data.append(data_part)
-       # print("")
-        #print(all_data)
-    
-    #print(all_data)
+
     result_ci = []
     for y in range(8):
         if (y != 0):
@@ -258,10 +266,6 @@ def confidence():
             constant_tuple = (all_data[0][0], all_data[0][0])
             result_ci.append(constant_tuple)
 
-
-    #print("")
-    #print(result_ci)
-    #print(type(result_ci[0]))
     conf_int = []
     upper_ci = []
     lower_ci = []
