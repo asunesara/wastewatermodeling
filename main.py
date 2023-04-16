@@ -28,8 +28,8 @@ app.secret_key = os.urandom(12)
 app.config['SERVER_NAME'] = 'wastewater-modeling.herokuapp.com'
 #app.config['SERVER_NAME'] = 'localhost:5000'
 oauth = OAuth(app)
-
 r=redis.from_url(os.environ['REDISCLOUD_URL'])
+print(os.environ['REDISCLOUD_URL'])
 r.set('name', "hi")
 print(r.get("name"))
 
