@@ -59,7 +59,7 @@
     </div>
 
     {% if data|length > 0 %}
-      {% if not generated and not proj %}
+      {% if (generated != "true") and (proj != "true") %}
         <div class="containerBlock">
           <div class="container">
             <p>Generate Prediction from Uploaded Data:</p>
@@ -93,7 +93,7 @@
         </div>
         <hr size="4" width="100%" color="black"/>
 
-      {% elif not proj %}
+      {% elif (proj != "true") %}
         <div class="graphTitle">
           <p>
             Wastewater Data and Prediction Graph
@@ -168,7 +168,7 @@
           </p>
           <hr size="4" width="100%" color="black"/>
         </div>
-      {% elif proj %}
+      {% elif (proj == "true") %}
         <div class="containerBlock">
           <div class="container">
             <p>Zoom Into Graph:</p>

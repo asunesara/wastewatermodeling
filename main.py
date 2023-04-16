@@ -28,11 +28,10 @@ app.secret_key = os.urandom(12)
 app.config['SERVER_NAME'] = 'wastewater-modeling.herokuapp.com'
 #app.config['SERVER_NAME'] = 'localhost:5000'
 oauth = OAuth(app)
-r=redis.from_url(os.environ['REDISCLOUD_URL'])
+r=redis.from_url(os.environ['REDISCLOUD_URL'], decode_responses=True)
 print(os.environ['REDISCLOUD_URL'])
 r.set('name', "hi")
 print(r.get("name"))
-
 access_key = 'AKIA2BUHV4R2RS54PBTY'
 secret_key = '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'
 conn = boto.connect_s3(
@@ -45,7 +44,9 @@ client = boto3.client('s3', aws_access_key_id = access_key,
 
 
 bucket_name = 'mattdtest'
-file_name = ""
+#file_name = ""
+r.set("proj", "false")
+r.set("generated", "false")
 
 global mean_7
 global conf_int
@@ -53,8 +54,8 @@ conf_int = []
 mean_7 = 0
 global status
 status = 0
-generated = False
-proj = False
+#generated = False
+#proj = False
 file_names = []
 new_dates = []
 new_covid = []
@@ -73,10 +74,11 @@ def data_clear():
     conf_int.clear()
     bounds.clear()
     lower_bounds.clear()
-    global generated
-    generated = False
-    global proj
-    proj = False
+
+    #global proj
+    #proj = False
+    r.set("generated", "false")
+    r.set("proj", "false")
     global catch_error
 
 def csv_to_df(file_name):
@@ -173,13 +175,12 @@ def upload():
             msg = "Incorrect File Format (.csv)"
             return render_template("/file_upload.html",msg = msg)
         data_clear()
-        global file_name
-        file_name = img.filename
+        #global file_name
+        file_name = r.set("file_name",img.filename)
         file_names.append(file_name)
         try:
-            new_generate(file_name)
-            global generated
-            generated = False
+            new_generate(r.get("file_name"))
+            r.set("generated", "false")
         except: 
             msg = "Error in csv - please check format of data."
             data_clear()
@@ -188,12 +189,10 @@ def upload():
 @app.route('/update_graph', methods=['POST'])
 def update_graph():
     #this will eventually call graces output first
-    global generated
-    generated = True
-    global file_name
-    new_update(file_name)
+    r.set("generated", "true")
+    new_update(r.get("file_name"))
     #generate_data("testdata_2.csv")
-    return render_template("graphs_data.html", data = final_graph, generated = generated, proj=proj, bounds = bounds,  mean_7 = mean_7, conf_int=conf_int)
+    return render_template("graphs_data.html", data = final_graph, generated = r.get("generated"), proj= r.get("proj"), bounds = bounds,  mean_7 = mean_7, conf_int=conf_int)
 
 @app.route('/resize', methods=['POST'])
 def zoom_graph():
@@ -206,39 +205,36 @@ def zoom_graph():
     edit_cases = edit_cases[len_list:]
     final_graph[0] = edit_dates
     final_graph[1][0] = edit_cases
-    return render_template("graphs_data.html", data = final_graph, generated = generated, proj=proj, bounds = bounds, mean_7 = mean_7, conf_int=conf_int)
+    return render_template("graphs_data.html", data = final_graph, generated = r.get("generated"), proj=r.get("proj"), bounds = bounds, mean_7 = mean_7, conf_int=conf_int)
 
 @app.route('/update_proj', methods=['POST'])
 def update_proj():
-    global proj
-    proj = True
-    global file_name
-    new_proj(file_name)
+    tmp_file = r.get("file_name")
+    r.set("proj", "true")
+    new_proj(tmp_file)
     arr = final_graph[1][1]
-    response = client.download_file(bucket_name, file_name, file_name)
-    df = csv_to_df(file_name)
+    response = client.download_file(bucket_name, tmp_file, tmp_file)
+    df = csv_to_df(tmp_file)
     df["forecast"] = pd.Series(arr)
     df.to_csv("texas_clean.csv")  
-    client.upload_file("texas_clean.csv", bucket_name, file_name)
+    client.upload_file("texas_clean.csv", bucket_name, tmp_file)
     #arr = final_graph[1][2]
     #response = client.download_file(bucket_name, file_name, file_name)
     #wtr = csv.writer(open (file_name, 'w'), delimiter=',', lineterminator='\n')
     #for x in arr : wtr.writerow ([x]) 
     #with open("texas_clean_og.csv", 'rb') as data:
     #    client.upload_fileobj(data, bucket_name, access_key)
-    return render_template("graphs_data.html", data = final_graph, generated=generated, proj=proj, bounds=bounds, mean_7 = mean_7, conf_int=conf_int)
+    return render_template("graphs_data.html", data = final_graph, generated=r.get("generated"), proj=r.get("proj"), bounds=bounds, mean_7 = mean_7, conf_int=conf_int)
     #return render_template("test_load.html")
     
 @app.route('/confidence', methods=['POST'])
 def confidence():
-    global proj
-    proj = True
+    r.set("proj", "true")
     global conf_int
     conf_int = []
     result_data = []
-    global file_name
     threads = []
-    df= csv_to_df(file_name)
+    df= csv_to_df(r.get("file_name"))
     print("Hi there")
     for x in range(20):
         #new_data = generate_proj(df)
@@ -287,9 +283,9 @@ def confidence():
     print(conf_int[1])
     print(conf_int[2])
 
-    new_proj(file_name)
+    new_proj(r.get("file_name"))
 
-    return render_template("graphs_data.html", data = final_graph, generated=generated, proj=proj, bounds=bounds, mean_7 = mean_7, conf_int=conf_int)
+    return render_template("graphs_data.html", data = final_graph, generated=r.get("generated"), proj= r.get("proj"), bounds=bounds, mean_7 = mean_7, conf_int=conf_int)
 
 
 @app.route('/download', methods=['POST'])
@@ -300,8 +296,7 @@ def download():
 
 @app.route('/graphs_data.html')
 def graph_page():
-    global generated
-    return render_template("graphs_data.html", data = final_graph, generated = generated, proj=proj, bounds = bounds, mean_7 = mean_7, conf_int=conf_int)
+    return render_template("graphs_data.html", data = final_graph, generated = r.get("generated"), proj=r.get("proj"), bounds = bounds, mean_7 = mean_7, conf_int=conf_int)
 
 @app.route('/data.html')
 def data_page():
