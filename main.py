@@ -21,12 +21,17 @@ from werkzeug.utils import secure_filename
 from predalgo4 import *
 from predalgo3 import *
 from sklearn.preprocessing import MinMaxScaler
+import redis
 app = Flask(__name__)
-
 app.secret_key = os.urandom(12)
 #app.secret_key = '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'
 app.config['SERVER_NAME'] = 'wastewater-modeling.herokuapp.com'
+#app.config['SERVER_NAME'] = 'localhost:5000'
 oauth = OAuth(app)
+
+r=redis.from_url(os.environ['REDISCLOUD_URL'])
+r.set('name', "hi")
+print(r.get("name"))
 
 access_key = 'AKIA2BUHV4R2RS54PBTY'
 secret_key = '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'
