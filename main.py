@@ -102,7 +102,8 @@ def new_generate(file_name):
     new_dates.append(data_list)
     final_graph.append(new_covid)
     final_graph.append(new_dates)
-    #print(final_graph)
+    r.set("final_graph", final_graph)
+    print(r.get("final_graph"))
 
 def new_update(file_name):
     df = csv_to_df(file_name)
