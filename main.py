@@ -301,6 +301,8 @@ def download():
 def graph_page():
     graph_data = []
     if(r.get("final_graph") != "0"):
+        print(r.get("final_graph"))
+        print(type(r.get("final_graph")))
         graph_data = json.loads(r.get("final_graph"))
         print(graph_data)
         print(type(graph_data))
