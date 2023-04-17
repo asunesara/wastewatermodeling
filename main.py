@@ -102,7 +102,7 @@ def new_generate(file_name):
     new_dates.append(data_list)
     final_graph.append(new_covid)
     final_graph.append(new_dates)
-    #r.set("final_graph", str(final_graph))
+    r.set("final_graph", str(final_graph))
     #print(r.get("final_graph"))
 
 def new_update(file_name):
@@ -302,7 +302,8 @@ def graph_page():
     graph_data = []
     if(r.get("final_graph") != "0"):
         graph_data = json.loads(r.get("final_graph"))
-
+        print(graph_data)
+        print(type(graph_data))
     return render_template("graphs_data.html", data = graph_data, generated = r.get("generated"), proj=r.get("proj"), bounds = bounds, mean_7 = r.get("naive"), conf_int=conf_int)
 
 @app.route('/data.html')
