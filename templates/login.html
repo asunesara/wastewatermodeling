@@ -227,6 +227,9 @@ input[type=text], input[type=password] {
       document.getElementById('signout_button').style.visibility = 'visible';
       document.getElementById('signout_b1').style.visibility = 'visible';
       document.getElementById('signout_b2').style.visibility = 'visible';
+      document.getElementById('authorize_button').style.visibility = 'hidden';
+      document.getElementById('signin_b1').style.visibility = 'hidden';
+      document.getElementById('signin_b2').style.visibility = 'hidden';
       await createPicker();
     };
 
@@ -251,6 +254,9 @@ input[type=text], input[type=password] {
       document.getElementById('signout_button').style.visibility = 'hidden';
       document.getElementById('signout_b1').style.visibility = 'hidden';
       document.getElementById('signout_b2').style.visibility = 'hidden';
+      document.getElementById('authorize_button').style.visibility = 'visible';
+      document.getElementById('signin_b1').style.visibility = 'visible';
+      document.getElementById('signin_b2').style.visibility = 'visible';
     }
   }
 
