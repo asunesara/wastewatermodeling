@@ -303,6 +303,8 @@ def graph_page():
     if(r.get("final_graph") != "0"):
         print(r.get("final_graph"))
         print(type(r.get("final_graph")))
+        test = r.get("final_graph")
+        print(json.loads(test))
         graph_data = json.loads(r.get("final_graph"))
         print(graph_data)
         print(type(graph_data))
