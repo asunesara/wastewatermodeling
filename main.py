@@ -46,6 +46,7 @@ client = boto3.client('s3', aws_access_key_id = access_key,
 bucket_name = 'mattdtest'
 #file_name = ""
 r.set("proj", "false")
+r.set("final_graph", "0")
 r.set("generated", "false")
 r.set("naive", 0)
 global conf_int
@@ -74,6 +75,7 @@ def data_clear():
 
     #global proj
     #proj = False
+    r.set("final_graph", "0")
     r.set("naive", 0)
     r.set("generated", "false")
     r.set("proj", "false")
@@ -298,7 +300,7 @@ def download():
 @app.route('/graphs_data.html')
 def graph_page():
     graph_data = []
-    if(len(r.get("final_graph")) > 0):
+    if(r.get("final_graph") != "0"):
         graph_data = json.loads(r.get("final_graph"))
 
     return render_template("graphs_data.html", data = graph_data, generated = r.get("generated"), proj=r.get("proj"), bounds = bounds, mean_7 = r.get("naive"), conf_int=conf_int)
