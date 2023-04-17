@@ -206,7 +206,7 @@ def zoom_graph():
     edit_cases = edit_cases[len_list:]
     final_graph[0] = edit_dates
     final_graph[1][0] = edit_cases
-    r.set("final_graph", final_graph)
+    r.set("final_graph", str(final_graph))
     return render_template("graphs_data.html", data = eval(r.get("final_graph")), generated = r.get("generated"), proj=r.get("proj"), bounds = bounds, mean_7 = eval(r.get("naive")), conf_int=conf_int)
 
 @app.route('/update_proj', methods=['POST'])
