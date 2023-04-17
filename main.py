@@ -197,7 +197,7 @@ def update_graph():
 
 @app.route('/resize', methods=['POST'])
 def zoom_graph():
-    final_graph = json.loads(r.get("final_graph"))
+    final_graph = eval(r.get("final_graph"))
     edit_dates = final_graph[0]
     edit_cases = final_graph[1][0]
     len_list = len(final_graph[0])
@@ -207,14 +207,14 @@ def zoom_graph():
     final_graph[0] = edit_dates
     final_graph[1][0] = edit_cases
     r.set("final_graph", final_graph)
-    return render_template("graphs_data.html", data = json.loads(r.get("final_graph")), generated = r.get("generated"), proj=r.get("proj"), bounds = bounds, mean_7 = r.get("naive"), conf_int=conf_int)
+    return render_template("graphs_data.html", data = eval(r.get("final_graph")), generated = r.get("generated"), proj=r.get("proj"), bounds = bounds, mean_7 = r.get("naive"), conf_int=conf_int)
 
 @app.route('/update_proj', methods=['POST'])
 def update_proj():
     tmp_file = r.get("file_name")
     r.set("proj", "true")
     new_proj(tmp_file)
-    tmp_final = json.loads(r.get("final_graph"))
+    tmp_final = eval(r.get("final_graph"))
     arr = tmp_final[1][1]
     response = client.download_file(bucket_name, tmp_file, tmp_file)
     df = csv_to_df(tmp_file)
@@ -227,7 +227,7 @@ def update_proj():
     #for x in arr : wtr.writerow ([x]) 
     #with open("texas_clean_og.csv", 'rb') as data:
     #    client.upload_fileobj(data, bucket_name, access_key)
-    return render_template("graphs_data.html", data = json.loads(r.get("final_graph")), generated=r.get("generated"), proj=r.get("proj"), bounds=bounds, mean_7 = r.get("naive"), conf_int=conf_int)
+    return render_template("graphs_data.html", data = eval(r.get("final_graph")), generated=r.get("generated"), proj=r.get("proj"), bounds=bounds, mean_7 = r.get("naive"), conf_int=conf_int)
     #return render_template("test_load.html")
     
 @app.route('/confidence', methods=['POST'])
@@ -288,7 +288,7 @@ def confidence():
 
     new_proj(r.get("file_name"))
 
-    return render_template("graphs_data.html", data = json.loads(r.get("final_graph")), generated=r.get("generated"), proj= r.get("proj"), bounds=bounds, mean_7 = r.get("naive"), conf_int=conf_int)
+    return render_template("graphs_data.html", data = eval(r.get("final_graph")), generated=r.get("generated"), proj= r.get("proj"), bounds=bounds, mean_7 = r.get("naive"), conf_int=conf_int)
 
 
 @app.route('/download', methods=['POST'])
