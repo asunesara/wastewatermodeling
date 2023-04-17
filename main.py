@@ -127,7 +127,7 @@ def new_proj(file_name):
     final_graph.append(new_covid)
     upper_bounds = new_data[3]
     lower_bounds = new_data[4]
-    r.set("naive", new_data[5])
+    r.set("naive", str(new_data[5]))
     r.set("final_graph", str(final_graph))
     bounds.append(upper_bounds)
     bounds.append(lower_bounds)
@@ -193,7 +193,7 @@ def update_graph():
     r.set("generated", "true")
     new_update(r.get("file_name"))
     #generate_data("testdata_2.csv")
-    return render_template("graphs_data.html", data = final_graph, generated = r.get("generated"), proj= r.get("proj"), bounds = bounds,  mean_7 = r.get("naive"), conf_int=conf_int)
+    return render_template("graphs_data.html", data = final_graph, generated = r.get("generated"), proj= r.get("proj"), bounds = bounds,  mean_7 = eval(r.get("naive")), conf_int=conf_int)
 
 @app.route('/resize', methods=['POST'])
 def zoom_graph():
@@ -207,7 +207,7 @@ def zoom_graph():
     final_graph[0] = edit_dates
     final_graph[1][0] = edit_cases
     r.set("final_graph", final_graph)
-    return render_template("graphs_data.html", data = eval(r.get("final_graph")), generated = r.get("generated"), proj=r.get("proj"), bounds = bounds, mean_7 = r.get("naive"), conf_int=conf_int)
+    return render_template("graphs_data.html", data = eval(r.get("final_graph")), generated = r.get("generated"), proj=r.get("proj"), bounds = bounds, mean_7 = eval(r.get("naive")), conf_int=conf_int)
 
 @app.route('/update_proj', methods=['POST'])
 def update_proj():
@@ -227,7 +227,7 @@ def update_proj():
     #for x in arr : wtr.writerow ([x]) 
     #with open("texas_clean_og.csv", 'rb') as data:
     #    client.upload_fileobj(data, bucket_name, access_key)
-    return render_template("graphs_data.html", data = eval(r.get("final_graph")), generated=r.get("generated"), proj=r.get("proj"), bounds=bounds, mean_7 = r.get("naive"), conf_int=conf_int)
+    return render_template("graphs_data.html", data = eval(r.get("final_graph")), generated=r.get("generated"), proj=r.get("proj"), bounds=bounds, mean_7 = eval(r.get("naive")), conf_int=conf_int)
     #return render_template("test_load.html")
     
 @app.route('/confidence', methods=['POST'])
@@ -288,7 +288,7 @@ def confidence():
 
     new_proj(r.get("file_name"))
 
-    return render_template("graphs_data.html", data = eval(r.get("final_graph")), generated=r.get("generated"), proj= r.get("proj"), bounds=bounds, mean_7 = r.get("naive"), conf_int=conf_int)
+    return render_template("graphs_data.html", data = eval(r.get("final_graph")), generated=r.get("generated"), proj= r.get("proj"), bounds=bounds, mean_7 = eval(r.get("naive")), conf_int=conf_int)
 
 
 @app.route('/download', methods=['POST'])
@@ -308,7 +308,7 @@ def graph_page():
         graph_data = eval(r.get("final_graph"))
         #print(graph_data)
         print(type(graph_data))
-    return render_template("graphs_data.html", data = graph_data, generated = r.get("generated"), proj=r.get("proj"), bounds = bounds, mean_7 = r.get("naive"), conf_int=conf_int)
+    return render_template("graphs_data.html", data = graph_data, generated = r.get("generated"), proj=r.get("proj"), bounds = bounds, mean_7 = eval(r.get("naive")), conf_int=conf_int)
 
 @app.route('/data.html')
 def data_page():
