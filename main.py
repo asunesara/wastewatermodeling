@@ -304,9 +304,9 @@ def graph_page():
         print(r.get("final_graph"))
         print(type(r.get("final_graph")))
         test = r.get("final_graph")
-        print(json.loads(test))
-        graph_data = json.loads(r.get("final_graph"))
-        print(graph_data)
+        print(eval(test))
+        graph_data = eval(r.get("final_graph"))
+        #print(graph_data)
         print(type(graph_data))
     return render_template("graphs_data.html", data = graph_data, generated = r.get("generated"), proj=r.get("proj"), bounds = bounds, mean_7 = r.get("naive"), conf_int=conf_int)
 
