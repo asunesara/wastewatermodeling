@@ -170,6 +170,7 @@ def upload():
                     )
                 except Exception as e:
                     print("Error", e)
+                    msg = "Upload failed. Check connection and try again."
                 msg = "Upload Complete! "
         else:
             msg = "Incorrect File Format (.csv)"
@@ -244,7 +245,7 @@ def confidence():
     threads = []
     df= csv_to_df(r.get("file_name"))
     print("Hi there")
-    for x in range(20):
+    for x in range(10):
         #new_data = generate_proj(df)
         print("Hi")
         process = Thread(target=generate_proj, args=(df,))
@@ -262,7 +263,7 @@ def confidence():
     all_data = []
     for x in range(8):
         data_part = []
-        for y in range(20):
+        for y in range(10):
             data_part.append(result_data[y][x])
         all_data.append(data_part)
 
