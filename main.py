@@ -300,7 +300,10 @@ def confidence():
 def download():
     filename = request.form["Download"]
     response = client.download_file(bucket_name, filename, filename)
-    return render_template("history.html", name_list=eval(r.get("name_list"))) 
+    temp_name = []
+    if(r.get("name_list") != "First"):
+        temp_name = eval(r.get("name_list"))
+    return render_template("history.html", name_list=temp_name) 
 
 @app.route('/graphs_data.html')
 def graph_page():
@@ -322,7 +325,10 @@ def data_page():
 
 @app.route('/history.html')
 def history_page():
-    return render_template("history.html", name_list=eval(r.get("name_list")))
+    temp_name = []
+    if(r.get("name_list") != "First"):
+        temp_name = eval(r.get("name_list"))
+    return render_template("history.html", name_list=temp_name)
 
 @app.route('/status', methods=['GET'])
 def getStatus():
