@@ -241,7 +241,7 @@ def update_proj():
         r.set("proj_bool","False")
         return render_template("graphs_data.html", data = eval(r.get("final_graph")), generated=r.get("generated"), proj=r.get("proj"), bounds=bounds, mean_7 = eval(r.get("naive")), conf_int=eval(r.get("conf_int")))
     else:
-        return render_template("graphs_data.html", data = eval(r.get("final_graph")), generated=r.get("generated"), proj=r.get("proj"), bounds=bounds, mean_7 = eval(r.get("naive")), conf_int=eval(r.get("conf_int")))
+        return render_template("graphs_data.html", data = eval(r.get("final_graph")), generated="False", proj="False", bounds=bounds, mean_7 = eval(r.get("naive")), conf_int=eval(r.get("conf_int")))
     
         #return render_template("test_load.html")
     
