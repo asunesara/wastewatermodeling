@@ -221,6 +221,7 @@ def zoom_graph():
 @app.route('/update_proj', methods=['POST'])
 def update_proj():
     if(r.get("proj_bool") == "False"):
+        r.set("proj_bool","True")
         tmp_file = r.get("file_name")
         r.set("proj", "true")
         new_proj(tmp_file)
@@ -237,7 +238,7 @@ def update_proj():
         #for x in arr : wtr.writerow ([x]) 
         #with open("texas_clean_og.csv", 'rb') as data:
         #    client.upload_fileobj(data, bucket_name, access_key)
-        r.set("proj_bool","True")
+        r.set("proj_bool","False")
         return render_template("graphs_data.html", data = eval(r.get("final_graph")), generated=r.get("generated"), proj=r.get("proj"), bounds=bounds, mean_7 = eval(r.get("naive")), conf_int=eval(r.get("conf_int")))
     else:
         return render_template("graphs_data.html", data = eval(r.get("final_graph")), generated=r.get("generated"), proj=r.get("proj"), bounds=bounds, mean_7 = eval(r.get("naive")), conf_int=eval(r.get("conf_int")))
