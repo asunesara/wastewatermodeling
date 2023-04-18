@@ -307,7 +307,9 @@ def confidence():
 @app.route('/download', methods=['POST'])
 def download():
     filename = request.form["Download"]
-    response = client.download_file(bucket_name, filename, filename)
+    s = "~/Downloads/"
+    response = client.download_file(s+filename, bucket_name, filename)
+    #response = client.download_file(bucket_name, filename, filename)
     temp_name = []
     if(r.get("name_list") != "First"):
         temp_name = eval(r.get("name_list"))
