@@ -50,6 +50,7 @@ r.set("final_graph", "0")
 r.set("generated", "false")
 r.set("naive", 0)
 r.set("conf_int", str([]))
+r.set("name_list", "First")
 global status
 status = 0
 #generated = False
@@ -176,7 +177,15 @@ def upload():
         data_clear()
         #global file_name
         file_name = r.set("file_name",img.filename)
-        file_names.append(file_name)
+        if(r.get("name_list") == "First"):
+            temp_list = []
+            temp_list.append(r.get("file_name"))
+            r.set("name_list", str(temp_list))
+        else:
+            temp_list = eval(r.get("name_list"))
+            temp_list.append(r.get("file_name"))
+            r.set("name_list", str(temp_list))
+
         try:
             new_generate(r.get("file_name"))
             r.set("generated", "false")
@@ -291,7 +300,7 @@ def confidence():
 def download():
     filename = request.form["Download"]
     response = client.download_file(bucket_name, filename, filename)
-    return render_template("history.html", name_list=file_names) 
+    return render_template("history.html", name_list=eval(r.get("name_list"))) 
 
 @app.route('/graphs_data.html')
 def graph_page():
@@ -313,7 +322,7 @@ def data_page():
 
 @app.route('/history.html')
 def history_page():
-    return render_template("history.html", name_list=file_names)
+    return render_template("history.html", name_list=eval(r.get("name_list")))
 
 @app.route('/status', methods=['GET'])
 def getStatus():
